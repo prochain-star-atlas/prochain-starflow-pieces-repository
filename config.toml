@@ -1,7 +1,7 @@
 [repository]
 # The name of the github organization / person owner, e.g. prochain.
 # Must be in lower-case letters
-REGISTRY_NAME = "prochain"
+REGISTRY_NAME = "prochain-star-atlas"
 
 # The name of this Pieces repository
 REPOSITORY_NAME = "prochain-starflow-pieces"
@@ -9,4 +9,4 @@ REPOSITORY_LABEL = "prochain starflow pieces"
 
 # The version of this Pieces release
 # Attention: changing this will create a new release
-VERSION = "0.1.0"
+VERSION = "0.1.1"
