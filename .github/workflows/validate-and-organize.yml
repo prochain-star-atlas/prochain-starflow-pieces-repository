@@ -10,8 +10,6 @@ on:
 jobs:
   validate-and-organize:
     runs-on: ubuntu-latest
-    container:
-      image: docker:20.10.9  # Specify the Docker version you need
 
     permissions:
       contents: read
@@ -20,6 +18,12 @@ jobs:
       id-token: write
 
     steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
       - name: Checkout repository
         uses: actions/checkout@v4
 
