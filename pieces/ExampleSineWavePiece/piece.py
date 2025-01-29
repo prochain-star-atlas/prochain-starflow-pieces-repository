@@ -1,4 +1,4 @@
-from domino.base_piece import BasePiece
+from starflow.base_piece import BasePiece
 from .models import InputModel, OutputModel
 import numpy as np
 import plotly.graph_objects as go

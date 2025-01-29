@@ -1,11 +1,11 @@
 [repository]
-# The name of the github organization / person owner, e.g. tauffer-consulting.
+# The name of the github organization / person owner, e.g. prochain.
 # Must be in lower-case letters
-REGISTRY_NAME = "enter-your-registry-name-here"
+REGISTRY_NAME = "prochain"
 
 # The name of this Pieces repository
-REPOSITORY_NAME = "enter-your-repository-name-here"
-REPOSITORY_LABEL = "enter-your-repository-label-here"
+REPOSITORY_NAME = "prochain-starflow-pieces"
+REPOSITORY_LABEL = "prochain starflow pieces"
 
 # The version of this Pieces release
 # Attention: changing this will create a new release

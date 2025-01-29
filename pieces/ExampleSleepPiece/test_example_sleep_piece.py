@@ -1,4 +1,4 @@
-from domino.testing import piece_dry_run
+from starflow.testing import piece_dry_run
 
 def test_example_simple_piece():
     input_data = dict(
