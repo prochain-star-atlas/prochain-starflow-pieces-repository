@@ -1,6 +1,6 @@
 {
-    "name": "ExampleSleepPiece",
-    "description": "This is an example of a simple Domino Piece that sleep for N seconds",
+    "name": "StarAtlasScanPiece",
+    "description": "StarAtlas Scanning with a Fleet",
     "dependency": {
         "requirements_file": "requirements_0.txt"
     },
@@ -15,10 +15,10 @@
         }
     },
     "tags": [
-        "Example"
+        "Star Atlas"
     ],
     "style": {
-        "node_label": "Example Sleep Piece",
+        "node_label": "Scanning",
         "icon_class_name": "fa-solid:database"
     }
 }

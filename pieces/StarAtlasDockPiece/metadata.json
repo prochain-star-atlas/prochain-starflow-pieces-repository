@@ -1,8 +1,8 @@
 {
-    "name": "ExampleSineWavePiece",
-    "description": "This is an example of a piece that uses Dockerfile for dependencies.",
+    "name": "StarAtlasDockPiece",
+    "description": "StarAtlas Docking Fleet",
     "dependency": {
-        "dockerfile": "Dockerfile_1"
+        "requirements_file": "requirements_0.txt"
     },
     "container_resources": {
         "requests": {
@@ -15,10 +15,10 @@
         }
     },
     "tags": [
-        "Example"
+        "Star Atlas"
     ],
     "style": {
-        "node_label": "Example Sine Piece",
+        "node_label": "Docking",
         "icon_class_name": "fa-solid:database"
     }
 }

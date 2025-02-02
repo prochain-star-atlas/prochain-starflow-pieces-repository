@@ -1,0 +1,24 @@
+{
+    "name": "StarAtlasMiningPiece",
+    "description": "StarAtlas Mining a Resource",
+    "dependency": {
+        "requirements_file": "requirements_0.txt"
+    },
+    "container_resources": {
+        "requests": {
+            "cpu": 100,
+            "memory": 128
+        },
+        "limits": {
+            "cpu": 500,
+            "memory": 512
+        }
+    },
+    "tags": [
+        "Star Atlas"
+    ],
+    "style": {
+        "node_label": "Mining",
+        "icon_class_name": "fa-solid:database"
+    }
+}
