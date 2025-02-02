@@ -2,7 +2,7 @@
     "name": "StarAtlasLoadCargoPiece",
     "description": "StarAtlas Loading Cargo to Fleet",
     "dependency": {
-        "requirements_file": "requirements_0.txt"
+        "dockerfile": "Dockerfile_1"
     },
     "container_resources": {
         "requests": {

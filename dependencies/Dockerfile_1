@@ -8,4 +8,4 @@ COPY pieces starflow/pieces_repository/pieces
 COPY .starflow starflow/pieces_repository/.starflow
 
 # Install specific dependencies in starflow_env virtual environment
-RUN pip install --no-cache-dir numpy==1.23.5 plotly==5.18.0
+RUN pip install --no-cache-dir numpy==1.23.5 plotly==5.18.0 python-keycloak==5.2.0
