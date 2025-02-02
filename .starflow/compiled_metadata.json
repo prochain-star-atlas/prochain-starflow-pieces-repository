@@ -2,8 +2,8 @@
     "StarAtlasUpgradeStarbasePiece": {
         "name": "StarAtlasUpgradeStarbasePiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -65,8 +65,8 @@
     "StarAtlasScanPiece": {
         "name": "StarAtlasScanPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -128,8 +128,8 @@
     "StarAtlasWarpPiece": {
         "name": "StarAtlasWarpPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -215,8 +215,8 @@
     "StarAtlasLoadCargoPiece": {
         "name": "StarAtlasLoadCargoPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -320,8 +320,8 @@
     "StarAtlasDockPiece": {
         "name": "StarAtlasDockPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -407,8 +407,8 @@
     "StarAtlasUndockPiece": {
         "name": "StarAtlasUndockPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -494,8 +494,8 @@
     "StarAtlasSubwarpPiece": {
         "name": "StarAtlasSubwarpPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -581,8 +581,8 @@
     "StarAtlasUnloadCargoPiece": {
         "name": "StarAtlasUnloadCargoPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -686,8 +686,8 @@
     "StarAtlasMiningPiece": {
         "name": "StarAtlasMiningPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
@@ -773,8 +773,8 @@
     "StarAtlasCraftPiece": {
         "name": "StarAtlasCraftPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "Star Atlas"
