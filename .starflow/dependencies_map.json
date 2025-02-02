@@ -5,20 +5,18 @@
             "requirements_file": "requirements_0.txt"
         },
         "pieces": [
-            "ExampleSleepPiece"
+            "StarAtlasUpgradeStarbasePiece",
+            "StarAtlasScanPiece",
+            "StarAtlasWarpPiece",
+            "StarAtlasLoadCargoPiece",
+            "StarAtlasDockPiece",
+            "StarAtlasUndockPiece",
+            "StarAtlasSubwarpPiece",
+            "StarAtlasUnloadCargoPiece",
+            "StarAtlasMiningPiece",
+            "StarAtlasCraftPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.5-group0"
-    },
-    "group1": {
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "pieces": [
-            "ExampleSineWavePiece"
-        ],
-        "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.5-group1"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.6-group0"
     }
 }
