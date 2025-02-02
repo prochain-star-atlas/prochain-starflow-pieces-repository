@@ -1,22 +1,24 @@
 {
     "group0": {
         "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "pieces": [
-            "ExampleSineWavePiece"
-        ],
-        "secrets": []
-    },
-    "group1": {
-        "dependency": {
             "dockerfile": null,
             "requirements_file": "requirements_0.txt"
         },
         "pieces": [
             "ExampleSleepPiece"
         ],
-        "secrets": []
+        "secrets": [],
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.5-group0"
+    },
+    "group1": {
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "pieces": [
+            "ExampleSineWavePiece"
+        ],
+        "secrets": [],
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.5-group1"
     }
 }
