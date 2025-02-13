@@ -23,7 +23,8 @@ class StarAtlasDockPiece(BasePiece):
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
                                  realm_name=self.realm_name_var,
-                                 client_secret_key=self.client_secret_var)
+                                 client_secret_key=self.client_secret_var,
+                                 verify=False)
 
     def openid_get_token(self) -> Any:
         token = self.keycloak_openid.token(username=self.su_username_var, password=self.su_password_var)
