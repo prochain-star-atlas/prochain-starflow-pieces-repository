@@ -10,7 +10,7 @@ import time
 
 class StarAtlasMiningPiece(BasePiece):
 
-    def __init__(self):
+    def init_piece(self):
 
         self.server_url_var = os.environ['OPEN_ID_SERVER_URL']
         self.client_id_var = os.environ['OPEN_ID_CLIENT_ID']
@@ -84,6 +84,8 @@ class StarAtlasMiningPiece(BasePiece):
         
 
     def piece_function(self, input_data: InputModel):
+
+        self.init_piece()
 
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()

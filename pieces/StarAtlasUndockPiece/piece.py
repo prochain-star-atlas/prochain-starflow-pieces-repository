@@ -9,7 +9,9 @@ import os
 
 class StarAtlasUndockPiece(BasePiece):
 
-    def __init__(self):
+    def init_piece(self):
+
+        self.init_piece()
 
         self.server_url_var = os.environ['OPEN_ID_SERVER_URL']
         self.client_id_var = os.environ['OPEN_ID_CLIENT_ID']
