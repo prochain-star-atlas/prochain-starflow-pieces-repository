@@ -9,18 +9,23 @@ import os
 
 class StarAtlasLoadCargoPiece(BasePiece):
 
+    def read_secrets(self, var_name):
+        with open("/var/mount_secrets/" + var_name) as f:
+            file_content = f.read()
+            return file_content
+
     def init_piece(self):
 
-        self.server_url_var = os.environ['OPEN_ID_SERVER_URL']
-        self.client_id_var = os.environ['OPEN_ID_CLIENT_ID']
-        self.realm_name_var = os.environ['OPEN_ID_REALM_NAME']
-        self.client_secret_var = os.environ['OPEN_ID_CLIENT_SECRET']
-        self.su_username_var = os.environ['OPEN_ID_USERNAME_SERVICE_USER']
-        self.su_password_var = os.environ['OPEN_ID_PASSWORD_SERVICE_USER']
+        self.server_url_var = self.read_secrets('OPEN_ID_SERVER_URL')
+        self.client_id_var = self.read_secrets('OPEN_ID_CLIENT_ID')
+        self.realm_name_var = self.read_secrets('OPEN_ID_REALM_NAME')
+        self.client_secret_var = self.read_secrets('OPEN_ID_CLIENT_SECRET')
+        self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
+        self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
-        self.url_put_load_cargo = os.environ['URL_PUT_LOAD_CARGO']
-        self.url_put_load_ammo = os.environ['URL_PUT_LOAD_AMMO']
-        self.url_put_load_fuel = os.environ['URL_PUT_LOAD_FUEL']
+        self.url_put_load_cargo = self.read_secrets('URL_PUT_LOAD_CARGO')
+        self.url_put_load_ammo = self.read_secrets('URL_PUT_LOAD_AMMO')
+        self.url_put_load_fuel = self.read_secrets('URL_PUT_LOAD_FUEL')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,

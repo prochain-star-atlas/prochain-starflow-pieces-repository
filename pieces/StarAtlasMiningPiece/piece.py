@@ -10,19 +10,24 @@ import time
 
 class StarAtlasMiningPiece(BasePiece):
 
+    def read_secrets(self, var_name):
+        with open("/var/mount_secrets/" + var_name) as f:
+            file_content = f.read()
+            return file_content
+
     def init_piece(self):
 
-        self.server_url_var = os.environ['OPEN_ID_SERVER_URL']
-        self.client_id_var = os.environ['OPEN_ID_CLIENT_ID']
-        self.realm_name_var = os.environ['OPEN_ID_REALM_NAME']
-        self.client_secret_var = os.environ['OPEN_ID_CLIENT_SECRET']
-        self.su_username_var = os.environ['OPEN_ID_USERNAME_SERVICE_USER']
-        self.su_password_var = os.environ['OPEN_ID_PASSWORD_SERVICE_USER']
+        self.server_url_var = self.read_secrets('OPEN_ID_SERVER_URL')
+        self.client_id_var = self.read_secrets('OPEN_ID_CLIENT_ID')
+        self.realm_name_var = self.read_secrets('OPEN_ID_REALM_NAME')
+        self.client_secret_var = self.read_secrets('OPEN_ID_CLIENT_SECRET')
+        self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
+        self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
-        self.url_put_start_mining = os.environ['URL_PUT_START_MINING']
-        self.url_put_stop_mining = os.environ['URL_PUT_STOP_MINING']
-        self.url_get_fleet_mining_calculation = os.environ['URL_GET_FLEET_MINING_CALCULATION']
-        self.url_get_list_fleet = os.environ['URL_GET_LIST_FLEET']
+        self.url_put_start_mining = self.read_secrets('URL_PUT_START_MINING')
+        self.url_put_stop_mining = self.read_secrets('URL_PUT_STOP_MINING')
+        self.url_get_fleet_mining_calculation = self.read_secrets('URL_GET_FLEET_MINING_CALCULATION')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,

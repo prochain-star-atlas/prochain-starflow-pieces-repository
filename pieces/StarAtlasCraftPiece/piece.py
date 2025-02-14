@@ -5,6 +5,11 @@ from time import sleep
 
 class ExampleSleepPiece(BasePiece):
 
+    def read_secrets(self, var_name):
+        with open("/var/mount_secrets/" + var_name) as f:
+            file_content = f.read()
+            return file_content
+
     def piece_function(self, input_data: InputModel):
 
         self.logger.info(f"Sleeping for {input_data.sleep_time} seconds")
