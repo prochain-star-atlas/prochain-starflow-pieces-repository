@@ -6,6 +6,7 @@ import time as timew
 import requests
 from keycloak import KeycloakOpenID
 import os
+import json
 
 class StarAtlasDockPiece(BasePiece):
 
@@ -49,13 +50,14 @@ class StarAtlasDockPiece(BasePiece):
         wait_time = 5
         while not success and retries <= 5:
             try:
-                response_raw = requests.put(url_formated, headers=headers)
+                response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
 
                 if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
                     success = True
                     self.logger.info("Successfully executed !")
-                    #self.logger.info(response_raw_json)
+                    json_formatted_str = json.dumps(response_raw_json, indent=2)
+                    self.logger.info(json_formatted_str)
                     
                 else:
                     self.logger.error(f"Waiting {wait_time} secs and re-trying...")
@@ -67,6 +69,8 @@ class StarAtlasDockPiece(BasePiece):
                 self.logger.error(f"Waiting {wait_time} secs and re-trying...")
                 timew.sleep(wait_time)
                 retries += 1
+
+        return success
 
     def piece_function(self, input_data: InputModel):
 
@@ -81,7 +85,11 @@ class StarAtlasDockPiece(BasePiece):
 
         self.logger.info(f"Docking for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
         url_formated_start_dock = self.url_put_start_dock.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-        self.retry_put_request(url_formated_start_dock, client_token_loggedin)
+        res_action = self.retry_put_request(url_formated_start_dock, client_token_loggedin)
+
+        if not(res_action):
+            raise Exception("Dock Error") 
+
         self.logger.info(f"Docking executed successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
 
         self.logger.info(f"")

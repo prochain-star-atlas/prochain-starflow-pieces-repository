@@ -7,6 +7,7 @@ import requests
 from keycloak import KeycloakOpenID
 import os
 import time
+import json
 
 class StarAtlasMiningPiece(BasePiece):
 
@@ -53,13 +54,14 @@ class StarAtlasMiningPiece(BasePiece):
         wait_time = 5
         while not success and retries <= 5:
             try:
-                response_raw = requests.put(url_formated, headers=headers)
+                response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
 
                 if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
                     success = True
                     self.logger.info("Successfully executed !")
-                    #self.logger.info(response_raw_json)
+                    json_formatted_str = json.dumps(response_raw_json, indent=2)
+                    self.logger.info(json_formatted_str)
                     
                 else:
                     self.logger.error(f"Waiting {wait_time} secs and re-trying...")
@@ -72,11 +74,13 @@ class StarAtlasMiningPiece(BasePiece):
                 timew.sleep(wait_time)
                 retries += 1
 
+        return success
+
     def get_fleet_cargo_amount_request(self, fleet_name, resource_item, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
         url_formated_list_fleet = self.url_get_list_fleet.format(fleet_name)
-        response_raw = requests.get(url_formated_list_fleet, headers=headers)
+        response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
         for fleet_item in response_raw_json:
@@ -101,19 +105,23 @@ class StarAtlasMiningPiece(BasePiece):
         self.logger.info(f"")
 
         url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
-        self.retry_put_request(url_formated_start_mining, client_token_loggedin)
+        res_action = self.retry_put_request(url_formated_start_mining, client_token_loggedin)
+        if not(res_action):
+                raise Exception("load_ammo Error") 
         time.sleep(10)
 
         self.logger.info(f"Calculate Mining Duration")
         url_formatted_fleet_mining_calculation = self.url_get_fleet_mining_calculation.format(input_data.fleet_name)
-        response_fleet_mining_calculation = requests.get(url_formatted_fleet_mining_calculation, headers=headers)
+        response_fleet_mining_calculation = requests.get(url_formatted_fleet_mining_calculation, headers=headers, verify=False)
         response_fleet_mining_calculation_json = response_fleet_mining_calculation.json()
 
         self.logger.info(f"Waiting mining for ", response_fleet_mining_calculation_json.result.timeLimit, " seconds")
         time.sleep(response_fleet_mining_calculation_json.result.timeLimit)
 
         url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
-        self.retry_put_request(url_formated_stop_mining, client_token_loggedin)
+        res_action1 = self.retry_put_request(url_formated_stop_mining, client_token_loggedin)
+        if not(res_action1):
+                raise Exception("load_ammo Error") 
         time.sleep(10)
 
         amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)

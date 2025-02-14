@@ -7,6 +7,7 @@ import requests
 from keycloak import KeycloakOpenID
 import os
 import time
+import json
 
 class StarAtlasSubwarpPiece(BasePiece):
 
@@ -52,13 +53,14 @@ class StarAtlasSubwarpPiece(BasePiece):
         wait_time = 5
         while not success and retries <= 5:
             try:
-                response_raw = requests.put(url_formated, headers=headers)
+                response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
 
                 if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
                     success = True
                     self.logger.info("Successfully executed !")
-                    #self.logger.info(response_raw_json)
+                    json_formatted_str = json.dumps(response_raw_json, indent=2)
+                    self.logger.info(json_formatted_str)
                     
                 else:
                     self.logger.error(f"Waiting {wait_time} secs and re-trying...")
@@ -69,7 +71,9 @@ class StarAtlasSubwarpPiece(BasePiece):
             except Exception as e:
                 self.logger.error(f"Waiting {wait_time} secs and re-trying...")
                 timew.sleep(wait_time)
-                retries += 1       
+                retries += 1
+
+        return success       
 
     def piece_function(self, input_data: InputModel):
 
@@ -84,19 +88,23 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.logger.info(f"")
 
         url_formated_start_subwarp = self.url_put_start_subwarp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-        self.retry_put_request(url_formated_start_subwarp, client_token_loggedin)
+        res_action1 = self.retry_put_request(url_formated_start_subwarp, client_token_loggedin)
+        if not(res_action1):
+                raise Exception("load_ammo Error") 
         time.sleep(10)
 
         self.logger.info(f"Calculate Movement Duration")
         url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
-        response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers)
+        response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
         response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
 
         self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
         time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
 
         url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
-        self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+        res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+        if not(res_action2):
+                raise Exception("load_ammo Error") 
 
         self.logger.info(f"")
 

@@ -6,6 +6,7 @@ import time as timew
 import requests
 from keycloak import KeycloakOpenID
 import os
+import json
 
 class StarAtlasUnloadCargoPiece(BasePiece):
 
@@ -51,13 +52,14 @@ class StarAtlasUnloadCargoPiece(BasePiece):
         wait_time = 5
         while not success and retries <= 5:
             try:
-                response_raw = requests.put(url_formated, headers=headers)
+                response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
 
                 if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
                     success = True
                     self.logger.info("Successfully executed !")
-                    #self.logger.info(response_raw_json)
+                    json_formatted_str = json.dumps(response_raw_json, indent=2)
+                    self.logger.info(json_formatted_str)
                     
                 else:
                     self.logger.error(f"Waiting {wait_time} secs and re-trying...")
@@ -69,6 +71,8 @@ class StarAtlasUnloadCargoPiece(BasePiece):
                 self.logger.error(f"Waiting {wait_time} secs and re-trying...")
                 timew.sleep(wait_time)
                 retries += 1
+
+        return success
 
     def piece_function(self, input_data: InputModel):
 
@@ -84,13 +88,19 @@ class StarAtlasUnloadCargoPiece(BasePiece):
         self.logger.info(f"Unloading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
         if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
             url_formated_unload_ammo = self.url_put_unload_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            self.retry_put_request(url_formated_unload_ammo, client_token_loggedin)
+            res_action1 = self.retry_put_request(url_formated_unload_ammo, client_token_loggedin)
+            if not(res_action1):
+                raise Exception("unload_ammo Error") 
         elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
             url_formated_unload_fuel = self.url_put_unload_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            self.retry_put_request(url_formated_unload_fuel, client_token_loggedin)
+            res_action2 = self.retry_put_request(url_formated_unload_fuel, client_token_loggedin)
+            if not(res_action2):
+                raise Exception("unload_fuel Error") 
         else:
             url_formated_unload_cargo = self.url_put_unload_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            self.retry_put_request(url_formated_unload_cargo, client_token_loggedin)
+            res_action3 = self.retry_put_request(url_formated_unload_cargo, client_token_loggedin)
+            if not(res_action3):
+                raise Exception("unload_cargo Error") 
         self.logger.info(f"Cargo Unloaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
 
         self.logger.info(f"")
