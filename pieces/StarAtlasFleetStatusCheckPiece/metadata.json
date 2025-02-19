@@ -1,9 +1,10 @@
 {
     "name": "StarAtlasFleetStatusCheckPiece",
-    "description": "StarAtlas Status of Fleet",
+    "description": "Check StarAtlas Status of Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
+    "branchPiece": true,
     "container_resources": {
         "requests": {
             "cpu": 100,
@@ -14,7 +15,6 @@
             "memory": 512
         }
     },
-    "branchPiece": false,
     "tags": [
         "Star Atlas"
     ],

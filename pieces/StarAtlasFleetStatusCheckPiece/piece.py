@@ -1,6 +1,6 @@
 from typing import Any
-from starflow.base_piece import BasePiece
-from .models import FleetStatusEnum, InputModel, OutputModel
+from starflow.base_piece import BasePiece, BaseBranchOutputModel
+from .models import FleetStatusEnum, InputModel
 from time import sleep
 import time as timew
 import requests
@@ -8,7 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import json
 
-class StarAtlasFleetStatusCheckPiece(BasePiece):
+class StarAtlasFleetStatusRetrievePiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -88,6 +88,9 @@ class StarAtlasFleetStatusCheckPiece(BasePiece):
         self.logger.info(f"")
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+        test_valid = input_data.required_status == fleet_status
+
+        self.logger.info(f"Status test is: {test_valid}, required status: {input_data.required_status}, current status: {fleet_status}")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
@@ -95,7 +98,6 @@ class StarAtlasFleetStatusCheckPiece(BasePiece):
         self.logger.info(f"{self.username_target_var} logged out")
 
         # Return output
-        return OutputModel(
-            fleet_name=input_data.fleet_name,
-            fleet_status = fleet_status
+        return BaseBranchOutputModel(
+            branch_main=test_valid
         )

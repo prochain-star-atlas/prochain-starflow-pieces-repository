@@ -1,7 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, Field
 
-
 class FleetStatusEnum(str, Enum):
     StarbaseLoadingBay = "StarbaseLoadingBay"
     ReadyToExitWarp = "ReadyToExitWarp"
@@ -22,17 +21,8 @@ class InputModel(BaseModel):
         description="Fleet Name",
     )
 
-
-class OutputModel(BaseModel):
-    """
-    StarAtlas Dock Piece Output Model
-    """
-
-    fleet_name: str = Field(
+    required_status: FleetStatusEnum = Field(
         default="",
-        description="Fleet Name",
+        description="Fleet Status Required",
     )
 
-    fleet_status: FleetStatusEnum = Field(
-        description="Fleet Status"
-    )

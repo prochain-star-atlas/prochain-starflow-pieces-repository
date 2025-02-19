@@ -1,6 +1,6 @@
 from typing import Any
-from starflow.base_piece import BasePiece, BaseBranchOutputModel
-from .models import FleetStatusEnum, InputModel
+from starflow.base_piece import BasePiece
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -88,9 +88,6 @@ class StarAtlasFleetStatusRetrievePiece(BasePiece):
         self.logger.info(f"")
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-        test_valid = input_data.required_status == fleet_status
-
-        self.logger.info(f"Status test is: {test_valid}, required status: {input_data.required_status}, current status: {fleet_status}")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
@@ -98,6 +95,7 @@ class StarAtlasFleetStatusRetrievePiece(BasePiece):
         self.logger.info(f"{self.username_target_var} logged out")
 
         # Return output
-        return BaseBranchOutputModel(
-            branch_main=test_valid
+        return OutputModel(
+            fleet_name=input_data.fleet_name,
+            fleet_status = fleet_status
         )
