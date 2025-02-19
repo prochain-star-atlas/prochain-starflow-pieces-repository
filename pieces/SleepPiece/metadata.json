@@ -2,7 +2,7 @@
     "name": "SleepPiece",
     "description": "A Piece that sleeps for a given number of seconds.",
     "dependency": {
-        "requirements_file": "requirements_0.txt"
+        "dockerfile": "Dockerfile_1"
     },
     "branchPiece": false,
     "tags": [
