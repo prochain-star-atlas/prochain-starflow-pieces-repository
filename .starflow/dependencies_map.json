@@ -9,8 +9,10 @@
             "StarAtlasScanPiece",
             "StarAtlasUnloadCargoPiece",
             "StarAtlasSubwarpPiece",
+            "SleepPiece",
             "StarAtlasLoadCargoPiece",
             "StarAtlasWarpPiece",
+            "LogPiece",
             "StarAtlasCraftPiece",
             "StarAtlasFleetStatusCheckPiece",
             "StarAtlasFleetStatusRetrievePiece",
@@ -19,18 +21,6 @@
             "StarAtlasDockPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.13-group0"
-    },
-    "group1": {
-        "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
-        },
-        "pieces": [
-            "SleepPiece",
-            "LogPiece"
-        ],
-        "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.13-group1"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.14-group0"
     }
 }
