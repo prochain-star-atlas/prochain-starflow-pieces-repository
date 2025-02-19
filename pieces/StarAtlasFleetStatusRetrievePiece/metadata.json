@@ -1,9 +1,10 @@
 {
-    "name": "StarAtlasMiningPiece",
-    "description": "StarAtlas Mining a Resource",
+    "name": "StarAtlasFleetStatusRetrievePiece",
+    "description": "Retrieve StarAtlas Status of Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
+    "branchPiece": true,
     "container_resources": {
         "requests": {
             "cpu": 100,
@@ -14,12 +15,11 @@
             "memory": 512
         }
     },
-    "branchPiece": false,
     "tags": [
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Mining",
+        "node_label": "Fleet Status",
         "icon_class_name": "fa-solid:database"
     }
 }

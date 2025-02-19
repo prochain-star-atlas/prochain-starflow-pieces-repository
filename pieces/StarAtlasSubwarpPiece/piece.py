@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import InputModel, OutputModel
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -28,6 +28,7 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.url_put_start_subwarp = self.read_secrets('URL_PUT_START_SUBWARP')
         self.url_put_exit_subwarp = self.read_secrets('URL_PUT_START_EXITSUBWARP')
         self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -46,6 +47,38 @@ class StarAtlasSubwarpPiece(BasePiece):
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
         
+    def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = FleetStatusEnum.Idle
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                if fleet["state"] == "StarbaseLoadingBay":
+                    returnState = FleetStatusEnum.StarbaseLoadingBay
+                elif fleet["state"] == "ReadyToExitWarp":
+                    returnState = FleetStatusEnum.ReadyToExitWarp
+                elif fleet["state"] == "MineAsteroid":
+                    returnState = FleetStatusEnum.MineAsteroid
+                elif fleet["state"] == "MoveWarp":
+                    returnState = FleetStatusEnum.MoveWarp
+                elif fleet["state"] == "MoveSubwarp":
+                    returnState = FleetStatusEnum.MoveSubwarp
+                elif fleet["state"] == "Respawn":
+                    returnState = FleetStatusEnum.Respawn
+                elif fleet["state"] == "StarbaseUpgrade":
+                    returnState = FleetStatusEnum.StarbaseUpgrade
+                else:
+                    returnState = FleetStatusEnum.Idle
+
+        return returnState
+
     def retry_put_request(self, url_formated, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
         retries = 0
@@ -85,28 +118,41 @@ class StarAtlasSubwarpPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        self.logger.info(f"")
-
-        url_formated_start_subwarp = self.url_put_start_subwarp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-        res_action1 = self.retry_put_request(url_formated_start_subwarp, client_token_loggedin)
-        if not(res_action1):
-                raise Exception("load_ammo Error") 
-        time.sleep(10)
-
-        self.logger.info(f"Calculate Movement Duration")
-        url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
-        response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
-        response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
-
-        self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
-        time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
-
-        url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
-        res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
-        if not(res_action2):
-                raise Exception("load_ammo Error") 
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         self.logger.info(f"")
+
+        if fleet_status == FleetStatusEnum.Idle:
+
+            url_formated_start_subwarp = self.url_put_start_subwarp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
+            res_action1 = self.retry_put_request(url_formated_start_subwarp, client_token_loggedin)
+            if not(res_action1):
+                    raise Exception("subwarp Error") 
+            time.sleep(20)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+        if fleet_status == FleetStatusEnum.MoveSubwarp:
+
+            self.logger.info(f"Calculate Movement Duration")
+            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
+            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+
+            self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
+            time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
+
+            url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
+            res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+            if not(res_action2):
+                    raise Exception("subwarp exit error") 
+            
+            time.sleep(20)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if fleet_status == FleetStatusEnum.Idle:
+                self.logger.info(f"Exit subwarp success")
+
+            self.logger.info(f"")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)

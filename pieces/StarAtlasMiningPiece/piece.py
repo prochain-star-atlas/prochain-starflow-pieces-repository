@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import InputModel, OutputModel
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -76,6 +76,38 @@ class StarAtlasMiningPiece(BasePiece):
 
         return success
 
+    def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = FleetStatusEnum.Idle
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                if fleet["state"] == "StarbaseLoadingBay":
+                    returnState = FleetStatusEnum.StarbaseLoadingBay
+                elif fleet["state"] == "ReadyToExitWarp":
+                    returnState = FleetStatusEnum.ReadyToExitWarp
+                elif fleet["state"] == "MineAsteroid":
+                    returnState = FleetStatusEnum.MineAsteroid
+                elif fleet["state"] == "MoveWarp":
+                    returnState = FleetStatusEnum.MoveWarp
+                elif fleet["state"] == "MoveSubwarp":
+                    returnState = FleetStatusEnum.MoveSubwarp
+                elif fleet["state"] == "Respawn":
+                    returnState = FleetStatusEnum.Respawn
+                elif fleet["state"] == "StarbaseUpgrade":
+                    returnState = FleetStatusEnum.StarbaseUpgrade
+                else:
+                    returnState = FleetStatusEnum.Idle
+
+        return returnState
+
     def get_fleet_cargo_amount_request(self, fleet_name, resource_item, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
@@ -92,6 +124,23 @@ class StarAtlasMiningPiece(BasePiece):
         return 0
         
 
+    def get_fleet_position(self, fleet_name, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = (0, 0)
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
+
+        return returnState
+
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -102,29 +151,45 @@ class StarAtlasMiningPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        self.logger.info(f"")
+        fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
-        res_action = self.retry_put_request(url_formated_start_mining, client_token_loggedin)
-        if not(res_action):
-                raise Exception("load_ammo Error") 
-        time.sleep(10)
+        if fleet_position[0] != input_data.destination_x or fleet_position[1] != input_data.destination_y:
+            raise Exception("Fleet Position not correct") 
 
-        self.logger.info(f"Calculate Mining Duration")
-        url_formatted_fleet_mining_calculation = self.url_get_fleet_mining_calculation.format(input_data.fleet_name)
-        response_fleet_mining_calculation = requests.get(url_formatted_fleet_mining_calculation, headers=headers, verify=False)
-        response_fleet_mining_calculation_json = response_fleet_mining_calculation.json()
+        amount_cargo = 0
 
-        self.logger.info(f"Waiting mining for ", response_fleet_mining_calculation_json.result.timeLimit, " seconds")
-        time.sleep(response_fleet_mining_calculation_json.result.timeLimit)
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
-        res_action1 = self.retry_put_request(url_formated_stop_mining, client_token_loggedin)
-        if not(res_action1):
-                raise Exception("load_ammo Error") 
-        time.sleep(10)
+        if fleet_status == FleetStatusEnum.Idle:
 
-        amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)
+            self.logger.info(f"")       
+
+            url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
+            res_action = self.retry_put_request(url_formated_start_mining, client_token_loggedin)
+            if not(res_action):
+                    raise Exception("mining error") 
+            time.sleep(20)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+        if fleet_status == FleetStatusEnum.MineAsteroid:
+
+            self.logger.info(f"Calculate Mining Duration")
+            url_formatted_fleet_mining_calculation = self.url_get_fleet_mining_calculation.format(input_data.fleet_name)
+            response_fleet_mining_calculation = requests.get(url_formatted_fleet_mining_calculation, headers=headers, verify=False)
+            response_fleet_mining_calculation_json = response_fleet_mining_calculation.json()
+
+            self.logger.info(f"Waiting mining for ", response_fleet_mining_calculation_json.result.timeLimit, " seconds")
+            time.sleep(response_fleet_mining_calculation_json.result.timeLimit)       
+
+            url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
+            res_action1 = self.retry_put_request(url_formated_stop_mining, client_token_loggedin)
+            if not(res_action1):
+                    raise Exception("load_ammo Error") 
+            time.sleep(20)
+
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)
 
         self.logger.info(f"")
 

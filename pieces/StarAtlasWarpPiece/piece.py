@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import InputModel, OutputModel
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -28,6 +28,7 @@ class StarAtlasWarpPiece(BasePiece):
         self.url_put_start_warp = self.read_secrets('URL_PUT_START_WARP')
         self.url_put_exit_warp = self.read_secrets('URL_PUT_START_EXITWARP')
         self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -73,7 +74,40 @@ class StarAtlasWarpPiece(BasePiece):
                 timew.sleep(wait_time)
                 retries += 1
 
-        return success       
+        return success
+
+    def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = FleetStatusEnum.Idle
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                if fleet["state"] == "StarbaseLoadingBay":
+                    returnState = FleetStatusEnum.StarbaseLoadingBay
+                elif fleet["state"] == "ReadyToExitWarp":
+                    returnState = FleetStatusEnum.ReadyToExitWarp
+                elif fleet["state"] == "MineAsteroid":
+                    returnState = FleetStatusEnum.MineAsteroid
+                elif fleet["state"] == "MoveWarp":
+                    returnState = FleetStatusEnum.MoveWarp
+                elif fleet["state"] == "MoveSubwarp":
+                    returnState = FleetStatusEnum.MoveSubwarp
+                elif fleet["state"] == "Respawn":
+                    returnState = FleetStatusEnum.Respawn
+                elif fleet["state"] == "StarbaseUpgrade":
+                    returnState = FleetStatusEnum.StarbaseUpgrade
+                else:
+                    returnState = FleetStatusEnum.Idle
+
+        return returnState
+
 
     def piece_function(self, input_data: InputModel):
 
@@ -85,27 +119,41 @@ class StarAtlasWarpPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
         self.logger.info(f"")
 
-        url_formated_start_warp = self.url_put_start_warp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-        res_action1 = self.retry_put_request(url_formated_start_warp, client_token_loggedin)
-        if not(res_action1):
-            raise Exception("start_warp Error") 
-        time.sleep(10)
+        if fleet_status == FleetStatusEnum.Idle:
 
-        self.logger.info(f"Calculate Movement Duration")
-        url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
-        response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
-        response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+            url_formated_start_warp = self.url_put_start_warp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
+            res_action1 = self.retry_put_request(url_formated_start_warp, client_token_loggedin)
+            if not(res_action1):
+                raise Exception("start_warp Error") 
+            time.sleep(20)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
-        time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
+        if fleet_status == FleetStatusEnum.MoveWarp:
 
-        url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
-        res_action2 = self.retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
-        if not(res_action2):
-            raise Exception("exit_warp Error") 
-        self.logger.info(f"")
+            self.logger.info(f"Calculate Movement Duration")
+            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
+            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+
+            self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
+            time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
+
+            url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
+            res_action2 = self.retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
+            if not(res_action2):
+                raise Exception("exit_warp Error") 
+            
+            time.sleep(20)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if fleet_status == FleetStatusEnum.Idle:
+                self.logger.info(f"Exit warp success")
+
+            self.logger.info(f"")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)

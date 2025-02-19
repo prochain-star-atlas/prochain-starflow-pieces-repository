@@ -1,6 +1,6 @@
 from typing import Any
-from starflow.base_piece import BasePiece
-from .models import FleetStatusEnum, InputModel, OutputModel
+from starflow.base_piece import BasePiece, BaseBranchOutputModel
+from .models import FleetStatusEnum, InputModel
 from time import sleep
 import time as timew
 import requests
@@ -8,7 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import json
 
-class StarAtlasUnloadCargoPiece(BasePiece):
+class StarAtlasFleetStatusRetrievePiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -17,6 +17,8 @@ class StarAtlasUnloadCargoPiece(BasePiece):
 
     def init_piece(self):
 
+        self.init_piece()
+
         self.server_url_var = self.read_secrets('OPEN_ID_SERVER_URL')
         self.client_id_var = self.read_secrets('OPEN_ID_CLIENT_ID')
         self.realm_name_var = self.read_secrets('OPEN_ID_REALM_NAME')
@@ -24,9 +26,7 @@ class StarAtlasUnloadCargoPiece(BasePiece):
         self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
         self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
-        self.url_put_unload_cargo = self.read_secrets('URL_PUT_UNLOAD_CARGO')
-        self.url_put_unload_ammo = self.read_secrets('URL_PUT_UNLOAD_AMMO')
-        self.url_put_unload_fuel = self.read_secrets('URL_PUT_UNLOAD_FUEL')
+        self.url_put_start_undock = self.read_secrets('URL_PUT_START_UNDOCK')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
@@ -78,38 +78,7 @@ class StarAtlasUnloadCargoPiece(BasePiece):
 
         return returnState
 
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
-
-                if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
-                    success = True
-                    self.logger.info("Successfully executed !")
-                    json_formatted_str = json.dumps(response_raw_json, indent=2)
-                    self.logger.info(json_formatted_str)
-                    
-                else:
-                    self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                    #self.logger.info(f"json: {response_raw_json}")
-                    timew.sleep(wait_time)
-                    retries += 1                
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
-
-        return success
-
     def piece_function(self, input_data: InputModel):
-
-        self.init_piece()
 
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()
@@ -119,32 +88,9 @@ class StarAtlasUnloadCargoPiece(BasePiece):
         self.logger.info(f"")
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+        test_valid = input_data.required_status == fleet_status
 
-        if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
-
-            self.logger.info(f"Unloading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
-            if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
-                url_formated_unload_ammo = self.url_put_unload_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action1 = self.retry_put_request(url_formated_unload_ammo, client_token_loggedin)
-                if not(res_action1):
-                    raise Exception("unload_ammo Error") 
-            elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
-                url_formated_unload_fuel = self.url_put_unload_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action2 = self.retry_put_request(url_formated_unload_fuel, client_token_loggedin)
-                if not(res_action2):
-                    raise Exception("unload_fuel Error") 
-            else:
-                url_formated_unload_cargo = self.url_put_unload_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action3 = self.retry_put_request(url_formated_unload_cargo, client_token_loggedin)
-                if not(res_action3):
-                    raise Exception("unload_cargo Error") 
-                
-            self.logger.info(f"Cargo Unloaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
-
-            self.logger.info(f"")
-
-        else:
-            raise Exception("Fleet is in incorrect state")
+        self.logger.info(f"Status test is: {test_valid}, required status: {input_data.required_status}, current status: {fleet_status}")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
@@ -152,9 +98,6 @@ class StarAtlasUnloadCargoPiece(BasePiece):
         self.logger.info(f"{self.username_target_var} logged out")
 
         # Return output
-        return OutputModel(
-            resource_mint_unloaded = input_data.resource_mint,
-            amount_unloaded = input_data.amount,
-            destination_x=input_data.destination_x,
-            destination_y=input_data.destination_y,
+        return BaseBranchOutputModel(
+            branch_main=test_valid
         )

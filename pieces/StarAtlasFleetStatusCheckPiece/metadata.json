@@ -1,6 +1,6 @@
 {
-    "name": "StarAtlasMiningPiece",
-    "description": "StarAtlas Mining a Resource",
+    "name": "StarAtlasFleetStatusCheckPiece",
+    "description": "StarAtlas Status of Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Mining",
+        "node_label": "Fleet Status",
         "icon_class_name": "fa-solid:database"
     }
 }

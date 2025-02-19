@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import InputModel, OutputModel
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -27,6 +27,7 @@ class StarAtlasLoadCargoPiece(BasePiece):
         self.url_put_load_cargo = self.read_secrets('URL_PUT_LOAD_CARGO')
         self.url_put_load_ammo = self.read_secrets('URL_PUT_LOAD_AMMO')
         self.url_put_load_fuel = self.read_secrets('URL_PUT_LOAD_FUEL')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -74,6 +75,38 @@ class StarAtlasLoadCargoPiece(BasePiece):
 
         return success
 
+    def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = FleetStatusEnum.Idle
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                if fleet["state"] == "StarbaseLoadingBay":
+                    returnState = FleetStatusEnum.StarbaseLoadingBay
+                elif fleet["state"] == "ReadyToExitWarp":
+                    returnState = FleetStatusEnum.ReadyToExitWarp
+                elif fleet["state"] == "MineAsteroid":
+                    returnState = FleetStatusEnum.MineAsteroid
+                elif fleet["state"] == "MoveWarp":
+                    returnState = FleetStatusEnum.MoveWarp
+                elif fleet["state"] == "MoveSubwarp":
+                    returnState = FleetStatusEnum.MoveSubwarp
+                elif fleet["state"] == "Respawn":
+                    returnState = FleetStatusEnum.Respawn
+                elif fleet["state"] == "StarbaseUpgrade":
+                    returnState = FleetStatusEnum.StarbaseUpgrade
+                else:
+                    returnState = FleetStatusEnum.Idle
+
+        return returnState
+
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -85,26 +118,33 @@ class StarAtlasLoadCargoPiece(BasePiece):
 
         self.logger.info(f"")
 
-        self.logger.info(f"Loading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
-        if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
-            url_formated_load_ammo = self.url_put_load_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            res_action = self.retry_put_request(url_formated_load_ammo, client_token_loggedin)
-            if not(res_action):
-                raise Exception("load_ammo Error") 
-        elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
-            url_formated_load_fuel = self.url_put_load_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            res_action = self.retry_put_request(url_formated_load_fuel, client_token_loggedin)
-            if not(res_action):
-                raise Exception("load_fuel Error") 
-        else:
-            url_formated_load_cargo = self.url_put_load_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-            res_action = self.retry_put_request(url_formated_load_cargo, client_token_loggedin)
-            if not(res_action):
-                raise Exception("load_cargo Error") 
-            
-        self.logger.info(f"Cargo Loaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        self.logger.info(f"")
+        if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
+
+            self.logger.info(f"Loading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
+            if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
+                url_formated_load_ammo = self.url_put_load_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
+                res_action = self.retry_put_request(url_formated_load_ammo, client_token_loggedin)
+                if not(res_action):
+                    raise Exception("load_ammo Error") 
+            elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
+                url_formated_load_fuel = self.url_put_load_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
+                res_action = self.retry_put_request(url_formated_load_fuel, client_token_loggedin)
+                if not(res_action):
+                    raise Exception("load_fuel Error") 
+            else:
+                url_formated_load_cargo = self.url_put_load_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
+                res_action = self.retry_put_request(url_formated_load_cargo, client_token_loggedin)
+                if not(res_action):
+                    raise Exception("load_cargo Error") 
+            
+            self.logger.info(f"Cargo Loaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
+
+            self.logger.info(f"")
+
+        else:
+            raise Exception("Fleet is in incorrect state")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)

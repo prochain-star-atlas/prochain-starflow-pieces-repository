@@ -1,0 +1,16 @@
+{
+    "name": "LogPiece",
+    "description": "A Piece that logs its inputs.",
+    "dependency": {
+        "requirements_file": "requirements_0.txt"
+    },
+    "branchPiece": false,
+    "tags": [
+        "default",
+        "log"
+    ],
+    "style": {
+        "node_label": "Log",
+        "icon_class_name": "fa-solid:file-alt"
+    }
+}

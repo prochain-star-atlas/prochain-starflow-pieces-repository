@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import InputModel, OutputModel
+from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
 import time as timew
 import requests
@@ -27,6 +27,7 @@ class StarAtlasUndockPiece(BasePiece):
         self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
         self.url_put_start_undock = self.read_secrets('URL_PUT_START_UNDOCK')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -45,6 +46,38 @@ class StarAtlasUndockPiece(BasePiece):
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
         
+    def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = FleetStatusEnum.Idle
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                if fleet["state"] == "StarbaseLoadingBay":
+                    returnState = FleetStatusEnum.StarbaseLoadingBay
+                elif fleet["state"] == "ReadyToExitWarp":
+                    returnState = FleetStatusEnum.ReadyToExitWarp
+                elif fleet["state"] == "MineAsteroid":
+                    returnState = FleetStatusEnum.MineAsteroid
+                elif fleet["state"] == "MoveWarp":
+                    returnState = FleetStatusEnum.MoveWarp
+                elif fleet["state"] == "MoveSubwarp":
+                    returnState = FleetStatusEnum.MoveSubwarp
+                elif fleet["state"] == "Respawn":
+                    returnState = FleetStatusEnum.Respawn
+                elif fleet["state"] == "StarbaseUpgrade":
+                    returnState = FleetStatusEnum.StarbaseUpgrade
+                else:
+                    returnState = FleetStatusEnum.Idle
+
+        return returnState
+
     def retry_put_request(self, url_formated, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
         retries = 0
@@ -74,6 +107,23 @@ class StarAtlasUndockPiece(BasePiece):
 
         return success
 
+    def get_fleet_position(self, fleet_name, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = (0, 0)
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
+
+        return returnState
+
     def piece_function(self, input_data: InputModel):
 
         self.logger.info(f"Create token for {self.username_target_var}")
@@ -81,16 +131,31 @@ class StarAtlasUndockPiece(BasePiece):
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        self.logger.info(f"")
+        fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        self.logger.info(f"Undocking for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
-        url_formated_start_undock = self.url_put_start_undock.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-        res_action1 = self.retry_put_request(url_formated_start_undock, client_token_loggedin)
-        if not(res_action1):
-                raise Exception("start_undock Error") 
-        self.logger.info(f"Undocking executed successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
+        if fleet_position[0] != input_data.destination_x or fleet_position[1] != input_data.destination_y:
+            raise Exception("Fleet Position not correct")        
 
         self.logger.info(f"")
+
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+        if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
+
+            self.logger.info(f"Undocking for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
+            url_formated_start_undock = self.url_put_start_undock.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
+            res_action1 = self.retry_put_request(url_formated_start_undock, client_token_loggedin)
+            if not(res_action1):
+                    raise Exception("start_undock Error") 
+            
+            sleep(20)
+
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if fleet_status == FleetStatusEnum.Idle:
+                self.logger.info(f"Undocking executed successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y})")
+
+            self.logger.info(f"")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)

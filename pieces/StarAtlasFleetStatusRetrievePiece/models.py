@@ -21,31 +21,8 @@ class InputModel(BaseModel):
         description="Fleet Name",
     )
 
-    destination_x: int = Field(
-        default=0,
-        description="Number of seconds to sleep",
-    )
-
-    destination_y: int = Field(
-        default=0,
-        description="Number of seconds to sleep",
-    )
-
-
-class OutputModel(BaseModel):
-    """
-    StarAtlas Dock Piece Output Model
-    """
-
-    fleet_name: str = Field(
+    required_status: FleetStatusEnum = Field(
         default="",
-        description="Fleet Name",
+        description="Fleet Status Required",
     )
 
-    destination_x: int = Field(
-        description="Dock executed on X"
-    )
-
-    destination_y: int = Field(
-        description="Dock executed on Y"
-    )
