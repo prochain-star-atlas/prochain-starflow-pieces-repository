@@ -31,6 +31,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "Sleep Piece Input Model",
             "properties": {
@@ -94,6 +95,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "Sleep Piece Input Model",
             "properties": {
@@ -157,6 +159,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Unload Cargo Piece Input Model",
             "properties": {
@@ -262,6 +265,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Subwarp Piece Input Model",
             "properties": {
@@ -317,6 +321,61 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasSubwarpPiece"
     },
+    "SleepPiece": {
+        "name": "SleepPiece",
+        "dependency": {
+            "dockerfile": null,
+            "requirements_file": "requirements_0.txt"
+        },
+        "tags": [
+            "default",
+            "sleep"
+        ],
+        "style": {
+            "node_label": "Sleep",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:hourglass-start",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "A Piece that sleeps for a given number of seconds.",
+        "branchPiece": false,
+        "input_schema": {
+            "description": "Sleep Piece Input Model",
+            "properties": {
+                "sleep_time": {
+                    "default": 1,
+                    "description": "Number of seconds to sleep",
+                    "title": "Sleep Time",
+                    "type": "number"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Sleep Piece Output Model",
+            "properties": {
+                "message": {
+                    "description": "Sleep piece executed",
+                    "title": "Message",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/SleepPiece"
+    },
     "StarAtlasLoadCargoPiece": {
         "name": "StarAtlasLoadCargoPiece",
         "dependency": {
@@ -349,6 +408,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Load Cargo Piece Input Model",
             "properties": {
@@ -454,6 +514,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Warp Piece Input Model",
             "properties": {
@@ -509,6 +570,242 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasWarpPiece"
     },
+    "LogPiece": {
+        "name": "LogPiece",
+        "dependency": {
+            "dockerfile": null,
+            "requirements_file": "requirements_0.txt"
+        },
+        "tags": [
+            "default",
+            "log"
+        ],
+        "style": {
+            "node_label": "Log",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:file-alt",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "A Piece that logs its inputs.",
+        "branchPiece": false,
+        "input_schema": {
+            "$defs": {
+                "InputEnum": {
+                    "enum": [
+                        "option1",
+                        "option2",
+                        "option3"
+                    ],
+                    "title": "InputEnum",
+                    "type": "string"
+                }
+            },
+            "description": "LogPiece Input Model",
+            "properties": {
+                "input_str": {
+                    "default": "default value",
+                    "description": "Input string to be logged.",
+                    "title": "Input Str",
+                    "type": "string"
+                },
+                "input_int": {
+                    "default": 10,
+                    "description": "Input integer to be logged.",
+                    "title": "Input Int",
+                    "type": "integer"
+                },
+                "input_float": {
+                    "default": 10.5,
+                    "description": "Input float to be logged.",
+                    "title": "Input Float",
+                    "type": "number"
+                },
+                "input_bool": {
+                    "default": false,
+                    "description": "Input boolean to be logged.",
+                    "title": "Input Bool",
+                    "type": "boolean"
+                },
+                "input_enum": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/InputEnum"
+                        }
+                    ],
+                    "default": "option1",
+                    "description": "Input enum to be logged."
+                },
+                "input_date": {
+                    "default": "2023-01-01",
+                    "description": "Input date to be logged.",
+                    "format": "date",
+                    "title": "Input Date",
+                    "type": "string"
+                },
+                "input_time": {
+                    "default": "16:20:00",
+                    "description": "Input time to be logged.",
+                    "format": "time",
+                    "title": "Input Time",
+                    "type": "string"
+                },
+                "input_datetime": {
+                    "default": "2023-01-01T16:20:00",
+                    "description": "Input datetime to be logged.",
+                    "format": "date-time",
+                    "title": "Input Datetime",
+                    "type": "string"
+                },
+                "input_array": {
+                    "default": [
+                        "default_1",
+                        "default_2",
+                        "default_3"
+                    ],
+                    "description": "Input array to be logged.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Input Array",
+                    "type": "array"
+                },
+                "input_code": {
+                    "default": "print('Hello world!')",
+                    "description": "Input code to be logged.",
+                    "title": "Input Code",
+                    "type": "string",
+                    "widget": "codeeditor"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "LogPiece Output Model",
+            "properties": {
+                "output_log": {
+                    "description": "All values logged.",
+                    "title": "Output Log",
+                    "type": "string"
+                },
+                "output_str": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Output string logged.",
+                    "title": "Output Str"
+                },
+                "output_int": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Output integer logged.",
+                    "title": "Output Int"
+                },
+                "output_float": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Output float logged.",
+                    "title": "Output Float"
+                },
+                "output_bool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Output boolean logged.",
+                    "title": "Output Bool"
+                },
+                "output_enum": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Output enum logged.",
+                    "title": "Output Enum"
+                },
+                "output_date": {
+                    "description": "Output date logged.",
+                    "format": "date",
+                    "title": "Output Date",
+                    "type": "string"
+                },
+                "output_time": {
+                    "description": "Output time logged.",
+                    "format": "time",
+                    "title": "Output Time",
+                    "type": "string"
+                },
+                "output_datetime": {
+                    "description": "Output datetime logged.",
+                    "format": "date-time",
+                    "title": "Output Datetime",
+                    "type": "string"
+                },
+                "output_array": {
+                    "description": "Output array logged.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Output Array",
+                    "type": "array"
+                },
+                "output_code": {
+                    "description": "Output code logged.",
+                    "title": "Output Code",
+                    "type": "string",
+                    "widget": "codeeditor"
+                }
+            },
+            "required": [
+                "output_log",
+                "output_str",
+                "output_int",
+                "output_float",
+                "output_bool",
+                "output_enum",
+                "output_date",
+                "output_time",
+                "output_datetime",
+                "output_array",
+                "output_code"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/LogPiece"
+    },
     "StarAtlasCraftPiece": {
         "name": "StarAtlasCraftPiece",
         "dependency": {
@@ -541,6 +838,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Craft Piece Input Model",
             "properties": {
@@ -571,6 +869,182 @@
         },
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasCraftPiece"
+    },
+    "StarAtlasFleetStatusCheckPiece": {
+        "name": "StarAtlasFleetStatusCheckPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Fleet Status",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check StarAtlas Status of Fleet",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "$defs": {
+                "FleetStatusEnum": {
+                    "enum": [
+                        "StarbaseLoadingBay",
+                        "ReadyToExitWarp",
+                        "MineAsteroid",
+                        "MoveWarp",
+                        "MoveSubwarp",
+                        "Respawn",
+                        "StarbaseUpgrade",
+                        "Idle"
+                    ],
+                    "title": "FleetStatusEnum",
+                    "type": "string"
+                }
+            },
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "required_status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/FleetStatusEnum"
+                        }
+                    ],
+                    "default": "",
+                    "description": "Fleet Status Required"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasFleetStatusCheckPiece"
+    },
+    "StarAtlasFleetStatusRetrievePiece": {
+        "name": "StarAtlasFleetStatusRetrievePiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Fleet Status",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Status of Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "$defs": {
+                "FleetStatusEnum": {
+                    "enum": [
+                        "StarbaseLoadingBay",
+                        "ReadyToExitWarp",
+                        "MineAsteroid",
+                        "MoveWarp",
+                        "MoveSubwarp",
+                        "Respawn",
+                        "StarbaseUpgrade",
+                        "Idle"
+                    ],
+                    "title": "FleetStatusEnum",
+                    "type": "string"
+                }
+            },
+            "description": "StarAtlas Dock Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "fleet_status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/FleetStatusEnum"
+                        }
+                    ],
+                    "description": "Fleet Status"
+                }
+            },
+            "required": [
+                "fleet_status"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasFleetStatusRetrievePiece"
     },
     "StarAtlasUndockPiece": {
         "name": "StarAtlasUndockPiece",
@@ -604,6 +1078,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Dock Piece Input Model",
             "properties": {
@@ -691,6 +1166,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Mining Piece Input Model",
             "properties": {
@@ -778,6 +1254,7 @@
                 "memory": 512
             }
         },
+        "branchPiece": false,
         "input_schema": {
             "description": "StarAtlas Dock Piece Input Model",
             "properties": {
