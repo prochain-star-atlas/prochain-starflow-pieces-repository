@@ -1,4 +1,4 @@
-from domino.base_piece import BasePiece
+from starflow.base_piece import BasePiece
 from .models import InputModel, OutputModel
 from pathlib import Path
 
