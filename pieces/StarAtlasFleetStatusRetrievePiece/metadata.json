@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Fleet Status",
+        "node_label": "Fleet Status Retrieve",
         "icon_class_name": "fa-solid:database"
     }
 }

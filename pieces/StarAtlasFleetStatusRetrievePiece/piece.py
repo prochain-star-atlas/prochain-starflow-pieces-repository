@@ -17,8 +17,6 @@ class StarAtlasFleetStatusRetrievePiece(BasePiece):
 
     def init_piece(self):
 
-        self.init_piece()
-
         self.server_url_var = self.read_secrets('OPEN_ID_SERVER_URL')
         self.client_id_var = self.read_secrets('OPEN_ID_CLIENT_ID')
         self.realm_name_var = self.read_secrets('OPEN_ID_REALM_NAME')
@@ -79,6 +77,8 @@ class StarAtlasFleetStatusRetrievePiece(BasePiece):
         return returnState
 
     def piece_function(self, input_data: InputModel):
+
+        self.init_piece()
 
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()
