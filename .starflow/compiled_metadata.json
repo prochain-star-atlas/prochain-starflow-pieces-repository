@@ -880,7 +880,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Fleet Status",
+            "node_label": "Fleet Status Check",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
@@ -967,7 +967,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Fleet Status",
+            "node_label": "Fleet Status Retrieve",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
