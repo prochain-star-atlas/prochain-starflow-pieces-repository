@@ -324,8 +324,8 @@
     "SleepPiece": {
         "name": "SleepPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "default",
@@ -573,8 +573,8 @@
     "LogPiece": {
         "name": "LogPiece",
         "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
         },
         "tags": [
             "default",
