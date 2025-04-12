@@ -156,11 +156,17 @@ class StarAtlasWarpPiece(BasePiece):
             url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
             response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
             response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+            
+            self.openid_logout_user(client_token_loggedin)
+            self.openid_logout_user(su_token_loggedin)
 
             wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
             self.logger.info(f"waiting movement for {wait_time_movement} seconds")
             time.sleep(wait_time_movement)
 
+            su_token_loggedin = self.openid_get_token()
+            client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+            
             url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
             res_action2 = self.retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
             if not(res_action2):
