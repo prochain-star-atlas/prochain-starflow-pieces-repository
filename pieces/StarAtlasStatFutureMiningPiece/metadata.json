@@ -1,6 +1,6 @@
 {
-    "name": "StarAtlasStatFutureMovementFleet",
-    "description": "Star Atlas Statistic Future Movement",
+    "name": "StarAtlasStatFutureMiningPiece",
+    "description": "Star Atlas Mining a Resource",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Future Stat Move",
+        "node_label": "Future Stat Mine",
         "icon_class_name": "fa-solid:database"
     }
 }

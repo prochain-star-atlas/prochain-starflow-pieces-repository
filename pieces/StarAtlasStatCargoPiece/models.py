@@ -2,6 +2,23 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
+class CargoModel(BaseModel):
+
+    cargo_label: str = Field(
+        default="",
+        description="Cargo Label",
+    )
+
+    cargo_mint: str = Field(
+        default="",
+        description="Cargo Mint",
+    )
+
+    cargo_amount: int = Field(
+        default="",
+        description="Cargo Amount",
+    )
+
 class InputModel(BaseModel):
     """
     StarAtlas Mining Piece Input Model
@@ -27,7 +44,7 @@ class OutputModel(BaseModel):
         description="Fleet Name",
     )
 
-    cargo_list: List[(str, int)] = Field(
+    cargo_list: List[CargoModel] = Field(
         description='Cargo List.'
     )
 

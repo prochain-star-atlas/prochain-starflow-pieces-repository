@@ -1,5 +1,5 @@
 {
-    "name": "StarAtlasStatCargoFleet",
+    "name": "StarAtlasStatCargoPiece",
     "description": "Star Atlas Statistic Cargo List",
     "dependency": {
         "dockerfile": "Dockerfile_1"

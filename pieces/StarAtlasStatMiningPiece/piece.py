@@ -9,7 +9,7 @@ import os
 import time
 import json
 
-class StarAtlasStatFutureMiningFleet(BasePiece):
+class StarAtlasStatMiningFleetPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -27,7 +27,8 @@ class StarAtlasStatFutureMiningFleet(BasePiece):
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
         self.url_put_start_mining = self.read_secrets('URL_PUT_START_MINING')
         self.url_put_stop_mining = self.read_secrets('URL_PUT_STOP_MINING')
-        self.url_get_future_mining_stats = self.read_secrets('URL_GET_FLEET_FUTURE_MINING_STATISTICS')
+        self.url_get_fleet_mining_calculation = self.read_secrets('URL_GET_FLEET_MINING_CALCULATION')
+        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -55,36 +56,27 @@ class StarAtlasStatFutureMiningFleet(BasePiece):
             try:
                 response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
-
-                if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
-                    success = True
-                    self.logger.info("Successfully executed !")
-                    json_formatted_str = json.dumps(response_raw_json, indent=2)
-                    self.logger.info(json_formatted_str)
-                    
-                else:
-                    self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                    #self.logger.info(f"json: {response_raw_json}")
-                    timew.sleep(wait_time)
-                    retries += 1                
+                success = True
+                self.logger.info("Successfully executed !")
+                json_formatted_str = json.dumps(response_raw_json, indent=2)
+                self.logger.info(json_formatted_str)           
                 
             except Exception as e:
                 self.logger.error(f"Waiting {wait_time} secs and re-trying...")
                 timew.sleep(wait_time)
                 retries += 1
 
-        return success       
+        return success
 
-    def get_future_mining_calculation(self, fleet_name, resourceMint, starbaseX, starbaseY, planetX, planetY, bearer_token) -> Any:
-
+    def get_fleet_mining_stat_request(self, fleet_name, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
-        url_formated_mining_calculation = self.url_get_future_mining_stats.format(fleet_name, resourceMint, starbaseX, starbaseY, planetX, planetY)
-        response_raw = requests.get(url_formated_mining_calculation, headers=headers, verify=False)
+        url_formated_list_fleet = self.url_get_fleet_mining_calculation.format(fleet_name)
+        response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
         return response_raw_json.result
-
+        
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -95,13 +87,7 @@ class StarAtlasStatFutureMiningFleet(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        future_mining_calc = self.response_raw_json(fleet_name=input_data.fleet_name, 
-                                                resourceMint=input_data.resource_mint, 
-                                                starbaseX=input_data.starbase_x, 
-                                                starbaseY=input_data.starbase_y, 
-                                                planetX=input_data.planet_x, 
-                                                planetY=input_data.planet_y, 
-                                                bearer_token=client_token_loggedin)
+        fleet_mining_stat = self.get_fleet_mining_stat_request(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         self.logger.info(f"")
 
@@ -113,18 +99,31 @@ class StarAtlasStatFutureMiningFleet(BasePiece):
         # Return output
         return OutputModel(
             fleet_name=input_data.fleet_name,
-            resource_mint_mined=input_data.resource_mint,
-            mining_duration=future_mining_calc.miningDuration,
-            mining_duration_in_minutes=future_mining_calc.miningDurationInMinutes,
-            amount_mined=future_mining_calc.amountMined,
-            fuel_needed_warp=future_mining_calc.fuelNeededWarp,
-            fuel_needed_half_warp=future_mining_calc.fuelNeededHalfWarp,
-            fuel_needed_subwarp=future_mining_calc.fuelNeededSubWarp,
-            ammo_for_duration=future_mining_calc.ammoForDuration,
-            food_for_duration=future_mining_calc.foodForDuration,
-            resource_hardness=future_mining_calc.resourceHardness,
-            system_richness=future_mining_calc.systemRichness,
-            mine_item=future_mining_calc.mineItem,
-            sage_resource=future_mining_calc.sageResource,
-            planet=future_mining_calc.planet
+            planet_name=fleet_mining_stat.planetName,
+            location_x=fleet_mining_stat.destX,
+            location_y=fleet_mining_stat.destY,
+            food_consumption_rate=fleet_mining_stat.foodConsumptionRate,
+            ammo_consumption_rate=fleet_mining_stat.ammoConsumptionRate,
+            mining_rate=fleet_mining_stat.miningRate,
+            max_mining_duration=fleet_mining_stat.maxMiningDuration,
+            mine_time_passed=fleet_mining_stat.mineTimePassed,
+            mine_time_in_minutes_passed=fleet_mining_stat.mineTimeInMinutesPassed,
+            food_consumed=fleet_mining_stat.foodConsumed,
+            ammo_consumed=fleet_mining_stat.ammoConsumed,
+            resource_mined=fleet_mining_stat.resourceMined,
+            time_food_remaining=fleet_mining_stat.timeFoodRemaining,
+            time_food_in_minutes_remaining=fleet_mining_stat.timeFoodInMinutesRemaining,
+            time_ammo_remaining=fleet_mining_stat.timeAmmoRemaining,
+            time_ammo_in_minutes_remaining=fleet_mining_stat.timeAmmoInMinutesRemaining,
+            sim_current_cargo=fleet_mining_stat.simCurrentCargo,
+            time_cargo_remaining=fleet_mining_stat.timeCargoRemaining,
+            time_cargo_in_minutes_remaining=fleet_mining_stat.timeCargoInMinutesRemaining,
+            time_limit=fleet_mining_stat.timeLimit,
+            time_limit_in_minutes=fleet_mining_stat.timeLimitInMinutes,
+            mine_end=fleet_mining_stat.mineEnd,
+            mine_end_string=fleet_mining_stat.mineEndString,
+            mine_end_iso_string=fleet_mining_stat.mineEndIsoString,
+            sage_resource_mined=fleet_mining_stat.sageResourceMined,
+            system_richness=fleet_mining_stat.systemRichness,
+            resource_hardness=fleet_mining_stat.resourceHardness,
         )

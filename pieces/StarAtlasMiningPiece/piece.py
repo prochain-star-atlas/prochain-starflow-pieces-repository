@@ -56,18 +56,10 @@ class StarAtlasMiningPiece(BasePiece):
             try:
                 response_raw = requests.put(url_formated, headers=headers, verify=False)
                 response_raw_json = response_raw.json()
-
-                if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
-                    success = True
-                    self.logger.info("Successfully executed !")
-                    json_formatted_str = json.dumps(response_raw_json, indent=2)
-                    self.logger.info(json_formatted_str)
-                    
-                else:
-                    self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                    #self.logger.info(f"json: {response_raw_json}")
-                    timew.sleep(wait_time)
-                    retries += 1                
+                success = True
+                self.logger.info("Successfully executed !")
+                json_formatted_str = json.dumps(response_raw_json, indent=2)
+                self.logger.info(json_formatted_str)           
                 
             except Exception as e:
                 self.logger.error(f"Waiting {wait_time} secs and re-trying...")

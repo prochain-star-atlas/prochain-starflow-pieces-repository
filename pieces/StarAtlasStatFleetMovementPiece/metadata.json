@@ -1,5 +1,5 @@
 {
-    "name": "StarAtlasStatFleetMovement",
+    "name": "StarAtlasStatFleetMovementPiece",
     "description": "Star Atlas Statistic Movement",
     "dependency": {
         "dockerfile": "Dockerfile_1"

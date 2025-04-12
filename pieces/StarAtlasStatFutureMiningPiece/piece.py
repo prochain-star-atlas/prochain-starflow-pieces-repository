@@ -9,7 +9,7 @@ import os
 import time
 import json
 
-class StarAtlasStatFleetMovement(BasePiece):
+class StarAtlasStatFutureMiningPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -27,8 +27,7 @@ class StarAtlasStatFleetMovement(BasePiece):
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
         self.url_put_start_mining = self.read_secrets('URL_PUT_START_MINING')
         self.url_put_stop_mining = self.read_secrets('URL_PUT_STOP_MINING')
-        self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
-        self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
+        self.url_get_future_mining_stats = self.read_secrets('URL_GET_FLEET_FUTURE_MINING_STATISTICS')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -45,46 +44,18 @@ class StarAtlasStatFleetMovement(BasePiece):
 
     def openid_impersonate_user_token_keycloak(self, token_logged_in) -> Any:
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
-        return token_impersonated
-        
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
+        return token_impersonated   
 
-                if response_raw_json is not None and response_raw_json.meta is not None and response_raw_json.meta.err is None:
-                    success = True
-                    self.logger.info("Successfully executed !")
-                    json_formatted_str = json.dumps(response_raw_json, indent=2)
-                    self.logger.info(json_formatted_str)
-                    
-                else:
-                    self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                    #self.logger.info(f"json: {response_raw_json}")
-                    timew.sleep(wait_time)
-                    retries += 1                
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
+    def get_future_mining_calculation(self, fleet_name, resourceMint, starbaseX, starbaseY, planetX, planetY, bearer_token) -> Any:
 
-        return success
-
-    def get_fleet_stat_movement_request(self, fleet_name, resource_item, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
-        url_formated_list_fleet = self.url_get_fleet_movement_calculation.format(fleet_name)
-        response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
+        url_formated_mining_calculation = self.url_get_future_mining_stats.format(fleet_name, resourceMint, starbaseX, starbaseY, planetX, planetY)
+        response_raw = requests.get(url_formated_mining_calculation, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
         return response_raw_json.result
-        
+
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -95,7 +66,13 @@ class StarAtlasStatFleetMovement(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        fleet_stat_movement = self.get_fleet_stat_movement_request(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+        future_mining_calc = self.response_raw_json(fleet_name=input_data.fleet_name, 
+                                                resourceMint=input_data.resource_mint, 
+                                                starbaseX=input_data.starbase_x, 
+                                                starbaseY=input_data.starbase_y, 
+                                                planetX=input_data.planet_x, 
+                                                planetY=input_data.planet_y, 
+                                                bearer_token=client_token_loggedin)
 
         self.logger.info(f"")
 
@@ -107,12 +84,18 @@ class StarAtlasStatFleetMovement(BasePiece):
         # Return output
         return OutputModel(
             fleet_name=input_data.fleet_name,
-            transport_mode=fleet_stat_movement.transportMode,
-            end_time=fleet_stat_movement.endTime,
-            end_time_remaining=fleet_stat_movement.endTimeRemaining,
-            end_time_remaining_in_minutes=fleet_stat_movement.endTimeRemainingInMinutes,
-            from_sector_x=fleet_stat_movement.fromSectorX,
-            from_sector_y=fleet_stat_movement.fromSectorY,
-            to_sector_x=fleet_stat_movement.toSectorX,
-            to_sector_y=fleet_stat_movement.toSectorY,
+            resource_mint_mined=input_data.resource_mint,
+            mining_duration=future_mining_calc.miningDuration,
+            mining_duration_in_minutes=future_mining_calc.miningDurationInMinutes,
+            amount_mined=future_mining_calc.amountMined,
+            fuel_needed_warp=future_mining_calc.fuelNeededWarp,
+            fuel_needed_half_warp=future_mining_calc.fuelNeededHalfWarp,
+            fuel_needed_subwarp=future_mining_calc.fuelNeededSubWarp,
+            ammo_for_duration=future_mining_calc.ammoForDuration,
+            food_for_duration=future_mining_calc.foodForDuration,
+            resource_hardness=future_mining_calc.resourceHardness,
+            system_richness=future_mining_calc.systemRichness,
+            mine_item=future_mining_calc.mineItem,
+            sage_resource=future_mining_calc.sageResource,
+            planet=future_mining_calc.planet
         )

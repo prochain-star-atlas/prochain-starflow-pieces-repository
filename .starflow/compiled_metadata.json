@@ -1,56 +1,35 @@
 {
-    "StarAtlasMiningPiece": {
-        "name": "StarAtlasMiningPiece",
+    "LogPiece": {
+        "name": "LogPiece",
         "dependency": {
             "dockerfile": "Dockerfile_1",
             "requirements_file": null
         },
         "tags": [
-            "Star Atlas"
+            "default",
+            "log"
         ],
         "style": {
-            "node_label": "Mine",
+            "node_label": "Log",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
             },
             "useIcon": true,
-            "icon_class_name": "fa-solid:database",
+            "icon_class_name": "fa-solid:file-alt",
             "iconStyle": {
                 "cursor": "pointer"
             }
         },
-        "description": "StarAtlas Mining a Resource",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
+        "description": "A Piece that logs its inputs.",
         "branchPiece": false,
         "input_schema": {
-            "description": "StarAtlas Mining Piece Input Model",
+            "description": "LogPiece Input Model",
             "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "resource_mint": {
-                    "default": "",
-                    "description": "Resource to mine",
-                    "title": "Resource Mint",
-                    "type": "string"
-                },
-                "planet_pk": {
-                    "default": 0,
-                    "description": "Planet Public Key to Mine",
-                    "title": "Planet Pk",
+                "input_str": {
+                    "default": "default value",
+                    "description": "Input string to be logged.",
+                    "title": "Input Str",
                     "type": "string"
                 }
             },
@@ -58,222 +37,22 @@
             "type": "object"
         },
         "output_schema": {
-            "description": "StarAtlas Mining Piece Output Model",
+            "description": "LogPiece Output Model",
             "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
+                "output_log": {
+                    "description": "All values logged.",
+                    "title": "Output Log",
                     "type": "string"
-                },
-                "resource_mint_mined": {
-                    "description": "Resource Mint Mined",
-                    "title": "Resource Mint Mined",
-                    "type": "string"
-                },
-                "resource_amount_mined": {
-                    "description": "Amount Resource Mined",
-                    "title": "Resource Amount Mined",
-                    "type": "integer"
                 }
             },
             "required": [
-                "resource_mint_mined",
-                "resource_amount_mined"
+                "output_log"
             ],
             "title": "OutputModel",
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasMiningPiece"
-    },
-    "StarAtlasLoadAmmoPiece": {
-        "name": "StarAtlasLoadAmmoPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Load Ammo",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Loading Ammo to Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "Star Atlas Load Ammo Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Star Atlas Load Ammo Piece Output Model",
-            "properties": {
-                "amount_loaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Loaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "amount_loaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasLoadAmmoPiece"
-    },
-    "StarAtlasLoadFuelPiece": {
-        "name": "StarAtlasLoadFuelPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Load Fuel",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Loading Fuel to Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "Star Atlas Load Fuel Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Star Atlas Load Fuel Piece Output Model",
-            "properties": {
-                "amount_loaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Loaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "amount_loaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasLoadFuelPiece"
+        "source_url": null
     },
     "MathArithmeticPiece": {
         "name": "MathArithmeticPiece",
@@ -376,577 +155,7 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/MathArithmeticPiece"
-    },
-    "StarAtlasUnloalFuelPiece": {
-        "name": "StarAtlasUnloalFuelPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Unload Fuel",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Star Atlas Unloading Cargo from Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Unload Fuel Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Unload Fuel Piece Output Model",
-            "properties": {
-                "amount_unloaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Unloaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "amount_unloaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUnloalFuelPiece"
-    },
-    "StarAtlasGetFleetStatusPiece": {
-        "name": "StarAtlasGetFleetStatusPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Get Status",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Status of Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Dock Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "$defs": {
-                "FleetStatusEnum": {
-                    "enum": [
-                        "StarbaseLoadingBay",
-                        "ReadyToExitWarp",
-                        "MineAsteroid",
-                        "MoveWarp",
-                        "MoveSubwarp",
-                        "Respawn",
-                        "StarbaseUpgrade",
-                        "Idle"
-                    ],
-                    "title": "FleetStatusEnum",
-                    "type": "string"
-                }
-            },
-            "description": "StarAtlas Dock Piece Output Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "fleet_status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/$defs/FleetStatusEnum"
-                        }
-                    ],
-                    "description": "Fleet Status"
-                }
-            },
-            "required": [
-                "fleet_status"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasGetFleetStatusPiece"
-    },
-    "StarAtlasSubwarpPiece": {
-        "name": "StarAtlasSubwarpPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Subwarp",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Subwarping a Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Subwarp Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Subwarp to coordinate X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Subwarp to coordinate Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Subwarp Piece Output Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "destination_x": {
-                    "description": "Subwarped to X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Subwarped to Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasSubwarpPiece"
-    },
-    "StarAtlasFleetStatusCheckPiece": {
-        "name": "StarAtlasFleetStatusCheckPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Status Check",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Check StarAtlas Status of Fleet",
-        "branchPiece": true,
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "input_schema": {
-            "$defs": {
-                "FleetStatusEnum": {
-                    "enum": [
-                        "StarbaseLoadingBay",
-                        "ReadyToExitWarp",
-                        "MineAsteroid",
-                        "MoveWarp",
-                        "MoveSubwarp",
-                        "Respawn",
-                        "StarbaseUpgrade",
-                        "Idle"
-                    ],
-                    "title": "FleetStatusEnum",
-                    "type": "string"
-                }
-            },
-            "description": "StarAtlas Dock Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "required_status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/$defs/FleetStatusEnum"
-                        }
-                    ],
-                    "default": "",
-                    "description": "Fleet Status Required"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Branch Piece Output Model",
-            "properties": {
-                "branch_main": {
-                    "default": true,
-                    "description": "Main branch selected",
-                    "title": "Branch Main",
-                    "type": "boolean"
-                }
-            },
-            "title": "BaseBranchOutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasFleetStatusCheckPiece"
-    },
-    "StarAtlasLoadCargoPiece": {
-        "name": "StarAtlasLoadCargoPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Load Cargo",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Loading Cargo to Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Load Cargo Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "resource_mint": {
-                    "default": "",
-                    "description": "Resource to Load Cargo",
-                    "title": "Resource Mint",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Load Cargo Piece Output Model",
-            "properties": {
-                "resource_mint_loaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Resource Mint Loaded",
-                    "type": "integer"
-                },
-                "amount_loaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Loaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "resource_mint_loaded",
-                "amount_loaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasLoadCargoPiece"
-    },
-    "StarAtlasUnloadCargoPiece": {
-        "name": "StarAtlasUnloadCargoPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Unload Cargo",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Star Atlas Unloading Cargo from Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Unload Cargo Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "resource_mint": {
-                    "default": "",
-                    "description": "Resource to Load Cargo",
-                    "title": "Resource Mint",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Unload Cargo Piece Output Model",
-            "properties": {
-                "resource_mint_unloaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Resource Mint Unloaded",
-                    "type": "string"
-                },
-                "amount_unloaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Unloaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "resource_mint_unloaded",
-                "amount_unloaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUnloadCargoPiece"
+        "source_url": null
     },
     "SleepPiece": {
         "name": "SleepPiece",
@@ -1001,10 +210,10 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/SleepPiece"
+        "source_url": null
     },
-    "StarAtlasUnloadCrewPiece": {
-        "name": "StarAtlasUnloadCrewPiece",
+    "StarAtlasCraftPiece": {
+        "name": "StarAtlasCraftPiece",
         "dependency": {
             "dockerfile": "Dockerfile_1",
             "requirements_file": null
@@ -1013,7 +222,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Unload Crew",
+            "node_label": "Craft",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
@@ -1024,7 +233,7 @@
                 "cursor": "pointer"
             }
         },
-        "description": "Star Atlas Unloading Crew from Fleet",
+        "description": "StarAtlas Crafting Item",
         "container_resources": {
             "requests": {
                 "cpu": 100,
@@ -1037,101 +246,7 @@
         },
         "branchPiece": false,
         "input_schema": {
-            "description": "StarAtlas Unload Crew Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "amount": {
-                    "default": "",
-                    "description": "Amount of Resource",
-                    "title": "Amount",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Unload Crew Piece Output Model",
-            "properties": {
-                "amount_unloaded": {
-                    "description": "Amount Resource loaded",
-                    "title": "Amount Unloaded",
-                    "type": "integer"
-                },
-                "destination_x": {
-                    "description": "Load Cargo executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Load Cargo executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "amount_unloaded",
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUnloadCrewPiece"
-    },
-    "StarAtlasUpgradeStarbasePiece": {
-        "name": "StarAtlasUpgradeStarbasePiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Upgrade Starbase",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Upgrading Starbase",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "Sleep Piece Input Model",
+            "description": "StarAtlas Craft Piece Input Model",
             "properties": {
                 "sleep_time": {
                     "default": 1,
@@ -1144,7 +259,7 @@
             "type": "object"
         },
         "output_schema": {
-            "description": "Sleep Piece Output Model",
+            "description": "StarAtlas Craft Piece Input Model",
             "properties": {
                 "message": {
                     "description": "Sleep piece executed",
@@ -1159,10 +274,10 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUpgradeStarbasePiece"
+        "source_url": null
     },
-    "StarAtlasFleetLocationCheckPiece": {
-        "name": "StarAtlasFleetLocationCheckPiece",
+    "StarAtlasDockPiece": {
+        "name": "StarAtlasDockPiece",
         "dependency": {
             "dockerfile": "Dockerfile_1",
             "requirements_file": null
@@ -1171,7 +286,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Location Check",
+            "node_label": "Dock",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
@@ -1182,81 +297,7 @@
                 "cursor": "pointer"
             }
         },
-        "description": "Check Star Atlas Location of Fleet",
-        "branchPiece": true,
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "input_schema": {
-            "description": "StarAtlas Dock Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Coordinate X target starbase",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Coordinate Y target starbase",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Branch Piece Output Model",
-            "properties": {
-                "branch_main": {
-                    "default": true,
-                    "description": "Main branch selected",
-                    "title": "Branch Main",
-                    "type": "boolean"
-                }
-            },
-            "title": "BaseBranchOutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasFleetLocationCheckPiece"
-    },
-    "StarAtlasWarpPiece": {
-        "name": "StarAtlasWarpPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Warp",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Warping a Fleet",
+        "description": "StarAtlas Docking Fleet",
         "container_resources": {
             "requests": {
                 "cpu": 100,
@@ -1269,7 +310,7 @@
         },
         "branchPiece": false,
         "input_schema": {
-            "description": "StarAtlas Warp Piece Input Model",
+            "description": "StarAtlas Dock Piece Input Model",
             "properties": {
                 "fleet_name": {
                     "default": "",
@@ -1279,13 +320,13 @@
                 },
                 "destination_x": {
                     "default": 0,
-                    "description": "Warp to coordinate X",
+                    "description": "Number of seconds to sleep",
                     "title": "Destination X",
                     "type": "integer"
                 },
                 "destination_y": {
                     "default": 0,
-                    "description": "Warp to coordinate Y",
+                    "description": "Number of seconds to sleep",
                     "title": "Destination Y",
                     "type": "integer"
                 }
@@ -1294,7 +335,7 @@
             "type": "object"
         },
         "output_schema": {
-            "description": "StarAtlas Warp Piece Output Model",
+            "description": "StarAtlas Dock Piece Output Model",
             "properties": {
                 "fleet_name": {
                     "default": "",
@@ -1303,12 +344,12 @@
                     "type": "string"
                 },
                 "destination_x": {
-                    "description": "Warped to X",
+                    "description": "Dock executed on X",
                     "title": "Destination X",
                     "type": "integer"
                 },
                 "destination_y": {
-                    "description": "Warped to Y",
+                    "description": "Dock executed on Y",
                     "title": "Destination Y",
                     "type": "integer"
                 }
@@ -1321,7 +362,7 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasWarpPiece"
+        "source_url": null
     },
     "StarAtlasFleetCargoCheckPiece": {
         "name": "StarAtlasFleetCargoCheckPiece",
@@ -1428,7 +469,457 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasFleetCargoCheckPiece"
+        "source_url": null
+    },
+    "StarAtlasFleetLocationCheckPiece": {
+        "name": "StarAtlasFleetLocationCheckPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Location Check",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check Star Atlas Location of Fleet",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasFleetStatusCheckPiece": {
+        "name": "StarAtlasFleetStatusCheckPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Status Check",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check StarAtlas Status of Fleet",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "$defs": {
+                "FleetStatusEnum": {
+                    "enum": [
+                        "StarbaseLoadingBay",
+                        "ReadyToExitWarp",
+                        "MineAsteroid",
+                        "MoveWarp",
+                        "MoveSubwarp",
+                        "Respawn",
+                        "StarbaseUpgrade",
+                        "Idle"
+                    ],
+                    "title": "FleetStatusEnum",
+                    "type": "string"
+                }
+            },
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "required_status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/FleetStatusEnum"
+                        }
+                    ],
+                    "default": "",
+                    "description": "Fleet Status Required"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasGetFleetStatusPiece": {
+        "name": "StarAtlasGetFleetStatusPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Get Status",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Status of Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "$defs": {
+                "FleetStatusEnum": {
+                    "enum": [
+                        "StarbaseLoadingBay",
+                        "ReadyToExitWarp",
+                        "MineAsteroid",
+                        "MoveWarp",
+                        "MoveSubwarp",
+                        "Respawn",
+                        "StarbaseUpgrade",
+                        "Idle"
+                    ],
+                    "title": "FleetStatusEnum",
+                    "type": "string"
+                }
+            },
+            "description": "StarAtlas Dock Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "fleet_status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/FleetStatusEnum"
+                        }
+                    ],
+                    "description": "Fleet Status"
+                }
+            },
+            "required": [
+                "fleet_status"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasLoadAmmoPiece": {
+        "name": "StarAtlasLoadAmmoPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Load Ammo",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Loading Ammo to Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "Star Atlas Load Ammo Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Star Atlas Load Ammo Piece Output Model",
+            "properties": {
+                "amount_loaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Loaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "amount_loaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasLoadCargoPiece": {
+        "name": "StarAtlasLoadCargoPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Load Cargo",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Loading Cargo to Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Load Cargo Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint": {
+                    "default": "",
+                    "description": "Resource to Load Cargo",
+                    "title": "Resource Mint",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Load Cargo Piece Output Model",
+            "properties": {
+                "resource_mint_loaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Resource Mint Loaded",
+                    "type": "integer"
+                },
+                "amount_loaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Loaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "resource_mint_loaded",
+                "amount_loaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
     },
     "StarAtlasLoadCrewPiece": {
         "name": "StarAtlasLoadCrewPiece",
@@ -1522,65 +1013,10 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasLoadCrewPiece"
+        "source_url": null
     },
-    "LogPiece": {
-        "name": "LogPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "default",
-            "log"
-        ],
-        "style": {
-            "node_label": "Log",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:file-alt",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "A Piece that logs its inputs.",
-        "branchPiece": false,
-        "input_schema": {
-            "description": "LogPiece Input Model",
-            "properties": {
-                "input_str": {
-                    "default": "default value",
-                    "description": "Input string to be logged.",
-                    "title": "Input Str",
-                    "type": "string"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "LogPiece Output Model",
-            "properties": {
-                "output_log": {
-                    "description": "All values logged.",
-                    "title": "Output Log",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "output_log"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/LogPiece"
-    },
-    "StarAtlasCraftPiece": {
-        "name": "StarAtlasCraftPiece",
+    "StarAtlasLoadFuelPiece": {
+        "name": "StarAtlasLoadFuelPiece",
         "dependency": {
             "dockerfile": "Dockerfile_1",
             "requirements_file": null
@@ -1589,7 +1025,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Craft",
+            "node_label": "Load Fuel",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
@@ -1600,7 +1036,7 @@
                 "cursor": "pointer"
             }
         },
-        "description": "StarAtlas Crafting Item",
+        "description": "StarAtlas Loading Fuel to Fleet",
         "container_resources": {
             "requests": {
                 "cpu": 100,
@@ -1613,7 +1049,189 @@
         },
         "branchPiece": false,
         "input_schema": {
-            "description": "StarAtlas Craft Piece Input Model",
+            "description": "Star Atlas Load Fuel Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Star Atlas Load Fuel Piece Output Model",
+            "properties": {
+                "amount_loaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Loaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "amount_loaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasMiningPiece": {
+        "name": "StarAtlasMiningPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Mine",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Mining a Resource",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint": {
+                    "default": "",
+                    "description": "Resource to mine",
+                    "title": "Resource Mint",
+                    "type": "string"
+                },
+                "planet_pk": {
+                    "default": 0,
+                    "description": "Planet Public Key to Mine",
+                    "title": "Planet Pk",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint_mined": {
+                    "description": "Resource Mint Mined",
+                    "title": "Resource Mint Mined",
+                    "type": "string"
+                },
+                "resource_amount_mined": {
+                    "description": "Amount Resource Mined",
+                    "title": "Resource Amount Mined",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "resource_mint_mined",
+                "resource_amount_mined"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasScanPiece": {
+        "name": "StarAtlasScanPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Scan",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Scanning with a Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "Sleep Piece Input Model",
             "properties": {
                 "sleep_time": {
                     "default": 1,
@@ -1626,7 +1244,7 @@
             "type": "object"
         },
         "output_schema": {
-            "description": "StarAtlas Craft Piece Input Model",
+            "description": "Sleep Piece Output Model",
             "properties": {
                 "message": {
                     "description": "Sleep piece executed",
@@ -1641,7 +1259,1114 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasCraftPiece"
+        "source_url": null
+    },
+    "StarAtlasStatCargoPiece": {
+        "name": "StarAtlasStatCargoPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Stat Cargo",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Statistic Cargo List",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "",
+                    "description": "Resource to request amount",
+                    "title": "Resource Mint"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "$defs": {
+                "CargoModel": {
+                    "properties": {
+                        "cargo_label": {
+                            "default": "",
+                            "description": "Cargo Label",
+                            "title": "Cargo Label",
+                            "type": "string"
+                        },
+                        "cargo_mint": {
+                            "default": "",
+                            "description": "Cargo Mint",
+                            "title": "Cargo Mint",
+                            "type": "string"
+                        },
+                        "cargo_amount": {
+                            "default": "",
+                            "description": "Cargo Amount",
+                            "title": "Cargo Amount",
+                            "type": "integer"
+                        }
+                    },
+                    "title": "CargoModel",
+                    "type": "object"
+                }
+            },
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "cargo_list": {
+                    "description": "Cargo List.",
+                    "items": {
+                        "$ref": "#/$defs/CargoModel"
+                    },
+                    "title": "Cargo List",
+                    "type": "array"
+                },
+                "fuel_amount": {
+                    "default": "",
+                    "description": "Fuel Amount In Fleet",
+                    "title": "Fuel Amount",
+                    "type": "integer"
+                },
+                "ammo_amount": {
+                    "default": "",
+                    "description": "Ammo Amount In Fleet",
+                    "title": "Ammo Amount",
+                    "type": "integer"
+                },
+                "resource_mint_requested": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Resource Mint Requested",
+                    "title": "Resource Mint Requested"
+                },
+                "resource_amount_requested": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Amount Resource Requested",
+                    "title": "Resource Amount Requested"
+                }
+            },
+            "required": [
+                "cargo_list",
+                "resource_mint_requested",
+                "resource_amount_requested"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasStatFleetMovementPiece": {
+        "name": "StarAtlasStatFleetMovementPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Stat Move",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Statistic Movement",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "transport_mode": {
+                    "description": "Transport Mode",
+                    "title": "Transport Mode",
+                    "type": "string"
+                },
+                "end_time": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "end_time",
+                    "title": "End Time"
+                },
+                "end_time_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "end_time_remaining",
+                    "title": "End Time Remaining"
+                },
+                "end_time_remaining_in_minutes": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "end_time_remaining_in_minutes",
+                    "title": "End Time Remaining In Minutes"
+                },
+                "from_sector_x": {
+                    "description": "from_sector_x",
+                    "title": "From Sector X",
+                    "type": "integer"
+                },
+                "from_sector_y": {
+                    "description": "from_sector_y",
+                    "title": "From Sector Y",
+                    "type": "integer"
+                },
+                "to_sector_x": {
+                    "description": "to_sector_x",
+                    "title": "To Sector X",
+                    "type": "integer"
+                },
+                "to_sector_y": {
+                    "description": "to_sector_y",
+                    "title": "To Sector Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "transport_mode",
+                "end_time",
+                "end_time_remaining",
+                "end_time_remaining_in_minutes",
+                "from_sector_x",
+                "from_sector_y",
+                "to_sector_x",
+                "to_sector_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasStatFutureMiningPiece": {
+        "name": "StarAtlasStatFutureMiningPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Future Stat Mine",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Mining a Resource",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint": {
+                    "default": "",
+                    "description": "Resource to mine",
+                    "title": "Resource Mint",
+                    "type": "string"
+                },
+                "starbase_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Starbase X",
+                    "type": "integer"
+                },
+                "starbase_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Starbase Y",
+                    "type": "integer"
+                },
+                "planet_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Planet X",
+                    "type": "integer"
+                },
+                "planet_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Planet Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint_mined": {
+                    "description": "Resource Mint Mined",
+                    "title": "Resource Mint Mined",
+                    "type": "string"
+                },
+                "mining_duration": {
+                    "description": "Amount Resource Mined",
+                    "title": "Mining Duration",
+                    "type": "integer"
+                },
+                "mining_duration_in_minutes": {
+                    "description": "Amount Resource Mined",
+                    "title": "Mining Duration In Minutes",
+                    "type": "number"
+                },
+                "amount_mined": {
+                    "description": "Amount Resource Mined",
+                    "title": "Amount Mined",
+                    "type": "integer"
+                },
+                "fuel_needed_warp": {
+                    "description": "Amount Resource Mined",
+                    "title": "Fuel Needed Warp",
+                    "type": "number"
+                },
+                "fuel_needed_half_warp": {
+                    "description": "Amount Resource Mined",
+                    "title": "Fuel Needed Half Warp",
+                    "type": "number"
+                },
+                "fuel_needed_subwarp": {
+                    "description": "Amount Resource Mined",
+                    "title": "Fuel Needed Subwarp",
+                    "type": "number"
+                },
+                "ammo_for_duration": {
+                    "description": "Amount Resource Mined",
+                    "title": "Ammo For Duration",
+                    "type": "integer"
+                },
+                "food_for_duration": {
+                    "description": "Amount Resource Mined",
+                    "title": "Food For Duration",
+                    "type": "integer"
+                },
+                "resource_hardness": {
+                    "description": "Amount Resource Mined",
+                    "title": "Resource Hardness",
+                    "type": "integer"
+                },
+                "system_richness": {
+                    "description": "Amount Resource Mined",
+                    "title": "System Richness",
+                    "type": "integer"
+                },
+                "mine_item": {
+                    "description": "Amount Resource Mined",
+                    "title": "Mine Item",
+                    "type": "string"
+                },
+                "sage_resource": {
+                    "description": "Amount Resource Mined",
+                    "title": "Sage Resource",
+                    "type": "string"
+                },
+                "planet": {
+                    "description": "Amount Resource Mined",
+                    "title": "Planet",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "resource_mint_mined",
+                "mining_duration",
+                "mining_duration_in_minutes",
+                "amount_mined",
+                "fuel_needed_warp",
+                "fuel_needed_half_warp",
+                "fuel_needed_subwarp",
+                "ammo_for_duration",
+                "food_for_duration",
+                "resource_hardness",
+                "system_richness",
+                "mine_item",
+                "sage_resource",
+                "planet"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasStatFutureMovementPiece": {
+        "name": "StarAtlasStatFutureMovementPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Future Stat Move",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Statistic Future Movement",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "position_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Position X",
+                    "type": "integer"
+                },
+                "position_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Position Y",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "position_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Position X",
+                    "type": "integer"
+                },
+                "position_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Position Y",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Destination Y",
+                    "type": "integer"
+                },
+                "distance_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Distance Calculated",
+                    "type": "integer"
+                },
+                "subwarp_fuel_required": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Subwarp Fuel Required",
+                    "type": "integer"
+                },
+                "subwarp_time_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Subwarp Time Calculated",
+                    "type": "number"
+                },
+                "subwarp_time_minutes_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Subwarp Time Minutes Calculated",
+                    "type": "number"
+                },
+                "warp_fuel_required": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Warp Fuel Required",
+                    "type": "integer"
+                },
+                "warp_time_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Warp Time Calculated",
+                    "type": "number"
+                },
+                "warp_time_minutes_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Warp Time Minutes Calculated",
+                    "type": "number"
+                },
+                "warp_time_with_cooldown_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Warp Time With Cooldown Calculated",
+                    "type": "number"
+                },
+                "warp_time_with_cooldown_minutes_calculated": {
+                    "default": 0,
+                    "description": "Number of seconds to sleep",
+                    "title": "Warp Time With Cooldown Minutes Calculated",
+                    "type": "number"
+                }
+            },
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasStatMiningPiece": {
+        "name": "StarAtlasStatMiningPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Stat Mine",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Statistic Mining a Resource",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "planet_name": {
+                    "default": "",
+                    "description": "Planet Name",
+                    "title": "Planet Name",
+                    "type": "string"
+                },
+                "location_x": {
+                    "description": "location_x",
+                    "title": "Location X",
+                    "type": "integer"
+                },
+                "location_y": {
+                    "description": "location_y",
+                    "title": "Location Y",
+                    "type": "integer"
+                },
+                "food_consumption_rate": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "food_consumption_rate",
+                    "title": "Food Consumption Rate"
+                },
+                "ammo_consumption_rate": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "ammo_consumption_rate",
+                    "title": "Ammo Consumption Rate"
+                },
+                "mining_rate": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mining_rate",
+                    "title": "Mining Rate"
+                },
+                "max_mining_duration": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "max_mining_duration",
+                    "title": "Max Mining Duration"
+                },
+                "mine_time_passed": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mine_time_passed",
+                    "title": "Mine Time Passed"
+                },
+                "mine_time_in_minutes_passed": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mine_time_in_minutes_passed",
+                    "title": "Mine Time In Minutes Passed"
+                },
+                "food_consumed": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "food_consumed",
+                    "title": "Food Consumed"
+                },
+                "ammo_consumed": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "ammo_consumed",
+                    "title": "Ammo Consumed"
+                },
+                "resource_mined": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "resource_mined",
+                    "title": "Resource Mined"
+                },
+                "time_food_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_food_remaining",
+                    "title": "Time Food Remaining"
+                },
+                "time_food_in_minutes_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_food_in_minutes_remaining",
+                    "title": "Time Food In Minutes Remaining"
+                },
+                "time_ammo_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_ammo_remaining",
+                    "title": "Time Ammo Remaining"
+                },
+                "time_ammo_in_minutes_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_ammo_in_minutes_remaining",
+                    "title": "Time Ammo In Minutes Remaining"
+                },
+                "sim_current_cargo": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "sim_current_cargo",
+                    "title": "Sim Current Cargo"
+                },
+                "time_cargo_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_cargo_remaining",
+                    "title": "Time Cargo Remaining"
+                },
+                "time_cargo_in_minutes_remaining": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_cargo_in_minutes_remaining",
+                    "title": "Time Cargo In Minutes Remaining"
+                },
+                "time_limit": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_limit",
+                    "title": "Time Limit"
+                },
+                "time_limit_in_minutes": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "time_limit_in_minutes",
+                    "title": "Time Limit In Minutes"
+                },
+                "mine_end": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mine_end",
+                    "title": "Mine End"
+                },
+                "mine_end_string": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mine_end_string",
+                    "title": "Mine End String"
+                },
+                "mine_end_iso_string": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "mine_end_iso_string",
+                    "title": "Mine End Iso String"
+                },
+                "sage_resource_mined": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "sage_resource_mined",
+                    "title": "Sage Resource Mined"
+                },
+                "system_richness": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "system_richness",
+                    "title": "System Richness"
+                },
+                "resource_hardness": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "resource_hardness",
+                    "title": "Resource Hardness"
+                }
+            },
+            "required": [
+                "location_x",
+                "location_y",
+                "food_consumption_rate",
+                "ammo_consumption_rate",
+                "mining_rate",
+                "max_mining_duration",
+                "mine_time_passed",
+                "mine_time_in_minutes_passed",
+                "food_consumed",
+                "ammo_consumed",
+                "resource_mined",
+                "time_food_remaining",
+                "time_food_in_minutes_remaining",
+                "time_ammo_remaining",
+                "time_ammo_in_minutes_remaining",
+                "sim_current_cargo",
+                "time_cargo_remaining",
+                "time_cargo_in_minutes_remaining",
+                "time_limit",
+                "time_limit_in_minutes",
+                "mine_end",
+                "mine_end_string",
+                "mine_end_iso_string",
+                "sage_resource_mined",
+                "system_richness",
+                "resource_hardness"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasSubwarpPiece": {
+        "name": "StarAtlasSubwarpPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Subwarp",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Subwarping a Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Subwarp Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Subwarp to coordinate X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Subwarp to coordinate Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Subwarp Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "destination_x": {
+                    "description": "Subwarped to X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Subwarped to Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
     },
     "StarAtlasUndockPiece": {
         "name": "StarAtlasUndockPiece",
@@ -1729,95 +2454,7 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUndockPiece"
-    },
-    "StarAtlasDockPiece": {
-        "name": "StarAtlasDockPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Dock",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "StarAtlas Docking Fleet",
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "branchPiece": false,
-        "input_schema": {
-            "description": "StarAtlas Dock Piece Input Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "destination_x": {
-                    "default": 0,
-                    "description": "Number of seconds to sleep",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "default": 0,
-                    "description": "Number of seconds to sleep",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "StarAtlas Dock Piece Output Model",
-            "properties": {
-                "fleet_name": {
-                    "default": "",
-                    "description": "Fleet Name",
-                    "title": "Fleet Name",
-                    "type": "string"
-                },
-                "destination_x": {
-                    "description": "Dock executed on X",
-                    "title": "Destination X",
-                    "type": "integer"
-                },
-                "destination_y": {
-                    "description": "Dock executed on Y",
-                    "title": "Destination Y",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "destination_x",
-                "destination_y"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasDockPiece"
+        "source_url": null
     },
     "StarAtlasUnloadAmmoPiece": {
         "name": "StarAtlasUnloadAmmoPiece",
@@ -1911,10 +2548,10 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUnloadAmmoPiece"
+        "source_url": null
     },
-    "StarAtlasScanPiece": {
-        "name": "StarAtlasScanPiece",
+    "StarAtlasUnloadCargoPiece": {
+        "name": "StarAtlasUnloadCargoPiece",
         "dependency": {
             "dockerfile": "Dockerfile_1",
             "requirements_file": null
@@ -1923,7 +2560,7 @@
             "Star Atlas"
         ],
         "style": {
-            "node_label": "Scan",
+            "node_label": "Unload Cargo",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
@@ -1934,7 +2571,301 @@
                 "cursor": "pointer"
             }
         },
-        "description": "StarAtlas Scanning with a Fleet",
+        "description": "Star Atlas Unloading Cargo from Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Unload Cargo Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "resource_mint": {
+                    "default": "",
+                    "description": "Resource to Load Cargo",
+                    "title": "Resource Mint",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Unload Cargo Piece Output Model",
+            "properties": {
+                "resource_mint_unloaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Resource Mint Unloaded",
+                    "type": "string"
+                },
+                "amount_unloaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Unloaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "resource_mint_unloaded",
+                "amount_unloaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasUnloadCrewPiece": {
+        "name": "StarAtlasUnloadCrewPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Unload Crew",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Unloading Crew from Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Unload Crew Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Unload Crew Piece Output Model",
+            "properties": {
+                "amount_unloaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Unloaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "amount_unloaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasUnloalFuelPiece": {
+        "name": "StarAtlasUnloalFuelPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Unload Fuel",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Unloading Cargo from Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Unload Fuel Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "amount": {
+                    "default": "",
+                    "description": "Amount of Resource",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Unload Fuel Piece Output Model",
+            "properties": {
+                "amount_unloaded": {
+                    "description": "Amount Resource loaded",
+                    "title": "Amount Unloaded",
+                    "type": "integer"
+                },
+                "destination_x": {
+                    "description": "Load Cargo executed on X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Load Cargo executed on Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "amount_unloaded",
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
+    },
+    "StarAtlasUpgradeStarbasePiece": {
+        "name": "StarAtlasUpgradeStarbasePiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Upgrade Starbase",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Upgrading Starbase",
         "container_resources": {
             "requests": {
                 "cpu": 100,
@@ -1975,6 +2906,94 @@
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasScanPiece"
+        "source_url": null
+    },
+    "StarAtlasWarpPiece": {
+        "name": "StarAtlasWarpPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Warp",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Warping a Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Warp Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "destination_x": {
+                    "default": 0,
+                    "description": "Warp to coordinate X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Warp to coordinate Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Warp Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "destination_x": {
+                    "description": "Warped to X",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "description": "Warped to Y",
+                    "title": "Destination Y",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "destination_x",
+                "destination_y"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": null
     }
 }
