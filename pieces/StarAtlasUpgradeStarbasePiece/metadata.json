@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Upgrading Starbase",
+        "node_label": "Upgrade Starbase",
         "icon_class_name": "fa-solid:database"
     }
 }

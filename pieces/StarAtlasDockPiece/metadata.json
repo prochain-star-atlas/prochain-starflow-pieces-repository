@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Docking",
+        "node_label": "Dock",
         "icon_class_name": "fa-solid:database"
     }
 }

@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Scanning",
+        "node_label": "Scan",
         "icon_class_name": "fa-solid:database"
     }
 }

@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Warping",
+        "node_label": "Warp",
         "icon_class_name": "fa-solid:database"
     }
 }

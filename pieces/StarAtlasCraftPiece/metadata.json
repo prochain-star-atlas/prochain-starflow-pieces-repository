@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Crafting",
+        "node_label": "Craft",
         "icon_class_name": "fa-solid:database"
     }
 }

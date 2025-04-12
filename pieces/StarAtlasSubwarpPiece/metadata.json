@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Subwarping",
+        "node_label": "Subwarp",
         "icon_class_name": "fa-solid:database"
     }
 }

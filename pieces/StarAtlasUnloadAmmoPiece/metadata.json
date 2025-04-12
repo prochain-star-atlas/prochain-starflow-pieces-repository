@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Unloading Ammo",
+        "node_label": "Unload Ammo",
         "icon_class_name": "fa-solid:database"
     }
 }

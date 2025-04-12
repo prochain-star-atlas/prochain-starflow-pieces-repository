@@ -1,6 +1,6 @@
 {
-    "name": "StarAtlasLoadCargoPiece",
-    "description": "StarAtlas Loading Cargo to Fleet",
+    "name": "StarAtlasLoadFuelPiece",
+    "description": "StarAtlas Loading Fuel to Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Loading Cargo",
+        "node_label": "Load Fuel",
         "icon_class_name": "fa-solid:database"
     }
 }

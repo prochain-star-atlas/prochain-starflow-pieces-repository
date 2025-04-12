@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Mining",
+        "node_label": "Mine",
         "icon_class_name": "fa-solid:database"
     }
 }

@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Unloading Cargo",
+        "node_label": "Unload Fuel",
         "icon_class_name": "fa-solid:database"
     }
 }

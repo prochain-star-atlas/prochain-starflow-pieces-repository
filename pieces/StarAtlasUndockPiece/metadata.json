@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Undocking",
+        "node_label": "Undock",
         "icon_class_name": "fa-solid:database"
     }
 }

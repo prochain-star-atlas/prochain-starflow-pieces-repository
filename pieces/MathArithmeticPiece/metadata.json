@@ -10,7 +10,7 @@
         "mathematics"
     ],
     "style": {
-        "node_label": "Mathematics",
+        "node_label": "Math Logic",
         "icon_class_name": "fa-solid:file-alt"
     }
 }

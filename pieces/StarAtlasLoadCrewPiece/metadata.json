@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Loading Crew",
+        "node_label": "Load Crew",
         "icon_class_name": "fa-solid:database"
     }
 }
