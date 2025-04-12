@@ -60,10 +60,10 @@ class StarAtlasStatCargoPiece(BasePiece):
 
         for fleet_item in response_raw_json:
             if fleet_item.label == fleet_name:
-                fuel_amount = fleet_item.fuelCnt
-                ammo_amount = fleet_item.ammoCnt
-                for fleet_cargo in fleet_item.fleetCargo:
-                    if fleet_cargo.pubKey != fleet_item.fuelToken and fleet_cargo.pubKey != fleet_item.ammoToken:
+                fuel_amount = fleet_item["fuelCnt"]
+                ammo_amount = fleet_item["ammoCnt"]
+                for fleet_cargo in fleet_item["fleetCargo"]:
+                    if fleet_cargo["pubKey"] != fleet_item["fuelToken"] and fleet_cargo["pubKey"] != fleet_item["ammoToken"]:
                         cargo_list.append(fleet_cargo)
 
         return (fuel_amount, ammo_amount, cargo_list)
@@ -73,8 +73,8 @@ class StarAtlasStatCargoPiece(BasePiece):
         all_cargo = self.get_fleet_all_cargo_and_fuel_ammo(fleet_name, bearer_token)
 
         for cargo_item in all_cargo[2]:
-            if cargo_item.tokenMint == resource_item:
-                return cargo_item.tokenAmount
+            if cargo_item["tokenMint"] == resource_item:
+                return cargo_item["tokenAmount"]
 
         return 0
 
@@ -102,9 +102,9 @@ class StarAtlasStatCargoPiece(BasePiece):
         c_list = []
         for ac in all_cargos[2]:
             c_list.append(CargoModel(
-                cargo_label=ac.tokenLabel,
-                cargo_mint=ac.tokenMint,
-                cargo_amount=ac.tokenAmount))
+                cargo_label=ac["tokenLabel"],
+                cargo_mint=ac["tokenMint"],
+                cargo_amount=ac["tokenAmount"]))
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)

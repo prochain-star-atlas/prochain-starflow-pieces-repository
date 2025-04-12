@@ -170,8 +170,10 @@ class StarAtlasMiningPiece(BasePiece):
             response_fleet_mining_calculation = requests.get(url_formatted_fleet_mining_calculation, headers=headers, verify=False)
             response_fleet_mining_calculation_json = response_fleet_mining_calculation.json()
 
-            self.logger.info(f"Waiting mining for ", response_fleet_mining_calculation_json.result.timeLimit, " seconds")
-            time.sleep(response_fleet_mining_calculation_json.result.timeLimit)       
+            wait_time_mining = response_fleet_mining_calculation_json["result"]["timeLimit"]
+
+            self.logger.info(f"Waiting mining for {wait_time_mining} seconds")
+            time.sleep(wait_time_mining)       
 
             url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
             res_action1 = self.retry_put_request(url_formated_stop_mining, client_token_loggedin)

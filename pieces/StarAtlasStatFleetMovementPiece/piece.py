@@ -47,14 +47,14 @@ class StarAtlasStatFleetMovementPiece(BasePiece):
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
         
-    def get_fleet_stat_movement_request(self, fleet_name, resource_item, bearer_token):
+    def get_fleet_stat_movement_request(self, fleet_name, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
         url_formated_list_fleet = self.url_get_fleet_movement_calculation.format(fleet_name)
         response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
-        return response_raw_json.result
+        return response_raw_json["result"]
         
     def piece_function(self, input_data: InputModel):
 
@@ -78,12 +78,12 @@ class StarAtlasStatFleetMovementPiece(BasePiece):
         # Return output
         return OutputModel(
             fleet_name=input_data.fleet_name,
-            transport_mode=fleet_stat_movement.transportMode,
-            end_time=fleet_stat_movement.endTime,
-            end_time_remaining=fleet_stat_movement.endTimeRemaining,
-            end_time_remaining_in_minutes=fleet_stat_movement.endTimeRemainingInMinutes,
-            from_sector_x=fleet_stat_movement.fromSectorX,
-            from_sector_y=fleet_stat_movement.fromSectorY,
-            to_sector_x=fleet_stat_movement.toSectorX,
-            to_sector_y=fleet_stat_movement.toSectorY,
+            transport_mode=fleet_stat_movement["transportMode"],
+            end_time=fleet_stat_movement["endTime"],
+            end_time_remaining=fleet_stat_movement["endTimeRemaining"],
+            end_time_remaining_in_minutes=fleet_stat_movement["endTimeRemainingInMinutes"],
+            from_sector_x=fleet_stat_movement["fromSectorX"],
+            from_sector_y=fleet_stat_movement["fromSectorY"],
+            to_sector_x=fleet_stat_movement["toSectorX"],
+            to_sector_y=fleet_stat_movement["toSectorY"],
         )

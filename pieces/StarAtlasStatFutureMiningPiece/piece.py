@@ -54,7 +54,7 @@ class StarAtlasStatFutureMiningPiece(BasePiece):
         response_raw = requests.get(url_formated_mining_calculation, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
-        return response_raw_json.result
+        return response_raw_json["result"]
 
     def piece_function(self, input_data: InputModel):
 
@@ -66,7 +66,7 @@ class StarAtlasStatFutureMiningPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        future_mining_calc = self.response_raw_json(fleet_name=input_data.fleet_name, 
+        future_mining_calc = self.get_future_mining_calculation(fleet_name=input_data.fleet_name, 
                                                 resourceMint=input_data.resource_mint, 
                                                 starbaseX=input_data.starbase_x, 
                                                 starbaseY=input_data.starbase_y, 
@@ -85,17 +85,17 @@ class StarAtlasStatFutureMiningPiece(BasePiece):
         return OutputModel(
             fleet_name=input_data.fleet_name,
             resource_mint_mined=input_data.resource_mint,
-            mining_duration=future_mining_calc.miningDuration,
-            mining_duration_in_minutes=future_mining_calc.miningDurationInMinutes,
-            amount_mined=future_mining_calc.amountMined,
-            fuel_needed_warp=future_mining_calc.fuelNeededWarp,
-            fuel_needed_half_warp=future_mining_calc.fuelNeededHalfWarp,
-            fuel_needed_subwarp=future_mining_calc.fuelNeededSubWarp,
-            ammo_for_duration=future_mining_calc.ammoForDuration,
-            food_for_duration=future_mining_calc.foodForDuration,
-            resource_hardness=future_mining_calc.resourceHardness,
-            system_richness=future_mining_calc.systemRichness,
-            mine_item=future_mining_calc.mineItem,
-            sage_resource=future_mining_calc.sageResource,
-            planet=future_mining_calc.planet
+            mining_duration=future_mining_calc["miningDuration"],
+            mining_duration_in_minutes=future_mining_calc["miningDurationInMinutes"],
+            amount_mined=future_mining_calc["amountMined"],
+            fuel_needed_warp=future_mining_calc["fuelNeededWarp"],
+            fuel_needed_half_warp=future_mining_calc["fuelNeededHalfWarp"],
+            fuel_needed_subwarp=future_mining_calc["fuelNeededSubWarp"],
+            ammo_for_duration=future_mining_calc["ammoForDuration"],
+            food_for_duration=future_mining_calc["foodForDuration"],
+            resource_hardness=future_mining_calc["resourceHardness"],
+            system_richness=future_mining_calc["systemRichness"],
+            mine_item=future_mining_calc["mineItem"],
+            sage_resource=future_mining_calc["sageResource"],
+            planet=future_mining_calc["planet"]
         )

@@ -75,7 +75,7 @@ class StarAtlasStatMiningFleetPiece(BasePiece):
         response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
-        return response_raw_json.result
+        return response_raw_json["result"]
         
     def piece_function(self, input_data: InputModel):
 
@@ -99,31 +99,31 @@ class StarAtlasStatMiningFleetPiece(BasePiece):
         # Return output
         return OutputModel(
             fleet_name=input_data.fleet_name,
-            planet_name=fleet_mining_stat.planetName,
-            location_x=fleet_mining_stat.destX,
-            location_y=fleet_mining_stat.destY,
-            food_consumption_rate=fleet_mining_stat.foodConsumptionRate,
-            ammo_consumption_rate=fleet_mining_stat.ammoConsumptionRate,
-            mining_rate=fleet_mining_stat.miningRate,
-            max_mining_duration=fleet_mining_stat.maxMiningDuration,
-            mine_time_passed=fleet_mining_stat.mineTimePassed,
-            mine_time_in_minutes_passed=fleet_mining_stat.mineTimeInMinutesPassed,
-            food_consumed=fleet_mining_stat.foodConsumed,
-            ammo_consumed=fleet_mining_stat.ammoConsumed,
-            resource_mined=fleet_mining_stat.resourceMined,
-            time_food_remaining=fleet_mining_stat.timeFoodRemaining,
-            time_food_in_minutes_remaining=fleet_mining_stat.timeFoodInMinutesRemaining,
-            time_ammo_remaining=fleet_mining_stat.timeAmmoRemaining,
-            time_ammo_in_minutes_remaining=fleet_mining_stat.timeAmmoInMinutesRemaining,
-            sim_current_cargo=fleet_mining_stat.simCurrentCargo,
-            time_cargo_remaining=fleet_mining_stat.timeCargoRemaining,
-            time_cargo_in_minutes_remaining=fleet_mining_stat.timeCargoInMinutesRemaining,
-            time_limit=fleet_mining_stat.timeLimit,
-            time_limit_in_minutes=fleet_mining_stat.timeLimitInMinutes,
-            mine_end=fleet_mining_stat.mineEnd,
-            mine_end_string=fleet_mining_stat.mineEndString,
-            mine_end_iso_string=fleet_mining_stat.mineEndIsoString,
-            sage_resource_mined=fleet_mining_stat.sageResourceMined,
-            system_richness=fleet_mining_stat.systemRichness,
-            resource_hardness=fleet_mining_stat.resourceHardness,
+            planet_name=fleet_mining_stat["planetName"],
+            location_x=fleet_mining_stat["destX"],
+            location_y=fleet_mining_stat["destY"],
+            food_consumption_rate=fleet_mining_stat["foodConsumptionRate"],
+            ammo_consumption_rate=fleet_mining_stat["ammoConsumptionRate"],
+            mining_rate=fleet_mining_stat["miningRate"],
+            max_mining_duration=fleet_mining_stat["maxMiningDuration"],
+            mine_time_passed=fleet_mining_stat["mineTimePassed"],
+            mine_time_in_minutes_passed=fleet_mining_stat["mineTimeInMinutesPassed"],
+            food_consumed=fleet_mining_stat["foodConsumed"],
+            ammo_consumed=fleet_mining_stat["ammoConsumed"],
+            resource_mined=fleet_mining_stat["resourceMined"],
+            time_food_remaining=fleet_mining_stat["timeFoodRemaining"],
+            time_food_in_minutes_remaining=fleet_mining_stat["timeFoodInMinutesRemaining"],
+            time_ammo_remaining=fleet_mining_stat["timeAmmoRemaining"],
+            time_ammo_in_minutes_remaining=fleet_mining_stat["timeAmmoInMinutesRemaining"],
+            sim_current_cargo=fleet_mining_stat["simCurrentCargo"],
+            time_cargo_remaining=fleet_mining_stat["timeCargoRemaining"],
+            time_cargo_in_minutes_remaining=fleet_mining_stat["timeCargoInMinutesRemaining"],
+            time_limit=fleet_mining_stat["timeLimit"],
+            time_limit_in_minutes=fleet_mining_stat["timeLimitInMinutes"],
+            mine_end=fleet_mining_stat["mineEnd"],
+            mine_end_string=fleet_mining_stat["mineEndString"],
+            mine_end_iso_string=fleet_mining_stat["mineEndIsoString"],
+            sage_resource_mined=fleet_mining_stat["sageResourceMined"],
+            system_richness=fleet_mining_stat["systemRichness"],
+            resource_hardness=fleet_mining_stat["resourceHardness"],
         )

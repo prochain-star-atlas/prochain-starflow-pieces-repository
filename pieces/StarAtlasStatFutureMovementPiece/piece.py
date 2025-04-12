@@ -53,7 +53,7 @@ class StarAtlasStatFutureMovementPiece(BasePiece):
         response_raw = requests.get(url_formated_future_mov_stats, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
-        return response_raw_json.result
+        return response_raw_json["result"]
         
 
     def piece_function(self, input_data: InputModel):
@@ -87,13 +87,13 @@ class StarAtlasStatFutureMovementPiece(BasePiece):
             position_y = input_data.position_y,
             destination_x = input_data.destination_x,
             destination_y = input_data.destination_y,
-            distance_calculated = fleet_future_mov.distanceCalculated,
-            subwarp_fuel_required = fleet_future_mov.subwarpFuelRequired,
-            subwarp_time_calculated = fleet_future_mov.subwarpTimeCalculated,
-            subwarp_time_minutes_calculated = fleet_future_mov.subwarpTimeCalculatedInMinutes,
-            warp_fuel_required = fleet_future_mov.warpFuelRequired,
-            warp_time_calculated = fleet_future_mov.warpTimeCalculated,
-            warp_time_minutes_calculated = fleet_future_mov.warpTimeCalculatedInMinutes,
-            warp_time_with_cooldown_calculated = fleet_future_mov.warpTimeCalculatedWithCooldown,
-            warp_time_with_cooldown_minutes_calculated = fleet_future_mov.warpTimeCalculatedWithCooldownInMinutes
+            distance_calculated = fleet_future_mov["distanceCalculated"],
+            subwarp_fuel_required = fleet_future_mov["subwarpFuelRequired"],
+            subwarp_time_calculated = fleet_future_mov["subwarpTimeCalculated"],
+            subwarp_time_minutes_calculated = fleet_future_mov["subwarpTimeCalculatedInMinutes"],
+            warp_fuel_required = fleet_future_mov["warpFuelRequired"],
+            warp_time_calculated = fleet_future_mov["warpTimeCalculated"],
+            warp_time_minutes_calculated = fleet_future_mov["warpTimeCalculatedInMinutes"],
+            warp_time_with_cooldown_calculated = fleet_future_mov["warpTimeCalculatedWithCooldown"],
+            warp_time_with_cooldown_minutes_calculated = fleet_future_mov["warpTimeCalculatedWithCooldownInMinutes"]
         )

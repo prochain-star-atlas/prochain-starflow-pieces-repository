@@ -155,9 +155,10 @@ class StarAtlasSubwarpPiece(BasePiece):
             url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
             response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
             response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
-
-            self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
-            time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
+            
+            wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
+            self.logger.info(f"waiting movement for {wait_time_movement} seconds")
+            time.sleep(wait_time_movement)
 
             url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
             res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
