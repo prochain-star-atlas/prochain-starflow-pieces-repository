@@ -47,12 +47,12 @@ class OutputModel(BaseModel):
     StarAtlas Load Cargo Piece Output Model
     """
 
-    resource_mint_loaded: int = Field(
-        description="Amount Resource loaded"
+    resource_mint_loaded: str = Field(
+        description="Mint loaded"
     )
 
     amount_loaded: int = Field(
-        description="Amount Resource loaded"
+        description="Amount loaded"
     )
 
     destination_x: int = Field(

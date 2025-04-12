@@ -157,7 +157,8 @@ class StarAtlasLoadCargoPiece(BasePiece):
 
         # Return output
         return OutputModel(
-            resource_mint_loaded=input_data.amount,
+            resource_mint_loaded=input_data.resource_mint,
+            amount_loaded=input_data.amount,
             destination_x=input_data.destination_x,
             destination_y=input_data.destination_y,
         )
