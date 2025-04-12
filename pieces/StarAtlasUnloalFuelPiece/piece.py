@@ -6,10 +6,9 @@ import time as timew
 import requests
 from keycloak import KeycloakOpenID
 import os
-import time
 import json
 
-class StarAtlasSubwarpPiece(BasePiece):
+class StarAtlasUnloadCargoPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -25,9 +24,9 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
         self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
-        self.url_put_start_subwarp = self.read_secrets('URL_PUT_START_SUBWARP')
-        self.url_put_exit_subwarp = self.read_secrets('URL_PUT_START_EXITSUBWARP')
-        self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
+        self.url_put_unload_cargo = self.read_secrets('URL_PUT_UNLOAD_CARGO')
+        self.url_put_unload_ammo = self.read_secrets('URL_PUT_UNLOAD_AMMO')
+        self.url_put_unload_fuel = self.read_secrets('URL_PUT_UNLOAD_FUEL')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
@@ -106,7 +105,7 @@ class StarAtlasSubwarpPiece(BasePiece):
                 timew.sleep(wait_time)
                 retries += 1
 
-        return success       
+        return success
 
     def get_fleet_position(self, fleet_name, bearer_token) -> Any:
 
@@ -122,7 +121,7 @@ class StarAtlasSubwarpPiece(BasePiece):
             if fleet["label"] == fleet_name:
 
                 return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
-
+            
         return returnState
 
     def piece_function(self, input_data: InputModel):
@@ -132,53 +131,31 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
-        headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
         fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        if fleet_position[0] == input_data.destination_x or fleet_position[1] == input_data.destination_y:
-            return OutputModel(
-                fleet_name=input_data.fleet_name,
-                destination_x=input_data.destination_x,
-                destination_y=input_data.destination_y,
-            )
-
-        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+        if fleet_position[0] != input_data.destination_x or fleet_position[1] != input_data.destination_y:
+            raise Exception("Fleet Position not correct")
 
         self.logger.info(f"")
 
-        if fleet_status == FleetStatusEnum.Idle:
+        fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-            url_formated_start_subwarp = self.url_put_start_subwarp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-            res_action1 = self.retry_put_request(url_formated_start_subwarp, client_token_loggedin)
-            if not(res_action1):
-                    raise Exception("subwarp Error") 
-            time.sleep(20)
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+        if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
 
-        if fleet_status == FleetStatusEnum.MoveSubwarp:
-
-            self.logger.info(f"Calculate Movement Duration")
-            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
-            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
-            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
-
-            self.logger.info(f"waiting movement for {response_fleet_movement_calculation_json.result.endTimeRemaining} seconds")
-            time.sleep(response_fleet_movement_calculation_json.result.endTimeRemaining)
-
-            url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
-            res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+            self.logger.info(f"Unloading Fuel for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount}")
+            url_formated_unload_fuel = self.url_put_unload_fuel.format(input_data.fleet_name, input_data.amount, input_data.destination_x, input_data.destination_y)
+            res_action2 = self.retry_put_request(url_formated_unload_fuel, client_token_loggedin)
             if not(res_action2):
-                    raise Exception("subwarp exit error") 
-            
-            time.sleep(20)
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
-            if fleet_status == FleetStatusEnum.Idle:
-                self.logger.info(f"Exit subwarp success")
+                raise Exception("unload_fuel Error") 
+                
+            self.logger.info(f"Fuel Unloaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount}")
 
             self.logger.info(f"")
+
+        else:
+            raise Exception("Fleet is in incorrect state")
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
@@ -187,7 +164,7 @@ class StarAtlasSubwarpPiece(BasePiece):
 
         # Return output
         return OutputModel(
-            fleet_name=input_data.fleet_name,
+            amount_unloaded = input_data.amount,
             destination_x=input_data.destination_x,
             destination_y=input_data.destination_y,
         )

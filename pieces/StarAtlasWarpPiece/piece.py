@@ -107,6 +107,23 @@ class StarAtlasWarpPiece(BasePiece):
                     returnState = FleetStatusEnum.Idle
 
         return returnState
+    
+    def get_fleet_position(self, fleet_name, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = (0, 0)
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
+
+        return returnState
 
 
     def piece_function(self, input_data: InputModel):
@@ -118,6 +135,15 @@ class StarAtlasWarpPiece(BasePiece):
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
+
+        fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+        if fleet_position[0] == input_data.destination_x or fleet_position[1] == input_data.destination_y:
+            return OutputModel(
+                fleet_name=input_data.fleet_name,
+                destination_x=input_data.destination_x,
+                destination_y=input_data.destination_y,
+            )   
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 

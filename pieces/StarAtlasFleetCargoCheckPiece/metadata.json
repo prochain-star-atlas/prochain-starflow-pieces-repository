@@ -1,6 +1,6 @@
 {
-    "name": "StarAtlasFleetStatusCheckPiece",
-    "description": "Check StarAtlas Status of Fleet",
+    "name": "StarAtlasFleetCargoCheckPiece",
+    "description": "Check StarAtlas Cargo of Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Status Check",
+        "node_label": "Cargo Check",
         "icon_class_name": "fa-solid:database"
     }
 }

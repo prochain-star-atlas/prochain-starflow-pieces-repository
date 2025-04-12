@@ -1,10 +1,9 @@
 {
-    "name": "StarAtlasFleetStatusCheckPiece",
-    "description": "Check StarAtlas Status of Fleet",
+    "name": "StarAtlasLoadCargoPiece",
+    "description": "StarAtlas Loading Cargo to Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
-    "branchPiece": true,
     "container_resources": {
         "requests": {
             "cpu": 100,
@@ -15,11 +14,12 @@
             "memory": 512
         }
     },
+    "branchPiece": false,
     "tags": [
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Status Check",
+        "node_label": "Loading Cargo",
         "icon_class_name": "fa-solid:database"
     }
 }

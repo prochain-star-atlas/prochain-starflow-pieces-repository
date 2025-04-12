@@ -109,7 +109,7 @@ class StarAtlasDockPiece(BasePiece):
 
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
-        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
         returnState = (0, 0)

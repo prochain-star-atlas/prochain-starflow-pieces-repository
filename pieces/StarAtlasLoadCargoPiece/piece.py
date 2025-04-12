@@ -107,6 +107,23 @@ class StarAtlasLoadCargoPiece(BasePiece):
 
         return returnState
 
+    def get_fleet_position(self, fleet_name, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = (0, 0)
+
+        for fleet in response_raw_json:
+
+            if fleet["label"] == fleet_name:
+
+                return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
+            
+        return returnState
+
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -116,6 +133,11 @@ class StarAtlasLoadCargoPiece(BasePiece):
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
         self.logger.info(f"Token for {self.username_target_var} created")
 
+        fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+        if fleet_position[0] != input_data.destination_x or fleet_position[1] != input_data.destination_y:
+            raise Exception("Fleet Position not correct") 
+
         self.logger.info(f"")
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
@@ -123,21 +145,11 @@ class StarAtlasLoadCargoPiece(BasePiece):
         if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
 
             self.logger.info(f"Loading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
-            if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
-                url_formated_load_ammo = self.url_put_load_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action = self.retry_put_request(url_formated_load_ammo, client_token_loggedin)
-                if not(res_action):
-                    raise Exception("load_ammo Error") 
-            elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
-                url_formated_load_fuel = self.url_put_load_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action = self.retry_put_request(url_formated_load_fuel, client_token_loggedin)
-                if not(res_action):
-                    raise Exception("load_fuel Error") 
-            else:
-                url_formated_load_cargo = self.url_put_load_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action = self.retry_put_request(url_formated_load_cargo, client_token_loggedin)
-                if not(res_action):
-                    raise Exception("load_cargo Error") 
+            url_formated_load_cargo = self.url_put_load_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
+            res_action = self.retry_put_request(url_formated_load_cargo, client_token_loggedin)
+            if not(res_action):
+                raise Exception("load_cargo Error") 
+
             
             self.logger.info(f"Cargo Loaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
 
@@ -153,6 +165,7 @@ class StarAtlasLoadCargoPiece(BasePiece):
 
         # Return output
         return OutputModel(
+            resource_mint_loaded=input_data.amount,
             destination_x=input_data.destination_x,
             destination_y=input_data.destination_y,
         )

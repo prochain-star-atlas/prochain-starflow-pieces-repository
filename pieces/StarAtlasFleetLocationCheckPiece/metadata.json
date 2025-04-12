@@ -1,9 +1,10 @@
 {
-    "name": "StarAtlasFleetStatusRetrievePiece",
-    "description": "StarAtlas Status of Fleet",
+    "name": "StarAtlasFleetLocationCheckPiece",
+    "description": "Check Star Atlas Location of Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
+    "branchPiece": true,
     "container_resources": {
         "requests": {
             "cpu": 100,
@@ -14,12 +15,11 @@
             "memory": 512
         }
     },
-    "branchPiece": false,
     "tags": [
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Fleet Status Retrieve",
+        "node_label": "Location Check",
         "icon_class_name": "fa-solid:database"
     }
 }
