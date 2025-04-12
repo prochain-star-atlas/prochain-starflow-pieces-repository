@@ -1121,12 +1121,12 @@
             "description": "StarAtlas Load Cargo Piece Output Model",
             "properties": {
                 "resource_mint_loaded": {
-                    "description": "Amount Resource loaded",
+                    "description": "Mint loaded",
                     "title": "Resource Mint Loaded",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "amount_loaded": {
-                    "description": "Amount Resource loaded",
+                    "description": "Amount loaded",
                     "title": "Amount Loaded",
                     "type": "integer"
                 },
