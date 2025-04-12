@@ -140,7 +140,7 @@ class StarAtlasDockPiece(BasePiece):
             if not(res_action):
                 raise Exception("Dock Error") 
 
-            sleep(20)
+            sleep(10)
 
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 

@@ -130,7 +130,7 @@ class StarAtlasWarpPiece(BasePiece):
 
         fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        if fleet_position[0] == input_data.destination_x or fleet_position[1] == input_data.destination_y:
+        if fleet_position[0] == input_data.destination_x and fleet_position[1] == input_data.destination_y:
             return OutputModel(
                 fleet_name=input_data.fleet_name,
                 destination_x=input_data.destination_x,
@@ -165,7 +165,7 @@ class StarAtlasWarpPiece(BasePiece):
             if not(res_action2):
                 raise Exception("exit_warp Error") 
             
-            time.sleep(20)
+            time.sleep(10)
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
             if fleet_status == FleetStatusEnum.Idle:
