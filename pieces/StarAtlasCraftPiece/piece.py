@@ -3,7 +3,7 @@ from .models import InputModel, OutputModel
 from time import sleep
 
 
-class ExampleSleepPiece(BasePiece):
+class StarAtlasCraftPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:

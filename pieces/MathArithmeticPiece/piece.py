@@ -3,7 +3,7 @@ from .models import InputEnum, InputModel, OutputModel
 from pathlib import Path
 
 
-class LogPiece(BasePiece):
+class MathArithmeticPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel):
 

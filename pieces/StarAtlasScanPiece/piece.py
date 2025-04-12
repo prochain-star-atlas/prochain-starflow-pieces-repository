@@ -3,7 +3,7 @@ from .models import InputModel, OutputModel
 from time import sleep
 
 
-class ExampleSleepPiece(BasePiece):
+class StarAtlasScanPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel):
 

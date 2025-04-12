@@ -59,29 +59,29 @@ class StarAtlasFleetLocationCheckPiece(BasePiece):
             if fleet["label"] == fleet_name:
 
                 if fleet["state"] == "StarbaseLoadingBay":
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
                 elif fleet["state"] == "ReadyToExitWarp":
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
                 elif fleet["state"] == "MineAsteroid":
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
                 elif fleet["state"] == "MoveWarp":
-                    x = fleet["endingCoords"][0]
-                    y = fleet["endingCoords"][1]
+                    x = fleet["endingCoords"]["x"]
+                    y = fleet["endingCoords"]["y"]
                 elif fleet["state"] == "MoveSubwarp":
-                    x = fleet["endingCoords"][0]
-                    y = fleet["endingCoords"][1]
+                    x = fleet["endingCoords"]["x"]
+                    y = fleet["endingCoords"]["y"]
                 elif fleet["state"] == "Respawn":
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
                 elif fleet["state"] == "StarbaseUpgrade":
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
                 else:
-                    x = fleet["startingCoords"][0]
-                    y = fleet["startingCoords"][1]
+                    x = fleet["startingCoords"]["x"]
+                    y = fleet["startingCoords"]["y"]
 
         return (x,y)
 

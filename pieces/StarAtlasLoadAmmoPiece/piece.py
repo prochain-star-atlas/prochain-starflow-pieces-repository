@@ -8,7 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import json
 
-class StarAtlasLoadCargoPiece(BasePiece):
+class StarAtlasLoadAmmoPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
