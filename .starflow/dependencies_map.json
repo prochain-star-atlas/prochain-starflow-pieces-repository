@@ -5,22 +5,31 @@
             "requirements_file": null
         },
         "pieces": [
-            "StarAtlasUpgradeStarbasePiece",
-            "StarAtlasScanPiece",
-            "StarAtlasUnloadCargoPiece",
+            "StarAtlasMiningPiece",
+            "StarAtlasLoadAmmoPiece",
+            "StarAtlasLoadFuelPiece",
+            "MathArithmeticPiece",
+            "StarAtlasUnloalFuelPiece",
+            "StarAtlasGetFleetStatusPiece",
             "StarAtlasSubwarpPiece",
-            "SleepPiece",
+            "StarAtlasFleetStatusCheckPiece",
             "StarAtlasLoadCargoPiece",
+            "StarAtlasUnloadCargoPiece",
+            "SleepPiece",
+            "StarAtlasUnloadCrewPiece",
+            "StarAtlasUpgradeStarbasePiece",
+            "StarAtlasFleetLocationCheckPiece",
             "StarAtlasWarpPiece",
+            "StarAtlasFleetCargoCheckPiece",
+            "StarAtlasLoadCrewPiece",
             "LogPiece",
             "StarAtlasCraftPiece",
-            "StarAtlasFleetStatusCheckPiece",
-            "StarAtlasFleetStatusRetrievePiece",
             "StarAtlasUndockPiece",
-            "StarAtlasMiningPiece",
-            "StarAtlasDockPiece"
+            "StarAtlasDockPiece",
+            "StarAtlasUnloadAmmoPiece",
+            "StarAtlasScanPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.18-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.21-group0"
     }
 }
