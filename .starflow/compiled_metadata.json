@@ -1197,7 +1197,7 @@
                 },
                 "resource_mint": {
                     "default": "",
-                    "description": "Resource to Load Cargo",
+                    "description": "Resource to Unload Cargo",
                     "title": "Resource Mint",
                     "type": "string"
                 },
