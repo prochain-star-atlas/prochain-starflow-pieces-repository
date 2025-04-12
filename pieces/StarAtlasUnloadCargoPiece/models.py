@@ -23,7 +23,7 @@ class InputModel(BaseModel):
 
     resource_mint: str = Field(
         default="",
-        description="Resource to Load Cargo",
+        description="Resource to Unload Cargo",
     )
 
     amount: int = Field(

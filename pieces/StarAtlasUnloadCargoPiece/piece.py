@@ -136,22 +136,10 @@ class StarAtlasUnloadCargoPiece(BasePiece):
 
         if fleet_status == FleetStatusEnum.StarbaseLoadingBay:
 
-            self.logger.info(f"Unloading Cargo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
-            if input_data.resource_mint == "ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK":
-                url_formated_unload_ammo = self.url_put_unload_ammo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action1 = self.retry_put_request(url_formated_unload_ammo, client_token_loggedin)
-                if not(res_action1):
-                    raise Exception("unload_ammo Error") 
-            elif input_data.resourceMint == "fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim":
-                url_formated_unload_fuel = self.url_put_unload_fuel.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action2 = self.retry_put_request(url_formated_unload_fuel, client_token_loggedin)
-                if not(res_action2):
-                    raise Exception("unload_fuel Error") 
-            else:
-                url_formated_unload_cargo = self.url_put_unload_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
-                res_action3 = self.retry_put_request(url_formated_unload_cargo, client_token_loggedin)
-                if not(res_action3):
-                    raise Exception("unload_cargo Error") 
+            url_formated_unload_cargo = self.url_put_unload_cargo.format(input_data.fleet_name, input_data.resource_mint, input_data.amount, input_data.destination_x, input_data.destination_y)
+            res_action3 = self.retry_put_request(url_formated_unload_cargo, client_token_loggedin)
+            if not(res_action3):
+                raise Exception("unload_cargo Error") 
                 
             self.logger.info(f"Cargo Unloaded successfully for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount} {input_data.resource_mint}")
 
