@@ -25,15 +25,15 @@ class OutputModel(BaseModel):
         description="Transport Mode"
     )
 
-    end_time: Decimal = Field(
+    end_time: float = Field(
         description="end_time"
     )
 
-    end_time_remaining: Decimal = Field(
+    end_time_remaining: float = Field(
         description="end_time_remaining"
     )
 
-    end_time_remaining_in_minutes: Decimal = Field(
+    end_time_remaining_in_minutes: float = Field(
         description="end_time_remaining_in_minutes"
     )
 

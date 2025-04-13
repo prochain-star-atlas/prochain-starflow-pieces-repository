@@ -11,6 +11,14 @@ class InputModel(BaseModel):
         default="default value",
         description='Input string to be logged.'
     )
+    input_int: int = Field(
+        default=0,
+        description='Input string to be logged.'
+    )
+    input_float: float = Field(
+        default=0,
+        description='Input string to be logged.'
+    )
 
 
 class OutputModel(BaseModel):
