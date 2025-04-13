@@ -57,11 +57,11 @@ class StarAtlasFleetCargoCheckPiece(BasePiece):
         ammo_amount = 0
 
         for fleet_item in response_raw_json:
-            if fleet_item.label == fleet_name:
-                fuel_amount = fleet_item.fuelCnt
-                ammo_amount = fleet_item.ammoCnt
-                for fleet_cargo in fleet_item.fleetCargo:
-                    if fleet_cargo.pubKey != fleet_item.fuelToken and fleet_cargo.pubKey != fleet_item.ammoToken:
+            if fleet_item["label"] == fleet_name:
+                fuel_amount = fleet_item["fuelCnt"]
+                ammo_amount = fleet_item["ammoCnt"]
+                for fleet_cargo in fleet_item["fleetCargo"]:
+                    if fleet_cargo["pubKey"] != fleet_item["fuelToken"] and fleet_cargo["pubKey"] != fleet_item["ammoToken"]:
                         cargo_list.append(fleet_cargo)
 
         return (fuel_amount, ammo_amount, cargo_list)
@@ -71,8 +71,8 @@ class StarAtlasFleetCargoCheckPiece(BasePiece):
         all_cargo = self.get_fleet_all_cargo_and_fuel_ammo(fleet_name, bearer_token)
 
         for cargo_item in all_cargo[2]:
-            if cargo_item.tokenMint == resource_item:
-                return cargo_item.tokenAmount
+            if cargo_item["tokenMint"] == resource_item:
+                return cargo_item["tokenAmount"]
 
         return 0
 
