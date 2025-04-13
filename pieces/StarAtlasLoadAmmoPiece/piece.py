@@ -1,4 +1,5 @@
 from typing import Any
+from ..CommonLibrary.common_utils import retry_put_request
 from starflow.base_piece import BasePiece
 from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
@@ -45,27 +46,6 @@ class StarAtlasLoadAmmoPiece(BasePiece):
     def openid_impersonate_user_token_keycloak(self, token_logged_in) -> Any:
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
-        
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
-                success = True
-                self.logger.info("Successfully executed !")
-                json_formatted_str = json.dumps(response_raw_json, indent=2)
-                self.logger.info(json_formatted_str)           
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
-
-        return success
 
     def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
 
@@ -138,7 +118,7 @@ class StarAtlasLoadAmmoPiece(BasePiece):
 
             self.logger.info(f"Loading Ammo for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount}")
             url_formated_load_ammo = self.url_put_load_ammo.format(input_data.fleet_name, input_data.amount, input_data.destination_x, input_data.destination_y)
-            res_action = self.retry_put_request(url_formated_load_ammo, client_token_loggedin)
+            res_action = retry_put_request(url_formated_load_ammo, client_token_loggedin)
             if not(res_action):
                 raise Exception("load_ammo Error") 
             

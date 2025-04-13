@@ -1,4 +1,5 @@
 from typing import Any
+from ..CommonLibrary.common_utils import retry_put_request
 from starflow.base_piece import BasePiece
 from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
@@ -77,28 +78,7 @@ class StarAtlasSubwarpPiece(BasePiece):
                 else:
                     returnState = FleetStatusEnum.Idle
 
-        return returnState
-
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
-                success = True
-                self.logger.info("Successfully executed !")
-                json_formatted_str = json.dumps(response_raw_json, indent=2)
-                self.logger.info(json_formatted_str)           
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
-
-        return success    
+        return returnState  
 
     def get_fleet_position(self, fleet_name, bearer_token) -> Any:
 
@@ -133,7 +113,7 @@ class StarAtlasSubwarpPiece(BasePiece):
         if fleet_status == FleetStatusEnum.ReadyToExitWarp:
 
             url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
-            res_action2 = self.retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+            res_action2 = retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
             if not(res_action2):
                     raise Exception("subwarp exit error") 
             

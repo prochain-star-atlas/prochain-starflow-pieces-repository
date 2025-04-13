@@ -1,4 +1,5 @@
 from typing import Any
+from ..CommonLibrary.common_utils import retry_put_request
 from starflow.base_piece import BasePiece
 from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
@@ -79,27 +80,6 @@ class StarAtlasLoadCrewPiece(BasePiece):
 
         return returnState
 
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
-                success = True
-                self.logger.info("Successfully executed !")
-                json_formatted_str = json.dumps(response_raw_json, indent=2)
-                self.logger.info(json_formatted_str)           
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
-
-        return success
-
     def get_fleet_position(self, fleet_name, bearer_token) -> Any:
 
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
@@ -140,7 +120,7 @@ class StarAtlasLoadCrewPiece(BasePiece):
             self.logger.info(f"Loading Crew for {input_data.fleet_name} on ({input_data.destination_x}, {input_data.destination_y}), {input_data.amount}")
 
             url_formated_load_crew = self.url_put_load_crew_fleet.format(input_data.destination_x, input_data.destination_y, input_data.fleet_name, input_data.amount)
-            res_action1 = self.retry_put_request(url_formated_load_crew, client_token_loggedin)
+            res_action1 = retry_put_request(url_formated_load_crew, client_token_loggedin)
             if not(res_action1):
                 raise Exception("load_crew Error") 
                 

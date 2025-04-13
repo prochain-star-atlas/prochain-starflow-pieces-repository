@@ -1,4 +1,5 @@
 from typing import Any
+from ..CommonLibrary.common_utils import retry_put_request
 from starflow.base_piece import BasePiece
 from .models import FleetStatusEnum, InputModel, OutputModel
 from time import sleep
@@ -46,27 +47,6 @@ class StarAtlasMiningPiece(BasePiece):
     def openid_impersonate_user_token_keycloak(self, token_logged_in) -> Any:
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
-        
-    def retry_put_request(self, url_formated, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-        retries = 0
-        success = False
-        wait_time = 5
-        while not success and retries <= 5:
-            try:
-                response_raw = requests.put(url_formated, headers=headers, verify=False)
-                response_raw_json = response_raw.json()
-                success = True
-                self.logger.info("Successfully executed !")
-                json_formatted_str = json.dumps(response_raw_json, indent=2)
-                self.logger.info(json_formatted_str)           
-                
-            except Exception as e:
-                self.logger.error(f"Waiting {wait_time} secs and re-trying...")
-                timew.sleep(wait_time)
-                retries += 1
-
-        return success
 
     def get_fleet_status(self, fleet_name, bearer_token) -> FleetStatusEnum:
 
@@ -120,7 +100,7 @@ class StarAtlasMiningPiece(BasePiece):
 
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
-        response_raw = requests.put(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
         returnState = (0, 0)
@@ -157,7 +137,7 @@ class StarAtlasMiningPiece(BasePiece):
             self.logger.info(f"")       
 
             url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
-            res_action = self.retry_put_request(url_formated_start_mining, client_token_loggedin)
+            res_action = retry_put_request(url_formated_start_mining, client_token_loggedin)
             if not(res_action):
                     raise Exception("mining error") 
             time.sleep(20)
@@ -181,7 +161,7 @@ class StarAtlasMiningPiece(BasePiece):
             client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
 
             url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
-            res_action1 = self.retry_put_request(url_formated_stop_mining, client_token_loggedin)
+            res_action1 = retry_put_request(url_formated_stop_mining, client_token_loggedin)
             if not(res_action1):
                     raise Exception("load_ammo Error") 
             time.sleep(10)

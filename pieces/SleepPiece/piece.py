@@ -2,7 +2,6 @@ from starflow.base_piece import BasePiece
 from .models import InputModel, OutputModel
 from time import sleep
 
-
 class SleepPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel):
