@@ -87,6 +87,61 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasMiningPiece"
     },
+    "ConvertIntToFloatPiece": {
+        "name": "ConvertIntToFloatPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "default",
+            "mathematics"
+        ],
+        "style": {
+            "node_label": "Convert Int To Float",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:file-alt",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "A ConvertIntToFloatPiece Piece.",
+        "branchPiece": false,
+        "input_schema": {
+            "description": "ConvertIntToFloatPiece Input Model",
+            "properties": {
+                "input_int": {
+                    "default": 0,
+                    "description": "Input Int.",
+                    "title": "Input Int",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "ConvertIntToFloatPiece Output Model",
+            "properties": {
+                "result_output_float": {
+                    "description": "Result from operation.",
+                    "title": "Result Output Float",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "result_output_float"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/ConvertIntToFloatPiece"
+    },
     "StarAtlasStatFutureMiningPiece": {
         "name": "StarAtlasStatFutureMiningPiece",
         "dependency": {
@@ -180,7 +235,7 @@
                 "mining_duration": {
                     "description": "Amount Resource Mined",
                     "title": "Mining Duration",
-                    "type": "integer"
+                    "type": "number"
                 },
                 "mining_duration_in_minutes": {
                     "description": "Amount Resource Mined",
@@ -195,17 +250,17 @@
                 "fuel_needed_warp": {
                     "description": "Amount Resource Mined",
                     "title": "Fuel Needed Warp",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "fuel_needed_half_warp": {
                     "description": "Amount Resource Mined",
                     "title": "Fuel Needed Half Warp",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "fuel_needed_subwarp": {
                     "description": "Amount Resource Mined",
                     "title": "Fuel Needed Subwarp",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "ammo_for_duration": {
                     "description": "Amount Resource Mined",
@@ -264,6 +319,61 @@
         },
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStatFutureMiningPiece"
+    },
+    "ConvertFloatToIntPiece": {
+        "name": "ConvertFloatToIntPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "default",
+            "mathematics"
+        ],
+        "style": {
+            "node_label": "Convert Float To Int",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:file-alt",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "A ConvertFloatToIntPiece Piece.",
+        "branchPiece": false,
+        "input_schema": {
+            "description": "ConvertFloatToIntPiece Input Model",
+            "properties": {
+                "input_float": {
+                    "default": 0,
+                    "description": "Input Float.",
+                    "title": "Input Float",
+                    "type": "number"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "ConvertFloatToIntPiece Output Model",
+            "properties": {
+                "result_output_int": {
+                    "description": "Result from operation.",
+                    "title": "Result Output Int",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "result_output_int"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/ConvertFloatToIntPiece"
     },
     "StarAtlasLoadAmmoPiece": {
         "name": "StarAtlasLoadAmmoPiece",
@@ -1654,17 +1764,17 @@
                 "food_consumed": {
                     "description": "food_consumed",
                     "title": "Food Consumed",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "ammo_consumed": {
                     "description": "ammo_consumed",
                     "title": "Ammo Consumed",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "resource_mined": {
                     "description": "resource_mined",
                     "title": "Resource Mined",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "time_food_remaining": {
                     "description": "time_food_remaining",
@@ -1689,7 +1799,7 @@
                 "sim_current_cargo": {
                     "description": "sim_current_cargo",
                     "title": "Sim Current Cargo",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "time_cargo_remaining": {
                     "description": "time_cargo_remaining",
@@ -1719,27 +1829,27 @@
                 "mine_end_string": {
                     "description": "mine_end_string",
                     "title": "Mine End String",
-                    "type": "number"
+                    "type": "string"
                 },
                 "mine_end_iso_string": {
                     "description": "mine_end_iso_string",
                     "title": "Mine End Iso String",
-                    "type": "number"
+                    "type": "string"
                 },
                 "sage_resource_mined": {
                     "description": "sage_resource_mined",
                     "title": "Sage Resource Mined",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "system_richness": {
                     "description": "system_richness",
                     "title": "System Richness",
-                    "type": "number"
+                    "type": "integer"
                 },
                 "resource_hardness": {
                     "description": "resource_hardness",
                     "title": "Resource Hardness",
-                    "type": "number"
+                    "type": "integer"
                 }
             },
             "required": [
