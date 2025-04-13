@@ -492,31 +492,57 @@
             },
             "description": "MathArithmeticPiece Input Model",
             "properties": {
-                "left_input": {
+                "left_input_int": {
                     "anyOf": [
                         {
-                            "type": "number"
+                            "type": "integer"
                         },
                         {
-                            "type": "string"
+                            "type": "null"
                         }
                     ],
-                    "default": "",
-                    "description": "Left Input.",
-                    "title": "Left Input"
+                    "default": 0,
+                    "description": "Left Input Int.",
+                    "title": "Left Input Int"
                 },
-                "right_input": {
+                "right_input_int": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0,
+                    "description": "Right Input Int.",
+                    "title": "Right Input Int"
+                },
+                "left_input_float": {
                     "anyOf": [
                         {
                             "type": "number"
                         },
                         {
-                            "type": "string"
+                            "type": "null"
                         }
                     ],
-                    "default": "",
-                    "description": "Right Input.",
-                    "title": "Right Input"
+                    "default": 0,
+                    "description": "Left Input Float.",
+                    "title": "Left Input Float"
+                },
+                "right_input_float": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0,
+                    "description": "Right Input Float.",
+                    "title": "Right Input Float"
                 },
                 "operation_enum": {
                     "allOf": [
@@ -534,21 +560,20 @@
         "output_schema": {
             "description": "MathArithmeticPiece Output Model",
             "properties": {
-                "result_output": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
+                "result_output_float": {
                     "description": "Result from operation.",
-                    "title": "Result Output"
+                    "title": "Result Output Float",
+                    "type": "number"
+                },
+                "result_output_int": {
+                    "description": "Result from operation.",
+                    "title": "Result Output Int",
+                    "type": "integer"
                 }
             },
             "required": [
-                "result_output"
+                "result_output_float",
+                "result_output_int"
             ],
             "title": "OutputModel",
             "type": "object"
@@ -800,40 +825,19 @@
                     "type": "string"
                 },
                 "end_time": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "end_time",
-                    "title": "End Time"
+                    "title": "End Time",
+                    "type": "number"
                 },
                 "end_time_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "end_time_remaining",
-                    "title": "End Time Remaining"
+                    "title": "End Time Remaining",
+                    "type": "number"
                 },
                 "end_time_remaining_in_minutes": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "end_time_remaining_in_minutes",
-                    "title": "End Time Remaining In Minutes"
+                    "title": "End Time Remaining In Minutes",
+                    "type": "number"
                 },
                 "from_sector_x": {
                     "description": "from_sector_x",
@@ -1618,292 +1622,124 @@
                     "type": "integer"
                 },
                 "food_consumption_rate": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "food_consumption_rate",
-                    "title": "Food Consumption Rate"
+                    "title": "Food Consumption Rate",
+                    "type": "number"
                 },
                 "ammo_consumption_rate": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "ammo_consumption_rate",
-                    "title": "Ammo Consumption Rate"
+                    "title": "Ammo Consumption Rate",
+                    "type": "number"
                 },
                 "mining_rate": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mining_rate",
-                    "title": "Mining Rate"
+                    "title": "Mining Rate",
+                    "type": "number"
                 },
                 "max_mining_duration": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "max_mining_duration",
-                    "title": "Max Mining Duration"
+                    "title": "Max Mining Duration",
+                    "type": "number"
                 },
                 "mine_time_passed": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mine_time_passed",
-                    "title": "Mine Time Passed"
+                    "title": "Mine Time Passed",
+                    "type": "number"
                 },
                 "mine_time_in_minutes_passed": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mine_time_in_minutes_passed",
-                    "title": "Mine Time In Minutes Passed"
+                    "title": "Mine Time In Minutes Passed",
+                    "type": "number"
                 },
                 "food_consumed": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "food_consumed",
-                    "title": "Food Consumed"
+                    "title": "Food Consumed",
+                    "type": "number"
                 },
                 "ammo_consumed": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "ammo_consumed",
-                    "title": "Ammo Consumed"
+                    "title": "Ammo Consumed",
+                    "type": "number"
                 },
                 "resource_mined": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "resource_mined",
-                    "title": "Resource Mined"
+                    "title": "Resource Mined",
+                    "type": "number"
                 },
                 "time_food_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_food_remaining",
-                    "title": "Time Food Remaining"
+                    "title": "Time Food Remaining",
+                    "type": "number"
                 },
                 "time_food_in_minutes_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_food_in_minutes_remaining",
-                    "title": "Time Food In Minutes Remaining"
+                    "title": "Time Food In Minutes Remaining",
+                    "type": "number"
                 },
                 "time_ammo_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_ammo_remaining",
-                    "title": "Time Ammo Remaining"
+                    "title": "Time Ammo Remaining",
+                    "type": "number"
                 },
                 "time_ammo_in_minutes_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_ammo_in_minutes_remaining",
-                    "title": "Time Ammo In Minutes Remaining"
+                    "title": "Time Ammo In Minutes Remaining",
+                    "type": "number"
                 },
                 "sim_current_cargo": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "sim_current_cargo",
-                    "title": "Sim Current Cargo"
+                    "title": "Sim Current Cargo",
+                    "type": "number"
                 },
                 "time_cargo_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_cargo_remaining",
-                    "title": "Time Cargo Remaining"
+                    "title": "Time Cargo Remaining",
+                    "type": "number"
                 },
                 "time_cargo_in_minutes_remaining": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_cargo_in_minutes_remaining",
-                    "title": "Time Cargo In Minutes Remaining"
+                    "title": "Time Cargo In Minutes Remaining",
+                    "type": "number"
                 },
                 "time_limit": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_limit",
-                    "title": "Time Limit"
+                    "title": "Time Limit",
+                    "type": "number"
                 },
                 "time_limit_in_minutes": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "time_limit_in_minutes",
-                    "title": "Time Limit In Minutes"
+                    "title": "Time Limit In Minutes",
+                    "type": "number"
                 },
                 "mine_end": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mine_end",
-                    "title": "Mine End"
+                    "title": "Mine End",
+                    "type": "number"
                 },
                 "mine_end_string": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mine_end_string",
-                    "title": "Mine End String"
+                    "title": "Mine End String",
+                    "type": "number"
                 },
                 "mine_end_iso_string": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "mine_end_iso_string",
-                    "title": "Mine End Iso String"
+                    "title": "Mine End Iso String",
+                    "type": "number"
                 },
                 "sage_resource_mined": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "sage_resource_mined",
-                    "title": "Sage Resource Mined"
+                    "title": "Sage Resource Mined",
+                    "type": "number"
                 },
                 "system_richness": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "system_richness",
-                    "title": "System Richness"
+                    "title": "System Richness",
+                    "type": "number"
                 },
                 "resource_hardness": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
                     "description": "resource_hardness",
-                    "title": "Resource Hardness"
+                    "title": "Resource Hardness",
+                    "type": "number"
                 }
             },
             "required": [
@@ -2411,6 +2247,18 @@
                     "description": "Input string to be logged.",
                     "title": "Input Str",
                     "type": "string"
+                },
+                "input_int": {
+                    "default": 0,
+                    "description": "Input string to be logged.",
+                    "title": "Input Int",
+                    "type": "integer"
+                },
+                "input_float": {
+                    "default": 0,
+                    "description": "Input string to be logged.",
+                    "title": "Input Float",
+                    "type": "number"
                 }
             },
             "title": "InputModel",
