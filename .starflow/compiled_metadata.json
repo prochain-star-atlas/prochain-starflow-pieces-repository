@@ -2566,25 +2566,25 @@
                 },
                 "position_x": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "position_x",
                     "title": "Position X",
                     "type": "integer"
                 },
                 "position_y": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "position_y",
                     "title": "Position Y",
                     "type": "integer"
                 },
                 "destination_x": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "destination_x",
                     "title": "Destination X",
                     "type": "integer"
                 },
                 "destination_y": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "destination_y",
                     "title": "Destination Y",
                     "type": "integer"
                 }
@@ -2603,79 +2603,79 @@
                 },
                 "position_x": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "position_x",
                     "title": "Position X",
                     "type": "integer"
                 },
                 "position_y": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "position_y",
                     "title": "Position Y",
                     "type": "integer"
                 },
                 "destination_x": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "destination_x",
                     "title": "Destination X",
                     "type": "integer"
                 },
                 "destination_y": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "destination_y",
                     "title": "Destination Y",
                     "type": "integer"
                 },
                 "distance_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "distance_calculated",
                     "title": "Distance Calculated",
                     "type": "integer"
                 },
                 "subwarp_fuel_required": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "subwarp_fuel_required",
                     "title": "Subwarp Fuel Required",
                     "type": "integer"
                 },
                 "subwarp_time_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "subwarp_time_calculated",
                     "title": "Subwarp Time Calculated",
                     "type": "number"
                 },
                 "subwarp_time_minutes_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "subwarp_time_minutes_calculated",
                     "title": "Subwarp Time Minutes Calculated",
                     "type": "number"
                 },
                 "warp_fuel_required": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "warp_fuel_required",
                     "title": "Warp Fuel Required",
                     "type": "integer"
                 },
                 "warp_time_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "warp_time_calculated",
                     "title": "Warp Time Calculated",
                     "type": "number"
                 },
                 "warp_time_minutes_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "warp_time_minutes_calculated",
                     "title": "Warp Time Minutes Calculated",
                     "type": "number"
                 },
                 "warp_time_with_cooldown_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "warp_time_with_cooldown_calculated",
                     "title": "Warp Time With Cooldown Calculated",
                     "type": "number"
                 },
                 "warp_time_with_cooldown_minutes_calculated": {
                     "default": 0,
-                    "description": "Number of seconds to sleep",
+                    "description": "warp_time_with_cooldown_minutes_calculated",
                     "title": "Warp Time With Cooldown Minutes Calculated",
                     "type": "number"
                 }
