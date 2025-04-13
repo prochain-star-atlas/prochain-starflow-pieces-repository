@@ -59,15 +59,15 @@ class OutputModel(BaseModel):
         description="mine_time_in_minutes_passed"
     )
 
-    food_consumed: float = Field(
+    food_consumed: int = Field(
         description="food_consumed"
     )
 
-    ammo_consumed: float = Field(
+    ammo_consumed: int = Field(
         description="ammo_consumed"
     )
 
-    resource_mined: float = Field(
+    resource_mined: int = Field(
         description="resource_mined"
     )
 
@@ -87,7 +87,7 @@ class OutputModel(BaseModel):
         description="time_ammo_in_minutes_remaining"
     )
 
-    sim_current_cargo: float = Field(
+    sim_current_cargo: int = Field(
         description="sim_current_cargo"
     )
 
@@ -111,23 +111,23 @@ class OutputModel(BaseModel):
         description="mine_end"
     )
 
-    mine_end_string: float = Field(
+    mine_end_string: str = Field(
         description="mine_end_string"
     )
 
-    mine_end_iso_string: float = Field(
+    mine_end_iso_string: str = Field(
         description="mine_end_iso_string"
     )
 
-    sage_resource_mined: float = Field(
+    sage_resource_mined: int = Field(
         description="sage_resource_mined"
     )
 
-    system_richness: float = Field(
+    system_richness: int = Field(
         description="system_richness"
     )
 
-    resource_hardness: float = Field(
+    resource_hardness: int = Field(
         description="resource_hardness"
     )
 

@@ -8,6 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import time
 import json
+import math
 
 class StarAtlasStatCargoPiece(BasePiece):
 
@@ -60,8 +61,8 @@ class StarAtlasStatCargoPiece(BasePiece):
 
         for fleet_item in response_raw_json:
             if fleet_item.label == fleet_name:
-                fuel_amount = fleet_item["fuelCnt"]
-                ammo_amount = fleet_item["ammoCnt"]
+                fuel_amount = math.ceil(fleet_item["fuelCnt"])
+                ammo_amount = math.ceil(fleet_item["ammoCnt"])
                 for fleet_cargo in fleet_item["fleetCargo"]:
                     if fleet_cargo["pubKey"] != fleet_item["fuelToken"] and fleet_cargo["pubKey"] != fleet_item["ammoToken"]:
                         cargo_list.append(fleet_cargo)
@@ -97,7 +98,7 @@ class StarAtlasStatCargoPiece(BasePiece):
 
         if input_data.resource_mint is not None:
             amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, bearer_token=client_token_loggedin)
-            mint_cargo_requested = ""
+            mint_cargo_requested = input_data.resource_mint
             
         c_list = []
         for ac in all_cargos[2]:
@@ -115,8 +116,8 @@ class StarAtlasStatCargoPiece(BasePiece):
         return OutputModel(
             fleet_name=input_data.fleet_name,
             cargo_list=c_list,
-            fuel_amount=all_cargos[0],
-            ammo_amount=all_cargos[1],
+            fuel_amount=math.ceil(all_cargos[0]),
+            ammo_amount=math.ceil(all_cargos[1]),
             resource_mint_requested=mint_cargo_requested,
-            resource_amount_requested=amount_cargo
+            resource_amount_requested=math.ceil(amount_cargo)
         )

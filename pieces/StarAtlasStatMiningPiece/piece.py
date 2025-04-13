@@ -8,6 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import time
 import json
+import math
 
 class StarAtlasStatMiningFleetPiece(BasePiece):
 
@@ -87,14 +88,14 @@ class StarAtlasStatMiningFleetPiece(BasePiece):
             max_mining_duration=fleet_mining_stat["maxMiningDuration"],
             mine_time_passed=fleet_mining_stat["mineTimePassed"],
             mine_time_in_minutes_passed=fleet_mining_stat["mineTimeInMinutesPassed"],
-            food_consumed=fleet_mining_stat["foodConsumed"],
-            ammo_consumed=fleet_mining_stat["ammoConsumed"],
-            resource_mined=fleet_mining_stat["resourceMined"],
+            food_consumed=math.ceil(fleet_mining_stat["foodConsumed"]),
+            ammo_consumed=math.ceil(fleet_mining_stat["ammoConsumed"]),
+            resource_mined=math.ceil(fleet_mining_stat["resourceMined"]),
             time_food_remaining=fleet_mining_stat["timeFoodRemaining"],
             time_food_in_minutes_remaining=fleet_mining_stat["timeFoodInMinutesRemaining"],
             time_ammo_remaining=fleet_mining_stat["timeAmmoRemaining"],
             time_ammo_in_minutes_remaining=fleet_mining_stat["timeAmmoInMinutesRemaining"],
-            sim_current_cargo=fleet_mining_stat["simCurrentCargo"],
+            sim_current_cargo=math.ceil(fleet_mining_stat["simCurrentCargo"]),
             time_cargo_remaining=fleet_mining_stat["timeCargoRemaining"],
             time_cargo_in_minutes_remaining=fleet_mining_stat["timeCargoInMinutesRemaining"],
             time_limit=fleet_mining_stat["timeLimit"],

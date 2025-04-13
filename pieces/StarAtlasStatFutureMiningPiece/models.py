@@ -50,7 +50,7 @@ class OutputModel(BaseModel):
         description="Resource Mint Mined"
     )
 
-    mining_duration: int = Field(
+    mining_duration: float = Field(
         description="Amount Resource Mined"
     )
 
@@ -62,15 +62,15 @@ class OutputModel(BaseModel):
         description="Amount Resource Mined"
     )
 
-    fuel_needed_warp: float = Field(
+    fuel_needed_warp: int = Field(
         description="Amount Resource Mined"
     )
 
-    fuel_needed_half_warp: float = Field(
+    fuel_needed_half_warp: int = Field(
         description="Amount Resource Mined"
     )
 
-    fuel_needed_subwarp: float = Field(
+    fuel_needed_subwarp: int = Field(
         description="Amount Resource Mined"
     )
 

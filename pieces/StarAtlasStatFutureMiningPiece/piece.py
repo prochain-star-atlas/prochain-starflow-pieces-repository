@@ -8,6 +8,7 @@ from keycloak import KeycloakOpenID
 import os
 import time
 import json
+import math
 
 class StarAtlasStatFutureMiningPiece(BasePiece):
 
@@ -87,12 +88,12 @@ class StarAtlasStatFutureMiningPiece(BasePiece):
             resource_mint_mined=input_data.resource_mint,
             mining_duration=future_mining_calc["miningDuration"],
             mining_duration_in_minutes=future_mining_calc["miningDurationInMinutes"],
-            amount_mined=future_mining_calc["amountMined"],
-            fuel_needed_warp=future_mining_calc["fuelNeededWarp"],
-            fuel_needed_half_warp=future_mining_calc["fuelNeededHalfWarp"],
-            fuel_needed_subwarp=future_mining_calc["fuelNeededSubWarp"],
-            ammo_for_duration=future_mining_calc["ammoForDuration"],
-            food_for_duration=future_mining_calc["foodForDuration"],
+            amount_mined=math.ceil(future_mining_calc["amountMined"]),
+            fuel_needed_warp=math.ceil(future_mining_calc["fuelNeededWarp"]),
+            fuel_needed_half_warp=math.ceil(future_mining_calc["fuelNeededHalfWarp"]),
+            fuel_needed_subwarp=math.ceil(future_mining_calc["fuelNeededSubWarp"]),
+            ammo_for_duration=math.ceil(future_mining_calc["ammoForDuration"]),
+            food_for_duration=math.ceil(future_mining_calc["foodForDuration"]),
             resource_hardness=future_mining_calc["resourceHardness"],
             system_richness=future_mining_calc["systemRichness"],
             mine_item=future_mining_calc["mineItem"],
