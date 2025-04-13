@@ -13,22 +13,22 @@ class InputModel(BaseModel):
 
     position_x: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="position_x",
     )
 
     position_y: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="position_y",
     )
 
     destination_x: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="destination_x",
     )
 
     destination_y: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="destination_y",
     )
 
 
@@ -43,67 +43,67 @@ class OutputModel(BaseModel):
 
     position_x: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="position_x",
     )
 
     position_y: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="position_y",
     )
 
     destination_x: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="destination_x",
     )
 
     destination_y: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="destination_y",
     )
 
     distance_calculated: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="distance_calculated",
     )
 
     subwarp_fuel_required: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="subwarp_fuel_required",
     )
 
     subwarp_time_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="subwarp_time_calculated",
     )
 
     subwarp_time_minutes_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="subwarp_time_minutes_calculated",
     )
 
     warp_fuel_required: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="warp_fuel_required",
     )
 
     warp_time_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="warp_time_calculated",
     )
 
     warp_time_minutes_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="warp_time_minutes_calculated",
     )
 
     warp_time_with_cooldown_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="warp_time_with_cooldown_calculated",
     )
 
     warp_time_with_cooldown_minutes_calculated: float = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="warp_time_with_cooldown_minutes_calculated",
     )
 
     

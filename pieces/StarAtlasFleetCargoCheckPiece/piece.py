@@ -1,6 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece, BaseBranchOutputModel
-from .models import FleetStatusEnum, InputModel
+from .models import InputModel
 from time import sleep
 import time as timew
 import requests

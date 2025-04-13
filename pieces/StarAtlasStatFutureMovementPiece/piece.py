@@ -1,7 +1,6 @@
 from typing import Any
 from starflow.base_piece import BasePiece
-from .models import FleetStatusEnum, InputModel, OutputModel
-from time import sleep
+from .models import InputModel, OutputModel
 import time as timew
 import requests
 from keycloak import KeycloakOpenID
@@ -25,8 +24,6 @@ class StarAtlasStatFutureMovementPiece(BasePiece):
         self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
         self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
-        self.url_put_start_mining = self.read_secrets('URL_PUT_START_MINING')
-        self.url_put_stop_mining = self.read_secrets('URL_PUT_STOP_MINING')
         self.url_get_fleet_future_movement_statistics = self.read_secrets('URL_GET_FLEET_FUTURE_MOVEMENT_STATISTICS')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
@@ -58,12 +55,13 @@ class StarAtlasStatFutureMovementPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel):
 
+        self.logger.info(f"Init Piece")
+
         self.init_piece()
 
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
-        headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
         fleet_future_mov = self.get_fleet_future_movement_statistics_request(fleet_name=input_data.fleet_name, 
