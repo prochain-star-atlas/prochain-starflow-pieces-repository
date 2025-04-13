@@ -1,6 +1,6 @@
 {
-    "name": "MathArithmeticPiece",
-    "description": "A MathArithmeticPiece Piece.",
+    "name": "ConvertFloatToIntPiece",
+    "description": "A ConvertFloatToIntPiece Piece.",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -10,7 +10,7 @@
         "mathematics"
     ],
     "style": {
-        "node_label": "Math Logic",
+        "node_label": "Convert Float To Int",
         "icon_class_name": "fa-solid:file-alt"
     }
 }

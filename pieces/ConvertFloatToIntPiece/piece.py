@@ -3,7 +3,7 @@ from .models import InputModel, OutputModel
 from pathlib import Path
 import math
 
-class MathArithmeticPiece(BasePiece):
+class ConvertFloatToIntPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel):
 

@@ -5,7 +5,7 @@ from decimal import *
 
 class InputModel(BaseModel):
     """
-    MathArithmeticPiece Input Model
+    ConvertIntToFloatPiece Input Model
     """
     input_int: int = Field(
         default=0,
@@ -14,7 +14,7 @@ class InputModel(BaseModel):
     
 class OutputModel(BaseModel):
     """
-    MathArithmeticPiece Output Model
+    ConvertIntToFloatPiece Output Model
     """
     result_output_float: float = Field(
         description='Result from operation.'
