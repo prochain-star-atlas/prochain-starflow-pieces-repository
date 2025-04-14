@@ -54,28 +54,13 @@ class StarAtlasLoadAmmoPiece(BasePiece):
         response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
-        returnState = FleetStatusEnum.Idle
+        returnState = FleetStatusEnum.Respawn
 
         for fleet in response_raw_json:
 
             if fleet["label"] == fleet_name:
 
-                if fleet["state"] == "StarbaseLoadingBay":
-                    returnState = FleetStatusEnum.StarbaseLoadingBay
-                elif fleet["state"] == "ReadyToExitWarp":
-                    returnState = FleetStatusEnum.ReadyToExitWarp
-                elif fleet["state"] == "MineAsteroid":
-                    returnState = FleetStatusEnum.MineAsteroid
-                elif fleet["state"] == "MoveWarp":
-                    returnState = FleetStatusEnum.MoveWarp
-                elif fleet["state"] == "MoveSubwarp":
-                    returnState = FleetStatusEnum.MoveSubwarp
-                elif fleet["state"] == "Respawn":
-                    returnState = FleetStatusEnum.Respawn
-                elif fleet["state"] == "StarbaseUpgrade":
-                    returnState = FleetStatusEnum.StarbaseUpgrade
-                else:
-                    returnState = FleetStatusEnum.Idle
+                returnState = FleetStatusEnum[fleet["state"]]
 
         return returnState
 
