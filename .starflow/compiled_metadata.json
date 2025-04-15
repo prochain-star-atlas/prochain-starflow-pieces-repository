@@ -87,6 +87,68 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasMiningPiece"
     },
+    "StarAtlasStopMiningPiece": {
+        "name": "StarAtlasStopMiningPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Stop Mine",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "StarAtlas Stop Mining a Resource",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStopMiningPiece"
+    },
     "ConvertIntToFloatPiece": {
         "name": "ConvertIntToFloatPiece",
         "dependency": {

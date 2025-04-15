@@ -6,6 +6,7 @@
         },
         "pieces": [
             "StarAtlasMiningPiece",
+            "StarAtlasStopMiningPiece",
             "ConvertIntToFloatPiece",
             "StarAtlasStatFutureMiningPiece",
             "ConvertFloatToIntPiece",
@@ -38,6 +39,6 @@
             "StarAtlasScanPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.36-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.38-group0"
     }
 }
