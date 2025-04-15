@@ -10,7 +10,7 @@ import os
 import time
 import json
 
-class StarAtlasMiningPiece(BasePiece):
+class StarAtlasStopMiningPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
@@ -63,23 +63,7 @@ class StarAtlasMiningPiece(BasePiece):
 
                 returnState = FleetStatusEnum[fleet["state"]]
 
-        return returnState
-
-    def get_fleet_cargo_amount_request(self, fleet_name, resource_item, bearer_token):
-        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
-
-        url_formated_list_fleet = self.url_get_list_fleet.format(fleet_name)
-        response_raw = requests.get(url_formated_list_fleet, headers=headers, verify=False)
-        response_raw_json = response_raw.json()
-
-        for fleet_item in response_raw_json:
-            if fleet_item.label == fleet_name:
-                for fleet_cargo in fleet_item.fleetCargo:
-                    if fleet_cargo.tokenMint == resource_item:
-                        return fleet_cargo.tokenAmount
-
-        return 0
-        
+        return returnState        
 
     def get_fleet_position(self, fleet_name, bearer_token) -> Any:
 
@@ -113,20 +97,7 @@ class StarAtlasMiningPiece(BasePiece):
         if fleet_position[0] != input_data.destination_x and fleet_position[1] != input_data.destination_y:
             raise Exception("Fleet Position not correct") 
 
-        amount_cargo = 0
-
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
-        if fleet_status == FleetStatusEnum.Idle:
-
-            self.logger.info(f"")       
-
-            url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
-            res_action = retry_put_request(url_formated_start_mining, client_token_loggedin)
-            if not(res_action):
-                    raise Exception("mining error") 
-            time.sleep(20)
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         if fleet_status == FleetStatusEnum.MineAsteroid:
 
@@ -140,7 +111,9 @@ class StarAtlasMiningPiece(BasePiece):
 
             wait_time_mining = response_fleet_mining_calculation_json["result"]["timeLimit"]
             self.logger.info(f"Waiting mining for {wait_time_mining} seconds")
-            time.sleep(wait_time_mining)       
+
+            if wait_time_mining > 0:
+                time.sleep(wait_time_mining)       
 
             su_token_loggedin = self.openid_get_token()
             client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
@@ -148,12 +121,10 @@ class StarAtlasMiningPiece(BasePiece):
             url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
             res_action1 = retry_put_request(url_formated_stop_mining, client_token_loggedin)
             if not(res_action1):
-                    raise Exception("mining Error") 
+                    raise Exception("stop mining Error") 
             time.sleep(10)
 
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
-            amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)
 
         self.logger.info(f"")
 
@@ -164,7 +135,5 @@ class StarAtlasMiningPiece(BasePiece):
 
         # Return output
         return OutputModel(
-            fleet_name=input_data.fleet_name,
-            resource_mint_mined=input_data.resource_mint,
-            resource_amount_mined=amount_cargo,
+            fleet_name=input_data.fleet_name
         )
