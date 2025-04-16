@@ -2171,14 +2171,14 @@
                             "type": "null"
                         }
                     ],
+                    "default": 0,
                     "description": "Amount Resource Requested",
                     "title": "Resource Amount Requested"
                 }
             },
             "required": [
                 "cargo_list",
-                "resource_mint_requested",
-                "resource_amount_requested"
+                "resource_mint_requested"
             ],
             "title": "OutputModel",
             "type": "object"
@@ -2230,48 +2230,27 @@
                 },
                 "resource_mint": {
                     "default": "",
-                    "description": "Resource to request amount",
+                    "description": "resource_mint",
                     "title": "Resource Mint",
                     "type": "string"
                 },
                 "resource_amount": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": "",
-                    "description": "Resource Amount In Fleet",
-                    "title": "Resource Amount"
+                    "default": 0,
+                    "description": "resource_amount In Fleet",
+                    "title": "Resource Amount",
+                    "type": "integer"
                 },
                 "fuel_amount": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": "",
-                    "description": "Resource Amount In Fleet",
-                    "title": "Fuel Amount"
+                    "default": 0,
+                    "description": "fuel_amount In Fleet",
+                    "title": "Fuel Amount",
+                    "type": "integer"
                 },
                 "ammo_amount": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": "",
-                    "description": "Resource Amount In Fleet",
-                    "title": "Ammo Amount"
+                    "default": 0,
+                    "description": "ammo_amount In Fleet",
+                    "title": "Ammo Amount",
+                    "type": "integer"
                 }
             },
             "title": "InputModel",
