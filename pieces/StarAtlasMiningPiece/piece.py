@@ -30,6 +30,7 @@ class StarAtlasMiningPiece(BasePiece):
         self.url_put_stop_mining = self.read_secrets('URL_PUT_STOP_MINING')
         self.url_get_fleet_mining_calculation = self.read_secrets('URL_GET_FLEET_MINING_CALCULATION')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
+        self.url_get_planet_coords = self.read_secrets('URL_GET_PLANET_COORDS')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -97,6 +98,17 @@ class StarAtlasMiningPiece(BasePiece):
                 return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
 
         return returnState
+    
+
+    def get_planet_details_location_pk(self, x, y, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        url_planet_details_formated = self.url_get_planet_coords.format(x, y)
+        response_raw = requests.get(url_planet_details_formated, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        return response_raw_json[0]["planet"]["location"]
 
     def piece_function(self, input_data: InputModel):
 
@@ -113,6 +125,8 @@ class StarAtlasMiningPiece(BasePiece):
         if fleet_position[0] != input_data.destination_x and fleet_position[1] != input_data.destination_y:
             raise Exception("Fleet Position not correct") 
 
+        planet_location_pk = self.get_planet_details_location_pk(x=input_data.destination_x, y=input_data.destination_y, bearer_token=client_token_loggedin)
+
         amount_cargo = 0
 
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
@@ -121,7 +135,7 @@ class StarAtlasMiningPiece(BasePiece):
 
             self.logger.info(f"")       
 
-            url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, input_data.planet_pk)
+            url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, planet_location_pk)
             res_action = retry_put_request(url_formated_start_mining, client_token_loggedin)
             if not(res_action):
                     raise Exception("mining error") 

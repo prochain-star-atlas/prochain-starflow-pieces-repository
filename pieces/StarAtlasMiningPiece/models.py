@@ -26,9 +26,14 @@ class InputModel(BaseModel):
         description="Resource to mine",
     )
 
-    planet_pk: str = Field(
+    destination_x: int = Field(
         default=0,
-        description="Planet Public Key to Mine",
+        description="Coordinate X target starbase",
+    )
+
+    destination_y: int = Field(
+        default=0,
+        description="Coordinate Y target starbase",
     )
 
 
