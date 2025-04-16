@@ -47,11 +47,17 @@
                     "title": "Resource Mint",
                     "type": "string"
                 },
-                "planet_pk": {
+                "destination_x": {
                     "default": 0,
-                    "description": "Planet Public Key to Mine",
-                    "title": "Planet Pk",
-                    "type": "string"
+                    "description": "Coordinate X target starbase",
+                    "title": "Destination X",
+                    "type": "integer"
+                },
+                "destination_y": {
+                    "default": 0,
+                    "description": "Coordinate Y target starbase",
+                    "title": "Destination Y",
+                    "type": "integer"
                 }
             },
             "title": "InputModel",
