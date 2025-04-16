@@ -1,7 +1,7 @@
 from starflow.base_piece import BasePiece
 from .models import InputEnum, InputModel, OutputModel
 from pathlib import Path
-
+import math
 
 class MathArithmeticPiece(BasePiece):
 
@@ -15,7 +15,7 @@ class MathArithmeticPiece(BasePiece):
                 result_int = input_data.left_input_int + input_data.right_input_int
 
             if input_data.operation_enum == InputEnum.divide:
-                result_int = input_data.left_input_int / input_data.right_input_int
+                result_int = math.ceil(input_data.left_input_int / input_data.right_input_int)
 
             if input_data.operation_enum == InputEnum.multiply:
                 result_int = input_data.left_input_int * input_data.right_input_int
