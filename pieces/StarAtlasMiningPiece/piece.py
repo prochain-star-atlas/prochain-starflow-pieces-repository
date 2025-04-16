@@ -137,8 +137,6 @@ class StarAtlasMiningPiece(BasePiece):
 
             url_formated_start_mining = self.url_put_start_mining.format(input_data.fleet_name, input_data.resource_mint, planet_location_pk)
             res_action = retry_put_request(url_formated_start_mining, client_token_loggedin)
-            if not(res_action):
-                    raise Exception("mining error") 
             time.sleep(20)
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
@@ -160,9 +158,7 @@ class StarAtlasMiningPiece(BasePiece):
             client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
 
             url_formated_stop_mining = self.url_put_stop_mining.format(input_data.fleet_name)
-            res_action1 = retry_put_request(url_formated_stop_mining, client_token_loggedin)
-            if not(res_action1):
-                    raise Exception("mining Error") 
+            retry_put_request(url_formated_stop_mining, client_token_loggedin)
             time.sleep(10)
 
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
