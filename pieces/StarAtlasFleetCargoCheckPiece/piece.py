@@ -90,13 +90,13 @@ class StarAtlasFleetCargoCheckPiece(BasePiece):
         all_cargos = self.get_fleet_all_cargo_and_fuel_ammo(input_data.fleet_name, bearer_token=client_token_loggedin)
         test_check_res = False
 
-        if input_data.fuel_amount is not None:
+        if input_data.fuel_amount is not None and input_data.fuel_amount > 0:
             fuel_cargo = self.get_fleet_all_cargo_and_fuel_ammo(input_data.fleet_name, bearer_token=client_token_loggedin)
             test_check_res = fuel_cargo[0] >= input_data.fuel_amount
-        elif input_data.ammo_amount is not None:
+        elif input_data.ammo_amount is not None and input_data.ammo_amount > 0:
             ammo_cargo = self.get_fleet_all_cargo_and_fuel_ammo(input_data.fleet_name, bearer_token=client_token_loggedin)
             test_check_res = ammo_cargo[1] >= input_data.ammo_amount
-        elif input_data.resource_amount is not None:
+        elif input_data.resource_amount is not None and input_data.resource_amount > 0:
             amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, resource_item=input_data.resource_mint, bearer_token=client_token_loggedin)
             test_check_res = amount_cargo >= input_data.resource_amount
             
