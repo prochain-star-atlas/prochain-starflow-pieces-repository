@@ -63,6 +63,7 @@ class OutputModel(BaseModel):
     )
 
     resource_amount_requested: Optional[int] = Field(
+        default=0,
         description="Amount Resource Requested"
     )
 
