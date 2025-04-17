@@ -60,7 +60,7 @@ class StarAtlasStatCargoPiece(BasePiece):
         ammo_amount = 0
 
         for fleet_item in response_raw_json:
-            if fleet_item.label == fleet_name:
+            if fleet_item["label"] == fleet_name:
                 fuel_amount = math.ceil(fleet_item["fuelCnt"])
                 ammo_amount = math.ceil(fleet_item["ammoCnt"])
                 for fleet_cargo in fleet_item["fleetCargo"]:

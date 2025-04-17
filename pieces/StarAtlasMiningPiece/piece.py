@@ -74,10 +74,10 @@ class StarAtlasMiningPiece(BasePiece):
         response_raw_json = response_raw.json()
 
         for fleet_item in response_raw_json:
-            if fleet_item.label == fleet_name:
-                for fleet_cargo in fleet_item.fleetCargo:
-                    if fleet_cargo.tokenMint == resource_item:
-                        return fleet_cargo.tokenAmount
+            if fleet_item["label"] == fleet_name:
+                for fleet_cargo in fleet_item["fleetCargo"]:
+                    if fleet_cargo["tokenMint"] == resource_item:
+                        return fleet_cargo["tokenAmount"]
 
         return 0
         
