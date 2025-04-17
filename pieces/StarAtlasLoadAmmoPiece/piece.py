@@ -121,7 +121,7 @@ class StarAtlasLoadAmmoPiece(BasePiece):
 
         # Return output
         return OutputModel(
-            ammo_loaded=input_data.amount,
+            amount_loaded=input_data.amount,
             destination_x=input_data.destination_x,
             destination_y=input_data.destination_y,
         )
