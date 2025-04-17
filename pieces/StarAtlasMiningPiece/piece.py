@@ -161,6 +161,9 @@ class StarAtlasMiningPiece(BasePiece):
             retry_put_request(url_formated_stop_mining, client_token_loggedin)
             time.sleep(10)
 
+            su_token_loggedin = self.openid_get_token()
+            client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+
             amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)
 
         self.logger.info(f"")
