@@ -161,8 +161,6 @@ class StarAtlasMiningPiece(BasePiece):
             retry_put_request(url_formated_stop_mining, client_token_loggedin)
             time.sleep(10)
 
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
             amount_cargo = self.get_fleet_cargo_amount_request(input_data.fleet_name, input_data.resource_mint, client_token_loggedin)
 
         self.logger.info(f"")
