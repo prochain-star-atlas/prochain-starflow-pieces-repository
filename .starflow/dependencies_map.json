@@ -22,6 +22,7 @@
             "StarAtlasUnloadCargoPiece",
             "SleepPiece",
             "StarAtlasUnloadCrewPiece",
+            "StarAtlasWaitOnePiece",
             "StarAtlasUpgradeStarbasePiece",
             "StarAtlasFleetLocationCheckPiece",
             "StarAtlasStatMiningPiece",
@@ -39,6 +40,6 @@
             "StarAtlasScanPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.47-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.48-group0"
     }
 }
