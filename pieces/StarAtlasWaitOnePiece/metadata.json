@@ -1,0 +1,26 @@
+{
+    "name": "StarAtlasWaitOnePiece",
+    "description": "StarAtlas Wait One",
+    "dependency": {
+        "dockerfile": "Dockerfile_1"
+    },
+    "container_resources": {
+        "requests": {
+            "cpu": 100,
+            "memory": 128
+        },
+        "limits": {
+            "cpu": 500,
+            "memory": 512
+        }
+    },
+    "branchPiece": false,
+    "waitOne": true,
+    "tags": [
+        "Star Atlas"
+    ],
+    "style": {
+        "node_label": "Wait One",
+        "icon_class_name": "fa-solid:database"
+    }
+}

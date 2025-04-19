@@ -58,11 +58,11 @@ class OutputModel(BaseModel):
         description="Ammo Amount In Fleet",
     )
 
-    resource_mint_requested: Optional[str] = Field(
+    resource_mint_requested: str = Field(
         description="Resource Mint Requested"
     )
 
-    resource_amount_requested: Optional[int] = Field(
+    resource_amount_requested: int = Field(
         default=0,
         description="Amount Resource Requested"
     )
