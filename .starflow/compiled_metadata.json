@@ -2651,7 +2651,7 @@
                 "backgroundColor": "#ebebeb"
             },
             "useIcon": true,
-            "icon_class_name": "fa-solid:database",
+            "icon_class_name": "fa-solid:font-awesome",
             "iconStyle": {
                 "cursor": "pointer"
             }
