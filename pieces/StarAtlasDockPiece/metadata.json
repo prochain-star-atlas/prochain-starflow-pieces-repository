@@ -20,6 +20,6 @@
     ],
     "style": {
         "node_label": "Dock",
-        "icon_class_name": "fa-solid:database"
+        "icon_class_name": "fa-solid:font-awesome"
     }
 }
