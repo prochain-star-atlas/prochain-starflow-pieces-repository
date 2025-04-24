@@ -1,6 +1,6 @@
 {
-    "name": "StarAtlasDockPiece",
-    "description": "StarAtlas Docking Fleet",
+    "name": "StarAtlasWaitOnePiece",
+    "description": "StarAtlas Wait One",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },
@@ -15,11 +15,12 @@
         }
     },
     "branchPiece": false,
+    "waitOne": true,
     "tags": [
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Dock",
-        "icon_class_name": "fa-solid:font-awesome"
+        "node_label": "Wait One",
+        "icon_class_name": "fa-solid:database"
     }
 }
