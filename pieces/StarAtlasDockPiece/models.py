@@ -23,12 +23,12 @@ class InputModel(BaseModel):
 
     destination_x: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="Coordiantes of X",
     )
 
     destination_y: int = Field(
         default=0,
-        description="Number of seconds to sleep",
+        description="Coordinates of Y",
     )
 
 

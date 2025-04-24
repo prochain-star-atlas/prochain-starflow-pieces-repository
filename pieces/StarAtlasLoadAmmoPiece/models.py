@@ -22,7 +22,7 @@ class InputModel(BaseModel):
     )
 
     amount: int = Field(
-        default="",
+        default=0,
         description="Amount of Resource",
     )
 

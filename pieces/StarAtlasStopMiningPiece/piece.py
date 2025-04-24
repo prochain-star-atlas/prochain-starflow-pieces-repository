@@ -92,11 +92,6 @@ class StarAtlasStopMiningPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
-        if fleet_position[0] != input_data.destination_x and fleet_position[1] != input_data.destination_y:
-            raise Exception("Fleet Position not correct") 
-
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         if fleet_status == FleetStatusEnum.MineAsteroid:
