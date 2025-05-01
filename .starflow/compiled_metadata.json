@@ -1712,6 +1712,86 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasUpgradeStarbasePiece"
     },
+    "StarAtlasPlanetCargoCheckPiece": {
+        "name": "StarAtlasPlanetCargoCheckPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Planet Cargo Check",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check StarAtlas Cargo of Planet",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "Star Atlas Planet Cargo Check Piece Input Model",
+            "properties": {
+                "location_x": {
+                    "default": 0,
+                    "description": "location_x",
+                    "title": "Location X",
+                    "type": "integer"
+                },
+                "location_y": {
+                    "default": 0,
+                    "description": "location_y",
+                    "title": "Location Y",
+                    "type": "integer"
+                },
+                "resource_mint": {
+                    "default": "",
+                    "description": "resource_mint",
+                    "title": "Resource Mint",
+                    "type": "string"
+                },
+                "resource_amount": {
+                    "default": 0,
+                    "description": "resource_amount In Planet",
+                    "title": "Resource Amount",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasPlanetCargoCheckPiece"
+    },
     "ConvertIntToFloatPiece": {
         "name": "ConvertIntToFloatPiece",
         "dependency": {
