@@ -30,6 +30,7 @@ class StarAtlasUnloadCrewPiece(BasePiece):
         self.url_put_unload_fuel = self.read_secrets('URL_PUT_UNLOAD_FUEL')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
         self.url_put_unload_crew_fleet = self.read_secrets('URL_PUT_UNLOAD_CREW_FLEET')
+        self.url_put_refresh_fleet = self.read_secrets('URL_PUT_REFRESH_FLEET')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -82,6 +83,13 @@ class StarAtlasUnloadCrewPiece(BasePiece):
             
         return returnState
 
+    def refresh_fleet_state(self, fleet_name, bearer_token):
+
+        self.logger.info(f"Refresh Fleet State for {fleet_name}")
+        url_formated_refresh_state = self.url_put_refresh_fleet.format(fleet_name)
+        res_action2 = retry_put_request(url_formated_refresh_state, bearer_token)
+        self.logger.info(f"Refreshed Fleet State: {res_action2}")
+
     def piece_function(self, input_data: InputModel):
 
         self.init_piece()
@@ -90,6 +98,8 @@ class StarAtlasUnloadCrewPiece(BasePiece):
         su_token_loggedin = self.openid_get_token()
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
         self.logger.info(f"Token for {self.username_target_var} created")
+
+        self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         fleet_position = self.get_fleet_position(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
