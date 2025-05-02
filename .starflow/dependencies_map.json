@@ -41,6 +41,6 @@
             "StarAtlasUnloadAmmoPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.53-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.54-group0"
     }
 }
