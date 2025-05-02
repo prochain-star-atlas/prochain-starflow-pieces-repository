@@ -12,7 +12,7 @@ def retry_put_request(url_formated, bearer_token):
     retries = 0
     success = False
     wait_time = 5
-    while not success and retries <= 5:
+    while not success and retries <= 10:
         try:
             response_raw = requests.put(url_formated, headers=headers, verify=False, timeout=120)
             response_raw_json = response_raw.json()

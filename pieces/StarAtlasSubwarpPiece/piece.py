@@ -28,6 +28,7 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
         self.url_put_start_subwarp = self.read_secrets('URL_PUT_START_SUBWARP')
         self.url_put_exit_subwarp = self.read_secrets('URL_PUT_START_EXITSUBWARP')
+        self.url_put_stop_subwarp = self.read_secrets('URL_PUT_STOP_SUBWARP')
         self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
         self.url_put_refresh_fleet = self.read_secrets('URL_PUT_REFRESH_FLEET')
@@ -144,6 +145,9 @@ class StarAtlasSubwarpPiece(BasePiece):
             url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
             res_action2 = retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
             if not(res_action2):
+                url_formated_put_stop_subwarp = self.url_put_stop_subwarp.format(input_data.fleet_name)
+                res_action3 = retry_put_request(url_formated_put_stop_subwarp, client_token_loggedin)
+                if not(res_action3):
                     raise Exception("subwarp exit error") 
             
             time.sleep(10)
@@ -151,6 +155,8 @@ class StarAtlasSubwarpPiece(BasePiece):
 
             if fleet_status == FleetStatusEnum.Idle:
                 self.logger.info(f"Exit subwarp success")
+            else:
+                raise Exception("subwarp exit error") 
 
             self.logger.info(f"")
 
