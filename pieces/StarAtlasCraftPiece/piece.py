@@ -220,10 +220,10 @@ class StarAtlasCraftPiece(BasePiece):
             else:
                 self.logger.info(f"Enough {resource_mint} to continue")
 
-        is_enough_resource_output = self.enough_cargo_for_craft(planet_cargo_list, resource_mint, resource_amount)
+        #is_enough_resource_output = self.enough_cargo_for_craft(planet_cargo_list, resource_mint, resource_amount)
+        #if is_enough_resource_output is False:
 
-        if is_enough_resource_output is False:
-            self.do_craft(x, y, resource_mint, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin)       
+        self.do_craft(x, y, resource_mint, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin)       
 
         return True
 
