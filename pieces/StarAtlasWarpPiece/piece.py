@@ -179,14 +179,18 @@ class StarAtlasWarpPiece(BasePiece):
                 
                 self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-                self.openid_logout_user(client_token_loggedin)
-                self.openid_logout_user(su_token_loggedin)
+                if wp[0] == input_data.destination_x and wp[1] == input_data.destination_y:
+                    self.logger.info(f"fleet arrived at destination")
+                else:
+                    self.openid_logout_user(client_token_loggedin)
+                    self.openid_logout_user(su_token_loggedin)
 
-                self.logger.info(f"waiting cooldown for {warpCooldown} seconds")
-                time.sleep(warpCooldown)
+                    self.logger.info(f"waiting cooldown for {warpCooldown} seconds")
+                    time.sleep(warpCooldown)
 
-                su_token_loggedin = self.openid_get_token()
-                client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+                    su_token_loggedin = self.openid_get_token()
+                    client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
