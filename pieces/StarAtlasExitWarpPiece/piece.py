@@ -28,6 +28,7 @@ class StarAtlasSubwarpPiece(BasePiece):
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
         self.url_put_start_subwarp = self.read_secrets('URL_PUT_START_SUBWARP')
         self.url_put_exit_subwarp = self.read_secrets('URL_PUT_START_EXITSUBWARP')
+        self.url_put_exit_warp = self.read_secrets('URL_PUT_START_EXITWARP')
         self.url_put_stop_subwarp = self.read_secrets('URL_PUT_STOP_SUBWARP')
         self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
@@ -110,6 +111,78 @@ class StarAtlasSubwarpPiece(BasePiece):
 
             url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
             res_action2 = retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+            if not(res_action2):
+                url_formated_put_stop_subwarp = self.url_put_stop_subwarp.format(input_data.fleet_name)
+                res_action3 = retry_put_request(url_formated_put_stop_subwarp, client_token_loggedin)
+                if not(res_action3):
+                    raise Exception("subwarp exit error") 
+            
+            time.sleep(10)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if fleet_status == FleetStatusEnum.Idle:
+                self.logger.info(f"Exit subwarp success")
+            else:
+                raise Exception("subwarp exit error") 
+
+            self.logger.info(f"")
+
+        if fleet_status == FleetStatusEnum.MoveSubwarp:
+
+            headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
+            self.logger.info(f"Calculate Movement Duration")
+            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
+            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+
+            self.openid_logout_user(client_token_loggedin)
+            self.openid_logout_user(su_token_loggedin)
+
+            wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
+            self.logger.info(f"waiting movement for {wait_time_movement} seconds")
+            time.sleep(wait_time_movement)
+
+            su_token_loggedin = self.openid_get_token()
+            client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+
+            url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
+            res_action2 = retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
+            if not(res_action2):
+                url_formated_put_stop_subwarp = self.url_put_stop_subwarp.format(input_data.fleet_name)
+                res_action3 = retry_put_request(url_formated_put_stop_subwarp, client_token_loggedin)
+                if not(res_action3):
+                    raise Exception("subwarp exit error") 
+            
+            time.sleep(10)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if fleet_status == FleetStatusEnum.Idle:
+                self.logger.info(f"Exit subwarp success")
+            else:
+                raise Exception("subwarp exit error") 
+
+            self.logger.info(f"")
+
+        if fleet_status == FleetStatusEnum.MoveWarp:
+
+            headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
+            self.logger.info(f"Calculate Movement Duration")
+            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
+            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
+
+            self.openid_logout_user(client_token_loggedin)
+            self.openid_logout_user(su_token_loggedin)
+
+            wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
+            self.logger.info(f"waiting movement for {wait_time_movement} seconds")
+            time.sleep(wait_time_movement)
+
+            su_token_loggedin = self.openid_get_token()
+            client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+
+            url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
+            res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
             if not(res_action2):
                 url_formated_put_stop_subwarp = self.url_put_stop_subwarp.format(input_data.fleet_name)
                 res_action3 = retry_put_request(url_formated_put_stop_subwarp, client_token_loggedin)

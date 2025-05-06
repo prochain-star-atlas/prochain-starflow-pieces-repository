@@ -31,6 +31,7 @@ class StarAtlasWarpPiece(BasePiece):
         self.url_get_fleet_movement_calculation = self.read_secrets('URL_GET_FLEET_MOVEMENT_CALCULATION')
         self.url_get_list_fleet = self.read_secrets('URL_GET_LIST_FLEET')
         self.url_put_refresh_fleet = self.read_secrets('URL_PUT_REFRESH_FLEET')
+        self.url_get_fleet_future_movement_statistics = self.read_secrets('URL_GET_FLEET_FUTURE_MOVEMENT_STATISTICS')
 
         self.keycloak_openid = KeycloakOpenID(server_url=self.server_url_var,
                                  client_id=self.client_id_var,
@@ -82,6 +83,30 @@ class StarAtlasWarpPiece(BasePiece):
                 return (fleet["startingCoords"]["x"], fleet["startingCoords"]["y"])
 
         return returnState
+    
+    def get_fleet_warpCooldown(self, fleet_name, bearer_token) -> Any:
+
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        response_raw = requests.get(self.url_get_list_fleet, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        returnState = 0
+
+        for fleet in response_raw_json:
+            if fleet["label"] == fleet_name:
+                returnState = fleet["warpCooldown"]
+
+        return returnState
+
+    def get_fleet_future_movement_statistics_request(self, fleet_name, startX, startY, destX, destY, bearer_token):
+        headers = {"Authorization": "Bearer " + bearer_token['access_token']}
+
+        url_formated_future_mov_stats = self.url_get_fleet_future_movement_statistics.format(fleet_name, startX, startY, destX, destY)
+        response_raw = requests.get(url_formated_future_mov_stats, headers=headers, verify=False)
+        response_raw_json = response_raw.json()
+
+        return response_raw_json["result"]
 
     def refresh_fleet_state(self, fleet_name, bearer_token):
 
@@ -114,45 +139,52 @@ class StarAtlasWarpPiece(BasePiece):
         fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         self.logger.info(f"")
+        warpCooldown = self.get_fleet_warpCooldown(input_data.fleet_name, bearer_token=client_token_loggedin)
 
         if fleet_status == FleetStatusEnum.Idle:
 
-            url_formated_start_warp = self.url_put_start_warp.format(input_data.fleet_name, input_data.destination_x, input_data.destination_y)
-            res_action1 = retry_put_request(url_formated_start_warp, client_token_loggedin)
-            if not(res_action1):
-                raise Exception("start_warp Error") 
-            time.sleep(20)
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+            future_mov = self.get_fleet_future_movement_statistics_request(input_data.fleet_name, fleet_position[0], fleet_position[1], input_data.destination_x, input_data.destination_y, client_token_loggedin)
 
-        if fleet_status == FleetStatusEnum.MoveWarp:
+            for wp in future_mov["warpPoints"]["allWarpPoints"]:
 
-            self.logger.info(f"Calculate Movement Duration")
-            url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
-            response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
-            response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
-            
-            self.openid_logout_user(client_token_loggedin)
-            self.openid_logout_user(su_token_loggedin)
+                if wp[0] == input_data.destination_x and wp[1] == input_data.destination_y:
 
-            wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
-            self.logger.info(f"waiting movement for {wait_time_movement} seconds")
-            time.sleep(wait_time_movement)
+                    url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
+                    res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
+                    if not(res_action2):
+                        raise Exception("exit_warp Error") 
 
-            su_token_loggedin = self.openid_get_token()
-            client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+                    break
 
-            url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
-            res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
-            if not(res_action2):
-                raise Exception("exit_warp Error") 
-            
-            time.sleep(10)
-            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+                url_formated_start_warp = self.url_put_start_warp.format(input_data.fleet_name, wp[0], wp[1])
+                res_action1 = retry_put_request(url_formated_start_warp, client_token_loggedin)
+                if not(res_action1):
+                    raise Exception("start_warp Error") 
+                self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-            if fleet_status == FleetStatusEnum.Idle:
-                self.logger.info(f"Exit warp success")
+                self.logger.info(f"Calculate Movement Duration")
+                url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+                response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
+                response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
 
-            self.logger.info(f"")
+                self.openid_logout_user(client_token_loggedin)
+                self.openid_logout_user(su_token_loggedin)
+
+                wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
+                wait_time_movement_with_cooldown = wait_time_movement + warpCooldown
+                self.logger.info(f"waiting movement for {wait_time_movement_with_cooldown} seconds")
+                time.sleep(wait_time_movement_with_cooldown)
+
+                su_token_loggedin = self.openid_get_token()
+                client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
+                
+                url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
+                res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
+                
+                if not(res_action2):
+                    raise Exception("exit_warp Error") 
+                
+                self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
