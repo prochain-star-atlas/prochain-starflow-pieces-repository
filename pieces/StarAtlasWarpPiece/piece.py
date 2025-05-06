@@ -147,14 +147,8 @@ class StarAtlasWarpPiece(BasePiece):
 
             for wp in future_mov["warpPoints"]["allWarpPoints"]:
 
-                if wp[0] == input_data.destination_x and wp[1] == input_data.destination_y:
-
-                    url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
-                    res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
-                    if not(res_action2):
-                        raise Exception("exit_warp Error") 
-
-                    break
+                if wp[0] == fleet_position[0] and wp[1] == fleet_position[1]:
+                    continue
 
                 url_formated_start_warp = self.url_put_start_warp.format(input_data.fleet_name, wp[0], wp[1])
                 res_action1 = retry_put_request(url_formated_start_warp, client_token_loggedin)
@@ -180,7 +174,7 @@ class StarAtlasWarpPiece(BasePiece):
                 
                 url_formated_put_exit_warp = self.url_put_exit_warp.format(input_data.fleet_name)
                 res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
-                
+
                 if not(res_action2):
                     raise Exception("exit_warp Error") 
                 
