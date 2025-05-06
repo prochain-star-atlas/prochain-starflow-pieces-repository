@@ -2331,6 +2331,238 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStopMiningPiece"
     },
+    "StarAtlasStatFleetPiece": {
+        "name": "StarAtlasStatFleetPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Stat Fleet",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Star Atlas Statistic Fleet",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "branchPiece": false,
+        "input_schema": {
+            "description": "StarAtlas Mining Piece Input Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "StarAtlas Mining Piece Output Model",
+            "properties": {
+                "fleet_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Fleet Name",
+                    "type": "string"
+                },
+                "public_key": {
+                    "default": "",
+                    "description": "Public Key",
+                    "title": "Public Key",
+                    "type": "string"
+                },
+                "state": {
+                    "default": "",
+                    "description": "State",
+                    "title": "State",
+                    "type": "string"
+                },
+                "faction": {
+                    "default": "",
+                    "description": "Faction",
+                    "title": "Faction",
+                    "type": "string"
+                },
+                "warp_fuel_consumption_rate": {
+                    "description": "Warp Fuel Consumption Rate",
+                    "title": "Warp Fuel Consumption Rate",
+                    "type": "integer"
+                },
+                "warp_speed": {
+                    "description": "Warp Speed",
+                    "title": "Warp Speed",
+                    "type": "integer"
+                },
+                "max_warp_distance": {
+                    "description": "Max Warp Distance",
+                    "title": "Max Warp Distance",
+                    "type": "integer"
+                },
+                "subwarp_fuel_consumption_rate": {
+                    "description": "Subwarp Fuel Consumption Rate",
+                    "title": "Subwarp Fuel Consumption Rate",
+                    "type": "integer"
+                },
+                "subwarp_speed": {
+                    "description": "Subwarp Speed",
+                    "title": "Subwarp Speed",
+                    "type": "integer"
+                },
+                "cargo_capacity": {
+                    "description": "Cargo Capacity",
+                    "title": "Cargo Capacity",
+                    "type": "integer"
+                },
+                "fuel_capacity": {
+                    "description": "Fuel Capacity",
+                    "title": "Fuel Capacity",
+                    "type": "integer"
+                },
+                "ammo_capacity": {
+                    "description": "Ammo Capacity",
+                    "title": "Ammo Capacity",
+                    "type": "integer"
+                },
+                "scan_cost": {
+                    "description": "Scan Cost",
+                    "title": "Scan Cost",
+                    "type": "integer"
+                },
+                "require_crew": {
+                    "description": "Require Crew",
+                    "title": "Require Crew",
+                    "type": "integer"
+                },
+                "passenger_capacity": {
+                    "description": "Passenger Capacity",
+                    "title": "Passenger Capacity",
+                    "type": "integer"
+                },
+                "crew_count": {
+                    "description": "Crew Count",
+                    "title": "Crew Count",
+                    "type": "integer"
+                },
+                "rented_crew": {
+                    "description": "Rented Crew",
+                    "title": "Rented Crew",
+                    "type": "integer"
+                },
+                "respawn_time": {
+                    "description": "Respawn Time",
+                    "title": "Respawn Time",
+                    "type": "integer"
+                },
+                "sdu_per_scan": {
+                    "description": "Sdu Per Scan",
+                    "title": "Sdu Per Scan",
+                    "type": "integer"
+                },
+                "scan_cooldown": {
+                    "description": "Scan Cooldown",
+                    "title": "Scan Cooldown",
+                    "type": "integer"
+                },
+                "warp_cooldown": {
+                    "description": "Warp Cooldown",
+                    "title": "Warp Cooldown",
+                    "type": "integer"
+                },
+                "mining_rate": {
+                    "description": "Mining Rate",
+                    "title": "Mining Rate",
+                    "type": "integer"
+                },
+                "food_consumption_rate": {
+                    "description": "Food Consumption Rate",
+                    "title": "Food Consumption Rate",
+                    "type": "integer"
+                },
+                "ammo_consumption_rate": {
+                    "description": "Ammo Consuption Rate",
+                    "title": "Ammo Consumption Rate",
+                    "type": "integer"
+                },
+                "planet_exit_fuel_amount": {
+                    "description": "Planet Exit Fuel Amount",
+                    "title": "Planet Exit Fuel Amount",
+                    "type": "integer"
+                },
+                "food_cnt": {
+                    "description": "Food Count",
+                    "title": "Food Cnt",
+                    "type": "integer"
+                },
+                "sdu_cnt": {
+                    "description": "Sdu Count",
+                    "title": "Sdu Cnt",
+                    "type": "integer"
+                },
+                "fuel_cnt": {
+                    "description": "Fuel Count",
+                    "title": "Fuel Cnt",
+                    "type": "integer"
+                },
+                "ammo_cnt": {
+                    "description": "Ammo Count",
+                    "title": "Ammo Cnt",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "warp_fuel_consumption_rate",
+                "warp_speed",
+                "max_warp_distance",
+                "subwarp_fuel_consumption_rate",
+                "subwarp_speed",
+                "cargo_capacity",
+                "fuel_capacity",
+                "ammo_capacity",
+                "scan_cost",
+                "require_crew",
+                "passenger_capacity",
+                "crew_count",
+                "rented_crew",
+                "respawn_time",
+                "sdu_per_scan",
+                "scan_cooldown",
+                "warp_cooldown",
+                "mining_rate",
+                "food_consumption_rate",
+                "ammo_consumption_rate",
+                "planet_exit_fuel_amount",
+                "food_cnt",
+                "sdu_cnt",
+                "fuel_cnt",
+                "ammo_cnt"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStatFleetPiece"
+    },
     "StarAtlasSubwarpPiece": {
         "name": "StarAtlasSubwarpPiece",
         "dependency": {
