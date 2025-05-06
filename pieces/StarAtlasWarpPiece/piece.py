@@ -165,9 +165,8 @@ class StarAtlasWarpPiece(BasePiece):
                 self.openid_logout_user(su_token_loggedin)
 
                 wait_time_movement = response_fleet_movement_calculation_json["result"]["endTimeRemaining"]
-                wait_time_movement_with_cooldown = wait_time_movement + warpCooldown
-                self.logger.info(f"waiting movement for {wait_time_movement_with_cooldown} seconds")
-                time.sleep(wait_time_movement_with_cooldown)
+                self.logger.info(f"waiting movement for {wait_time_movement} seconds")
+                time.sleep(wait_time_movement)
 
                 su_token_loggedin = self.openid_get_token()
                 client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
@@ -176,9 +175,18 @@ class StarAtlasWarpPiece(BasePiece):
                 res_action2 = retry_put_request(url_formated_put_exit_warp, client_token_loggedin)
 
                 if not(res_action2):
-                    raise Exception("exit_warp Error") 
+                    raise Exception("exit_warp Error")                
                 
                 self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+                self.openid_logout_user(client_token_loggedin)
+                self.openid_logout_user(su_token_loggedin)
+
+                self.logger.info(f"waiting cooldown for {warpCooldown} seconds")
+                time.sleep(warpCooldown)
+
+                su_token_loggedin = self.openid_get_token()
+                client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
