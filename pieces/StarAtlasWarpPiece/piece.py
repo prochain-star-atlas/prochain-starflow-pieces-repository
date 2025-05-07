@@ -154,14 +154,13 @@ class StarAtlasWarpPiece(BasePiece):
                 res_action1 = retry_put_request(url_formated_start_warp, client_token_loggedin)
 
                 if not(res_action1):
-                    raise Exception("start_warp Error") 
-                
-                time.sleep(10)
+                    raise Exception("start_warp Error")                
 
                 self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
                 self.logger.info(f"Calculate Movement Duration")
                 url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
+                headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
                 response_fleet_movement_calculation = requests.get(url_formatted_fleet_movement_calculation, headers=headers, verify=False)
                 response_fleet_movement_calculation_json = response_fleet_movement_calculation.json()
 
@@ -181,8 +180,6 @@ class StarAtlasWarpPiece(BasePiece):
                 if not(res_action2):
                     raise Exception("exit_warp Error")                
                 
-                time.sleep(10)
-
                 self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
                 if wp[0] == input_data.destination_x and wp[1] == input_data.destination_y:
