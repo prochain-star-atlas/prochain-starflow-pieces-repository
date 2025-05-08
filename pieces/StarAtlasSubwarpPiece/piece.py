@@ -122,10 +122,8 @@ class StarAtlasSubwarpPiece(BasePiece):
             res_action1 = retry_put_request(url_formated_start_subwarp, client_token_loggedin)
             if not(res_action1):
                     raise Exception("subwarp Error") 
-            time.sleep(20)
+            self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
-
-        if fleet_status == FleetStatusEnum.MoveSubwarp:
 
             self.logger.info(f"Calculate Movement Duration")
             url_formatted_fleet_movement_calculation = self.url_get_fleet_movement_calculation.format(input_data.fleet_name)
@@ -144,13 +142,17 @@ class StarAtlasSubwarpPiece(BasePiece):
 
             url_formated_put_exit_subwarp = self.url_put_exit_subwarp.format(input_data.fleet_name)
             res_action2 = retry_put_request(url_formated_put_exit_subwarp, client_token_loggedin)
-            if not(res_action2):
+
+            self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+            fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
+
+            if not(fleet_status == FleetStatusEnum.Idle):
                 url_formated_put_stop_subwarp = self.url_put_stop_subwarp.format(input_data.fleet_name)
                 res_action3 = retry_put_request(url_formated_put_stop_subwarp, client_token_loggedin)
                 if not(res_action3):
                     raise Exception("subwarp exit error") 
             
-            time.sleep(10)
+            self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
             fleet_status = self.get_fleet_status(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
             if fleet_status == FleetStatusEnum.Idle:
