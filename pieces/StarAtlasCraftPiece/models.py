@@ -16,9 +16,9 @@ class InputModel(BaseModel):
         description="Coordinates of Y",
     )
 
-    resource_mint_to_craft: str = Field(
+    craft_public_key: str = Field(
         default="",
-        description="Resource Mint To Craft",
+        description="Craft Public Key",
     )
 
     resource_amount_to_craft: int = Field(
@@ -41,8 +41,8 @@ class OutputModel(BaseModel):
     """
     StarAtlas Craft Piece Input Model
     """
-    resource_mint_crafted: str = Field(
-        description="Resource Mint Crafted",
+    craft_public_key: str = Field(
+        description="Craft Public Key",
     )
 
     resource_amount_crafted: int = Field(

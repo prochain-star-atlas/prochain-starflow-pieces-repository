@@ -1,0 +1,25 @@
+{
+    "name": "StarAtlasUnloadCargoPiece",
+    "description": "Star Atlas Unloading All from Fleet",
+    "dependency": {
+        "dockerfile": "Dockerfile_1"
+    },
+    "container_resources": {
+        "requests": {
+            "cpu": 100,
+            "memory": 128
+        },
+        "limits": {
+            "cpu": 500,
+            "memory": 512
+        }
+    },
+    "branchPiece": false,
+    "tags": [
+        "Star Atlas"
+    ],
+    "style": {
+        "node_label": "Unload All",
+        "icon_class_name": "fa-solid:database"
+    }
+}

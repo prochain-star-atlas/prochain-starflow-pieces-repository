@@ -86,22 +86,22 @@ class StarAtlasCraftPiece(BasePiece):
         response_raw_json = response_raw.json()
 
         return response_raw_json[0]["starbase"]["starbasePK"]
-
-    def get_recipe_pk_for_resource_mint_output(self, resource_mint):
+    
+    def get_recipe_obj_for_pk(self, craft_pk):
 
         response_raw = requests.get(self.url_get_recepe_list, verify=False)
         response_raw_json = response_raw.json()
 
-        craft_recipe_pk = ""
+        craft_recipe_pk = None
 
         for cr in response_raw_json["craft"]:
 
-            if cr["output"]["mint"] == resource_mint:
-                craft_recipe_pk = cr["publicKey"]
+            if cr["publicKey"] == craft_pk:
+                craft_recipe_pk = cr
 
         return craft_recipe_pk
     
-    def get_recipe_obj_for_resource_mint_output(self, resource_mint):
+    def get_recipe_obj_for_output_resource_mint(self, resource_mint):
 
         response_raw = requests.get(self.url_get_recepe_list, verify=False)
         response_raw_json = response_raw.json()
@@ -156,19 +156,17 @@ class StarAtlasCraftPiece(BasePiece):
 
         return crafting_id
 
-    def do_craft(self, x, y, resource_mint, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin):
+    def do_craft(self, x, y, craft_pk, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin):
 
-        self.logger.info(f"Start crafting: {resource_mint}")
+        self.logger.info(f"Start crafting: {craft_pk}")
 
-        url_formated_craft_main = self.url_put_start_crafting.format(x, y, resource_mint, resource_amount, crew_allocation)
+        url_formated_craft_main = self.url_put_start_crafting.format(x, y, craft_pk, resource_amount, crew_allocation)
         res_action_start_craft = retry_put_request(url_formated_craft_main, client_token_loggedin)
 
         if not(res_action_start_craft):
             raise Exception("Crafting Start Error")
-        
-        craft_recipe_pk = self.get_recipe_pk_for_resource_mint_output(resource_mint)
 
-        wait_seconds_for_craft = self.get_remaining_time_for_recipe_craft(x, y, craft_recipe_pk, bearer_token=client_token_loggedin)
+        wait_seconds_for_craft = self.get_remaining_time_for_recipe_craft(x, y, craft_pk, bearer_token=client_token_loggedin)
 
         self.openid_logout_user(client_token_loggedin)
         self.openid_logout_user(su_token_loggedin)
@@ -179,7 +177,7 @@ class StarAtlasCraftPiece(BasePiece):
         su_token_loggedin = self.openid_get_token()
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)
 
-        craft_id = self.get_crafting_id_recipe_craft(x, y, craft_recipe_pk, bearer_token=client_token_loggedin)
+        craft_id = self.get_crafting_id_recipe_craft(x, y, craft_pk, bearer_token=client_token_loggedin)
 
         self.logger.info(f"End crafting: {craft_id}")
 
@@ -198,12 +196,12 @@ class StarAtlasCraftPiece(BasePiece):
 
         return test_enough_cargo
 
-    def process_craft_hierarchy(self, x, y, resource_mint, resource_amount, crew_allocation, planet_cargo_list, su_token_loggedin, client_token_loggedin):
+    def process_craft_hierarchy(self, x, y, craft_pk, resource_amount, crew_allocation, planet_cargo_list, su_token_loggedin, client_token_loggedin):
 
-        craft_recipe_pk = self.get_recipe_obj_for_resource_mint_output(resource_mint)
+        craft_recipe_pk = self.get_recipe_obj_for_pk(craft_pk)
 
-        if craft_recipe_pk is None: 
-            is_enough_resource_input = self.enough_cargo_for_craft(planet_cargo_list, resource_mint, resource_amount)
+        is_enough_resource_input = self.enough_cargo_for_craft(planet_cargo_list, craft_recipe_pk["output"]["mint"], resource_amount)
+        if is_enough_resource_input is True:
             return is_enough_resource_input
         
         output_amount = craft_recipe_pk["output"]["amount"]
@@ -214,16 +212,16 @@ class StarAtlasCraftPiece(BasePiece):
             is_enough_resource_input = self.enough_cargo_for_craft(planet_cargo_list, input_rec["mint"], amount_required)
 
             if is_enough_resource_input is False:
-                pch = self.process_craft_hierarchy(x, y, resource_mint, resource_amount, crew_allocation, planet_cargo_list, su_token_loggedin, client_token_loggedin)
-                if pch is False:
-                    raise Exception("Missing resource to handle craft") 
+                craft_obj = self.get_recipe_obj_for_output_resource_mint(input_rec["mint"])
+                if craft_obj is None:
+                    raise Exception("Missing resource to handle craft")
+                else:
+                    return self.process_craft_hierarchy(x, y, craft_pk, resource_amount, crew_allocation, planet_cargo_list, su_token_loggedin, client_token_loggedin)
+                    
             else:
-                self.logger.info(f"Enough {resource_mint} to continue")
+                self.logger.info(f"Enough {craft_pk} to continue")
 
-        #is_enough_resource_output = self.enough_cargo_for_craft(planet_cargo_list, resource_mint, resource_amount)
-        #if is_enough_resource_output is False:
-
-        self.do_craft(x, y, resource_mint, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin)       
+        self.do_craft(x, y, craft_pk, resource_amount, crew_allocation, su_token_loggedin, client_token_loggedin)       
 
         return True
 
@@ -242,9 +240,9 @@ class StarAtlasCraftPiece(BasePiece):
         planet_cargo_list = self.get_planet_cargo_list(starbase_pk, bearer_token=client_token_loggedin)
 
         if input_data.recursive_craft is True:          
-            self.process_craft_hierarchy(input_data.destination_x, input_data.destination_y, input_data.resource_mint_to_craft, input_data.resource_amount_to_craft, input_data.crew_allocation_to_craft, planet_cargo_list, su_token_loggedin, client_token_loggedin)
+            self.process_craft_hierarchy(input_data.destination_x, input_data.destination_y, input_data.craft_public_key, input_data.resource_amount_to_craft, input_data.crew_allocation_to_craft, planet_cargo_list, su_token_loggedin, client_token_loggedin)
         else:
-            self.do_craft(input_data.destination_x, input_data.destination_y, input_data.resource_mint_to_craft, input_data.resource_amount_to_craft, input_data.crew_allocation_to_craft, su_token_loggedin, client_token_loggedin)
+            self.do_craft(input_data.destination_x, input_data.destination_y, input_data.craft_public_key, input_data.resource_amount_to_craft, input_data.crew_allocation_to_craft, su_token_loggedin, client_token_loggedin)
         
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
@@ -253,6 +251,6 @@ class StarAtlasCraftPiece(BasePiece):
 
         # Return output
         return OutputModel(
-            resource_mint_crafted=input_data.resource_mint_to_craft,
+            resource_mint_crafted=input_data.craft_public_key,
             resource_amount_crafted=input_data.resource_amount_to_craft
         )

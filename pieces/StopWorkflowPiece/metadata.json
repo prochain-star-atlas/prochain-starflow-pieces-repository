@@ -1,0 +1,16 @@
+{
+    "name": "PauseWorkflowPiece",
+    "description": "A Piece that sleeps for a given number of seconds.",
+    "dependency": {
+        "dockerfile": "Dockerfile_1"
+    },
+    "branchPiece": false,
+    "tags": [
+        "default",
+        "sleep"
+    ],
+    "style": {
+        "node_label": "Pause Workflow",
+        "icon_class_name": "fa-solid:hourglass-start"
+    }
+}

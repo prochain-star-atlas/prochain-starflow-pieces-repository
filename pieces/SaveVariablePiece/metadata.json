@@ -1,0 +1,16 @@
+{
+    "name": "SaveVariablePiece",
+    "description": "A Piece that sleeps for a given number of seconds.",
+    "dependency": {
+        "dockerfile": "Dockerfile_1"
+    },
+    "branchPiece": false,
+    "tags": [
+        "default",
+        "sleep"
+    ],
+    "style": {
+        "node_label": "Save Variable",
+        "icon_class_name": "fa-solid:hourglass-start"
+    }
+}
