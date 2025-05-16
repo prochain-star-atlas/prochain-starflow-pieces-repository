@@ -5,7 +5,7 @@ import math
 
 class MathArithmeticPiece(BasePiece):
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         result_int = 0
         result_float = 0

@@ -70,7 +70,7 @@ class StarAtlasFleetStatusCheckPiece(BasePiece):
         res_action2 = retry_put_request(url_formated_refresh_state, bearer_token)
         self.logger.info(f"Refreshed Fleet State: {res_action2}")
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.init_piece()
 

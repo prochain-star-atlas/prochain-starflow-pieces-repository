@@ -11,7 +11,7 @@ import json
 
 class StarAtlasGenericCheckPiece(BasePiece):
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.logger.info(f"")
 

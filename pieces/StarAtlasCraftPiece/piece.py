@@ -225,7 +225,7 @@ class StarAtlasCraftPiece(BasePiece):
 
         return True
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.init_piece()
 

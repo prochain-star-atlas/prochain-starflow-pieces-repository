@@ -46,7 +46,7 @@ class SaveVariablePiece(BasePiece):
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.init_piece()
 

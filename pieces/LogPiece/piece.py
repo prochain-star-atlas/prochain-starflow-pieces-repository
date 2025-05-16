@@ -4,7 +4,7 @@ from pathlib import Path
 
 class LogPiece(BasePiece):
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         # Log inputs
         msg = f"""msg: {input_data.input_str}\n

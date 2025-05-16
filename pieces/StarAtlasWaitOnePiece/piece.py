@@ -4,7 +4,7 @@ from .models import InputModel, OutputModel
 
 class StarAtlasWaitOnePiece(BasePiece):       
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         # Return output
         return OutputModel(

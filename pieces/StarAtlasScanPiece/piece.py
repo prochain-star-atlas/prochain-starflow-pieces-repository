@@ -5,7 +5,7 @@ from time import sleep
 
 class StarAtlasScanPiece(BasePiece):
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.logger.info(f"Sleeping for {input_data.sleep_time} seconds")
         sleep(input_data.sleep_time)

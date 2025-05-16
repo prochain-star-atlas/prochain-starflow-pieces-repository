@@ -68,7 +68,7 @@ class StarAtlasPlanetCargoCheckPiece(BasePiece):
 
         return response_raw_json[0]["starbase"]["starbasePK"]
 
-    def piece_function(self, input_data: InputModel):
+    def piece_function(self, input_data: InputModel, workspace_id):
 
         self.init_piece()
 
