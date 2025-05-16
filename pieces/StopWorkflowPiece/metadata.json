@@ -1,6 +1,6 @@
 {
-    "name": "PauseWorkflowPiece",
-    "description": "A Piece that sleeps for a given number of seconds.",
+    "name": "StopWorkflowPiece",
+    "description": "Stop a workflow.",
     "dependency": {
         "dockerfile": "Dockerfile_1"
     },

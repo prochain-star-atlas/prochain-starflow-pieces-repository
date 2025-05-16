@@ -1,5 +1,5 @@
 {
-    "name": "StarAtlasUnloadCargoPiece",
+    "name": "StarAtlasUnloadAllPiece",
     "description": "Star Atlas Unloading All from Fleet",
     "dependency": {
         "dockerfile": "Dockerfile_1"

@@ -11,7 +11,7 @@ import time
 import json
 import math
 
-class PauseWorkflowPiece(BasePiece):
+class StopWorkflowPiece(BasePiece):
 
     def read_secrets(self, var_name):
         with open("/var/mount_secrets/" + var_name) as f:
