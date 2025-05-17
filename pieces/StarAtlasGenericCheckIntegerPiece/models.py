@@ -6,12 +6,12 @@ class InputModel(BaseModel):
     """
 
     value_to_test: int = Field(
-        default="",
+        default=0,
         description="Value To Test",
     )
 
     required_field: int = Field(
-        default="",
+        default=0,
         description="Required Field",
     )
 

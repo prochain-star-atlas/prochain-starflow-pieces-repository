@@ -13,6 +13,12 @@ class StarAtlasGenericCheckStringPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel, workspace_id):
 
+        if input_data.value_to_test is None:
+            input_data.value_to_test = ""
+
+        if input_data.required_field is None:
+            input_data.required_field = ""
+
         self.logger.info(f"")
 
         test_valid = input_data.value_to_test == input_data.required_field

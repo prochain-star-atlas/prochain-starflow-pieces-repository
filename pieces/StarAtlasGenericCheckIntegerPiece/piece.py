@@ -15,6 +15,12 @@ class StarAtlasGenericCheckIntegerPiece(BasePiece):
 
         self.logger.info(f"")
 
+        if input_data.value_to_test is None:
+            input_data.value_to_test = 0
+
+        if input_data.required_field is None:
+            input_data.required_field = 0
+
         test_valid = input_data.value_to_test == input_data.required_field
 
         self.logger.info(f"Status test is: {test_valid}, test status: {input_data.value_to_test}, required status: {input_data.required_field}")
