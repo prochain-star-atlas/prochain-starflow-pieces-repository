@@ -1,5 +1,5 @@
 {
-    "name": "StarAtlasGenericCheckPiece",
+    "name": "StarAtlasGenericCheckStringPiece",
     "description": "Check Generic",
     "dependency": {
         "dockerfile": "Dockerfile_1"
@@ -19,7 +19,7 @@
         "Star Atlas"
     ],
     "style": {
-        "node_label": "Generic Check",
+        "node_label": "Generic Check String",
         "icon_class_name": "fa-solid:database"
     }
 }

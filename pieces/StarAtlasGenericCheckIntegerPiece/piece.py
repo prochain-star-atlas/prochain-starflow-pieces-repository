@@ -9,7 +9,7 @@ from keycloak import KeycloakOpenID
 import os
 import json
 
-class StarAtlasGenericCheckPiece(BasePiece):
+class StarAtlasGenericCheckIntegerPiece(BasePiece):
 
     def piece_function(self, input_data: InputModel, workspace_id):
 

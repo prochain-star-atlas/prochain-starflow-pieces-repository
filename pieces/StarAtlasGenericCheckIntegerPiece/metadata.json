@@ -1,0 +1,25 @@
+{
+    "name": "StarAtlasGenericCheckIntegerPiece",
+    "description": "Check Generic Integer",
+    "dependency": {
+        "dockerfile": "Dockerfile_1"
+    },
+    "branchPiece": true,
+    "container_resources": {
+        "requests": {
+            "cpu": 100,
+            "memory": 128
+        },
+        "limits": {
+            "cpu": 500,
+            "memory": 512
+        }
+    },
+    "tags": [
+        "Star Atlas"
+    ],
+    "style": {
+        "node_label": "Generic Check Integer",
+        "icon_class_name": "fa-solid:database"
+    }
+}
