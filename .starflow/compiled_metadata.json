@@ -146,74 +146,6 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasWaitOnePiece"
     },
-    "StarAtlasGenericCheckPiece": {
-        "name": "StarAtlasGenericCheckPiece",
-        "dependency": {
-            "dockerfile": "Dockerfile_1",
-            "requirements_file": null
-        },
-        "tags": [
-            "Star Atlas"
-        ],
-        "style": {
-            "node_label": "Generic Check",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "fa-solid:database",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Check Generic",
-        "branchPiece": true,
-        "container_resources": {
-            "requests": {
-                "cpu": 100,
-                "memory": 128
-            },
-            "limits": {
-                "cpu": 500,
-                "memory": 512
-            }
-        },
-        "input_schema": {
-            "description": "StarAtlas Dock Piece Input Model",
-            "properties": {
-                "value_to_test": {
-                    "default": "",
-                    "description": "Value To Test",
-                    "title": "Value To Test",
-                    "type": "string"
-                },
-                "required_field": {
-                    "default": "",
-                    "description": "Required Field",
-                    "title": "Required Field",
-                    "type": "string"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Branch Piece Output Model",
-            "properties": {
-                "branch_main": {
-                    "default": true,
-                    "description": "Main branch selected",
-                    "title": "Branch Main",
-                    "type": "boolean"
-                }
-            },
-            "title": "BaseBranchOutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasGenericCheckPiece"
-    },
     "StarAtlasDockPiece": {
         "name": "StarAtlasDockPiece",
         "dependency": {
@@ -1116,6 +1048,74 @@
         },
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStatMiningPiece"
+    },
+    "StarAtlasGenericCheckStringPiece": {
+        "name": "StarAtlasGenericCheckStringPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Generic Check String",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check Generic",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "value_to_test": {
+                    "default": "",
+                    "description": "Value To Test",
+                    "title": "Value To Test",
+                    "type": "string"
+                },
+                "required_field": {
+                    "default": "",
+                    "description": "Required Field",
+                    "title": "Required Field",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasGenericCheckStringPiece"
     },
     "StarAtlasWarpPiece": {
         "name": "StarAtlasWarpPiece",
@@ -2715,6 +2715,74 @@
         },
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/LogPiece"
+    },
+    "StarAtlasGenericCheckIntegerPiece": {
+        "name": "StarAtlasGenericCheckIntegerPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Generic Check Integer",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check Generic Integer",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "StarAtlas Dock Piece Input Model",
+            "properties": {
+                "value_to_test": {
+                    "default": "",
+                    "description": "Value To Test",
+                    "title": "Value To Test",
+                    "type": "integer"
+                },
+                "required_field": {
+                    "default": "",
+                    "description": "Required Field",
+                    "title": "Required Field",
+                    "type": "integer"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasGenericCheckIntegerPiece"
     },
     "StarAtlasLoadCrewPiece": {
         "name": "StarAtlasLoadCrewPiece",
