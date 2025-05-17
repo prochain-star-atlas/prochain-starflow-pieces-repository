@@ -100,7 +100,7 @@ class StarAtlasStatCargoPiece(BasePiece):
 
         self.refresh_fleet_state(fleet_name=input_data.fleet_name, bearer_token=client_token_loggedin)
 
-        amount_cargo_requested = 0
+        amount_cargo = 0
         mint_cargo_requested = ""
 
         self.logger.info(f"")
