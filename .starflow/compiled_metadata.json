@@ -2753,13 +2753,13 @@
             "description": "StarAtlas Dock Piece Input Model",
             "properties": {
                 "value_to_test": {
-                    "default": "",
+                    "default": 0,
                     "description": "Value To Test",
                     "title": "Value To Test",
                     "type": "integer"
                 },
                 "required_field": {
-                    "default": "",
+                    "default": 0,
                     "description": "Required Field",
                     "title": "Required Field",
                     "type": "integer"
