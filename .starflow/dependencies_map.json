@@ -49,6 +49,6 @@
             "StarAtlasLoadCargoPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.69-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.70-group0"
     }
 }
