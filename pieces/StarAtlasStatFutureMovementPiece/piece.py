@@ -68,6 +68,24 @@ class StarAtlasStatFutureMovementPiece(BasePiece):
 
         self.init_piece()
 
+        if input_data.position_x == input_data.destination_x and input_data.position_y == input_data.destination_y:
+            return OutputModel(
+                fleet_name = input_data.fleet_name,
+                position_x = input_data.position_x,
+                position_y = input_data.position_y,
+                destination_x = input_data.destination_x,
+                destination_y = input_data.destination_y,
+                distance_calculated = 0,
+                subwarp_fuel_required = 0,
+                subwarp_time_calculated = float(0),
+                subwarp_time_minutes_calculated = float(0),
+                warp_fuel_required = 0,
+                warp_time_calculated = float(0),
+                warp_time_minutes_calculated = float(0),
+                warp_time_with_cooldown_calculated = float(0),
+                warp_time_with_cooldown_minutes_calculated = float(0)
+            )
+
         self.logger.info(f"Create token for {self.username_target_var}")
         su_token_loggedin = self.openid_get_token()
         client_token_loggedin = self.openid_impersonate_user_token_keycloak(su_token_loggedin)

@@ -72,7 +72,7 @@ class StartWorkflowPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        work_id = self.get_workflow_id(fleet_name=input_data.workflow_name, bearer_token=client_token_loggedin)
+        work_id = self.get_workflow_id(workflow_name=input_data.workflow_name, bearer_token=client_token_loggedin)
 
         url_formated_start_workflow = self.url_post_start_workflow.format(workspace_id, work_id)
         response_raw = requests.post(url_formated_start_workflow, headers=headers, verify=False)
