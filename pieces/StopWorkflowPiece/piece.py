@@ -21,9 +21,9 @@ class StopWorkflowPiece(BasePiece):
     def init_piece(self):
 
         self.server_url_var = self.read_secrets('OPEN_ID_SERVER_URL')
-        self.client_id_var = self.read_secrets('OPEN_ID_CLIENT_ID')
+        self.client_id_var = self.read_secrets('OPEN_ID_STARFLOW_CLIENT_ID')
         self.realm_name_var = self.read_secrets('OPEN_ID_REALM_NAME')
-        self.client_secret_var = self.read_secrets('OPEN_ID_CLIENT_SECRET')
+        self.client_secret_var = self.read_secrets('OPEN_ID_STARFLOW_CLIENT_SECRET')
         self.su_username_var = self.read_secrets('OPEN_ID_USERNAME_SERVICE_USER')
         self.su_password_var = self.read_secrets('OPEN_ID_PASSWORD_SERVICE_USER')
         self.username_target_var = os.environ['OPEN_ID_USERNAME_TARGET']
