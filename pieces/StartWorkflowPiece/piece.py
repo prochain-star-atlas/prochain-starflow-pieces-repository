@@ -48,10 +48,10 @@ class StartWorkflowPiece(BasePiece):
         token_impersonated = self.keycloak_openid.exchange_token(token=token_logged_in["access_token"], audience=self.client_id_var, subject=self.username_target_var)
         return token_impersonated
         
-    def get_workflow_id(self, workflow_name, bearer_token):
+    def get_workflow_id(self, workflow_name, workspace_id, bearer_token):
         headers = {"Authorization": "Bearer " + bearer_token['access_token']}
 
-        url_formated_list_workflow = self.url_post_start_workflow
+        url_formated_list_workflow = self.url_get_worflows.format(workspace_id)
         response_raw = requests.get(url_formated_list_workflow, headers=headers, verify=False)
         response_raw_json = response_raw.json()
 
@@ -72,7 +72,7 @@ class StartWorkflowPiece(BasePiece):
         headers = {"Authorization": "Bearer " + client_token_loggedin['access_token']}
         self.logger.info(f"Token for {self.username_target_var} created")
 
-        work_id = self.get_workflow_id(workflow_name=input_data.workflow_name, bearer_token=client_token_loggedin)
+        work_id = self.get_workflow_id(workflow_name=input_data.workflow_name, workspace_id=workspace_id, bearer_token=client_token_loggedin)
 
         url_formated_start_workflow = self.url_post_start_workflow.format(workspace_id, work_id)
         response_raw = requests.post(url_formated_start_workflow, headers=headers, verify=False)
