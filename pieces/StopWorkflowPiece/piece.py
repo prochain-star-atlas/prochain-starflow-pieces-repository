@@ -76,9 +76,7 @@ class StopWorkflowPiece(BasePiece):
 
         url_formated_pause_workflow = self.url_post_pause_workflow.format(workspace_id, work_id)
         response_raw = requests.post(url_formated_pause_workflow, headers=headers, verify=False)
-        response_raw_json = response_raw.json()
-
-        self.logger.info(f"")
+        self.logger.info(response_raw.raise_for_status())
 
         self.logger.info(f"Logout {self.username_target_var}")
         self.openid_logout_user(client_token_loggedin)
