@@ -1834,6 +1834,68 @@
         "secrets_schema": null,
         "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/StarAtlasStopMiningPiece"
     },
+    "WorkflowRunCheckPiece": {
+        "name": "WorkflowRunCheckPiece",
+        "dependency": {
+            "dockerfile": "Dockerfile_1",
+            "requirements_file": null
+        },
+        "tags": [
+            "Star Atlas"
+        ],
+        "style": {
+            "node_label": "Workflow Run Check",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Check Workflow Running",
+        "branchPiece": true,
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "StarAtlas Workflow Name Input Model",
+            "properties": {
+                "workflow_name": {
+                    "default": "",
+                    "description": "Fleet Name",
+                    "title": "Workflow Name",
+                    "type": "string"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Branch Piece Output Model",
+            "properties": {
+                "branch_main": {
+                    "default": true,
+                    "description": "Main branch selected",
+                    "title": "Branch Main",
+                    "type": "boolean"
+                }
+            },
+            "title": "BaseBranchOutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/prochain-star-atlas/prochain-starflow-pieces-repository/tree/main/pieces/WorkflowRunCheckPiece"
+    },
     "StarAtlasMiningPiece": {
         "name": "StarAtlasMiningPiece",
         "dependency": {
