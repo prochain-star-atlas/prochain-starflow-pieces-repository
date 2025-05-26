@@ -6,7 +6,7 @@ class InputModel(BaseModel):
     Sleep Piece Input Model
     """
 
-    sleep_time: float = Field(
+    sleep_time: int = Field(
         default=1,
         description="Number of seconds to sleep",
     )
