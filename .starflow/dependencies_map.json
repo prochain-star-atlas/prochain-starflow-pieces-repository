@@ -23,6 +23,7 @@
             "StarAtlasLoadAmmoPiece",
             "StarAtlasScanPiece",
             "StarAtlasStopMiningPiece",
+            "WorkflowRunCheckPiece",
             "StarAtlasMiningPiece",
             "StarAtlasUndockPiece",
             "StarAtlasStatFleetMovementPiece",
@@ -49,6 +50,6 @@
             "StarAtlasLoadCargoPiece"
         ],
         "secrets": [],
-        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.73-group0"
+        "source_image": "ghcr.io/prochain-star-atlas/prochain-starflow-pieces:0.1.74-group0"
     }
 }
