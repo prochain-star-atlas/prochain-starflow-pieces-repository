@@ -132,3 +132,6 @@ dmypy.json
 # jupyter
 .ipynb_checkpoints
 *.ipynb
+
+# Airflow secrets and configuration files
+airflow-worker-secrets
